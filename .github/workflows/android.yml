@@ -23,4 +23,17 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew assembleDebug
+
+    - name: Rescue Build
+      run: |
+          echo "APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')" >> $GITHUB_ENV
+          export APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')
+          echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
+
+    - name: Upload Build App
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.APK_FILE_NAME }}
+        path: ${{ env.APK_FILE }}
+        compression-level: 9
