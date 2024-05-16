@@ -37,3 +37,33 @@ jobs:
         name: ${{ env.APK_FILE_NAME }}
         path: ${{ env.APK_FILE }}
         compression-level: 9
+          
+    - name: Update changelogs
+      uses: Bullrich/generate-release-changelog@master
+      id: Changelog
+      env:
+          REPO: ${{ github.repository }}
+          
+    - name: Generate Release Build
+      id: create_release
+      uses: actions/create-release@latest
+      env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+         tag_name: ${{ github.run_number }}
+         release_name: ${{ github.event.repository.name }} v${{ github.run_number }}
+         body: |
+            ${{ steps.Changelog.outputs.changelog }}
+         draft: false
+         prerelease: false
+          
+    - name: Upload Release APK
+      id: upload_release_asset
+      uses: actions/upload-release-asset@latest
+      env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+         upload_url: ${{ steps.create_release.outputs.upload_url }}
+         asset_path: ${{ env.APK_FILE }}
+         asset_name:  ${{ env.APK_FILE_NAME }}.apk
+         asset_content_type: application/zip
