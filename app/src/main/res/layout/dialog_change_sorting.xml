@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sorting_dialog_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/sorting_dialog_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingTop="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin">
+
+        <RadioGroup
+            android:id="@+id/sorting_dialog_radio_sorting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium_margin">
+
+            <org.skywaves.mediavox.core.views.MyCompatRadioButton
+                android:id="@+id/sorting_dialog_radio_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/name" />
+
+            <org.skywaves.mediavox.core.views.MyCompatRadioButton
+                android:id="@+id/sorting_dialog_radio_path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/path" />
+
+            <org.skywaves.mediavox.core.views.MyCompatRadioButton
+                android:id="@+id/sorting_dialog_radio_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/size" />
+
+            <org.skywaves.mediavox.core.views.MyCompatRadioButton
+                android:id="@+id/sorting_dialog_radio_last_modified"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/last_modified" />
+
+            <org.skywaves.mediavox.core.views.MyCompatRadioButton
+                android:id="@+id/sorting_dialog_radio_date_taken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/date_taken" />
+
+            <org.skywaves.mediavox.core.views.MyCompatRadioButton
+                android:id="@+id/sorting_dialog_radio_random"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/random" />
+
+            <org.skywaves.mediavox.core.views.MyCompatRadioButton
+                android:id="@+id/sorting_dialog_radio_custom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/custom" />
+
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/sorting_dialog_sorting_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/divider_grey"
+            android:importantForAccessibility="no" />
+
+        <RadioGroup
+            android:id="@+id/sorting_dialog_radio_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:paddingBottom="@dimen/medium_margin">
+
+            <org.skywaves.mediavox.core.views.MyCompatRadioButton
+                android:id="@+id/sorting_dialog_radio_ascending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ascending" />
+
+            <org.skywaves.mediavox.core.views.MyCompatRadioButton
+                android:id="@+id/sorting_dialog_radio_descending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/descending" />
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/sorting_dialog_order_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/divider_grey"
+            android:importantForAccessibility="no" />
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/sorting_dialog_numeric_sorting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/min_radio_checkbox_height"
+            android:text="@string/sort_numeric_parts" />
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/sorting_dialog_use_for_this_folder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/min_radio_checkbox_height"
+            android:text="@string/use_for_this_folder" />
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/sorting_dialog_bottom_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/small_margin"
+            android:paddingEnd="@dimen/medium_margin"
+            android:text="@string/grouping_and_sorting"
+            android:textSize="@dimen/smaller_text_size" />
+
+    </LinearLayout>
+</ScrollView>

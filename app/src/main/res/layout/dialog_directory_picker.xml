@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/directories_holder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/directories_grid_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/directory_picker_dialog_min_height"
+        android:paddingTop="@dimen/medium_margin">
+
+        <org.skywaves.mediavox.core.views.MySearchMenu
+            android:id="@+id/folder_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/medium_margin" />
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/directories_empty_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/folder_search_view"
+            android:alpha="0.8"
+            android:gravity="center_horizontal"
+            android:paddingStart="@dimen/activity_margin"
+            android:paddingTop="@dimen/activity_margin"
+            android:paddingEnd="@dimen/activity_margin"
+            android:text="@string/no_media_with_filters"
+            android:textSize="@dimen/bigger_text_size"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+        <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
+            android:id="@+id/directories_fastscroller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/directories_empty_placeholder">
+
+            <org.skywaves.mediavox.core.views.MyRecyclerView
+                android:id="@+id/directories_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                app:layoutManager="org.skywaves.mediavox.core.views.MyGridLayoutManager"
+                app:spanCount="@integer/directory_columns_vertical_scroll" />
+
+        </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
+    </RelativeLayout>
+
+    <org.skywaves.mediavox.core.views.MyFloatingActionButton
+        android:id="@+id/directories_show_hidden"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/activity_margin"
+        android:src="@drawable/ic_unhide_vector"
+        android:visibility="gone" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MediaVox</string>
+    <string name="package_name">org.skywaves.mediavox</string>
+
+</resources>

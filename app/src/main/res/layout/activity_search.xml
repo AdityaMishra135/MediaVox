@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/search_coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <org.skywaves.mediavox.core.views.MySearchMenu
+        android:id="@+id/search_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:id="@+id/search_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/search_empty_text_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.8"
+            android:gravity="center_horizontal"
+            android:paddingStart="@dimen/activity_margin"
+            android:paddingTop="@dimen/activity_margin"
+            android:paddingEnd="@dimen/activity_margin"
+            android:text="@string/no_media_with_filters"
+            android:textSize="@dimen/bigger_text_size"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+        <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
+            android:id="@+id/search_fastscroller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <org.skywaves.mediavox.core.views.MyRecyclerView
+                android:id="@+id/search_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                app:layoutManager="org.skywaves.mediavox.core.views.MyGridLayoutManager"
+                app:spanCount="@integer/media_columns_vertical_scroll" />
+
+        </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
