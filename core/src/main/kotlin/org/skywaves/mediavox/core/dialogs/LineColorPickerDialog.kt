@@ -37,7 +37,7 @@ import org.skywaves.mediavox.core.interfaces.LineColorPickerListener
 
 class LineColorPickerDialog(
     val activity: BaseSimpleActivity, val color: Int, val isPrimaryColorPicker: Boolean, val primaryColors: Int = R.array.md_primary_colors,
-    val appIconIDs: ArrayList<Int>? = null, val toolbar: MaterialToolbar? = null, val callback: (wasPositivePressed: Boolean, color: Int) -> Unit
+    val toolbar: MaterialToolbar? = null, val callback: (wasPositivePressed: Boolean, color: Int) -> Unit
 ) {
     private val PRIMARY_COLORS_COUNT = 19
     private val DEFAULT_PRIMARY_COLOR_INDEX = 9
@@ -60,7 +60,6 @@ class LineColorPickerDialog(
             val indexes = getColorIndexes(color)
 
             val primaryColorIndex = indexes.first
-            primaryColorChanged(primaryColorIndex)
             primaryLineColorPicker.updateColors(getColors(primaryColors), primaryColorIndex)
             primaryLineColorPicker.listener = LineColorPickerListener { index, color ->
                 val secondaryColors = getColorsForIndex(index)
@@ -68,10 +67,6 @@ class LineColorPickerDialog(
 
                 val newColor = if (isPrimaryColorPicker) secondaryLineColorPicker.getCurrentColor() else color
                 colorUpdated(newColor)
-
-                if (!isPrimaryColorPicker) {
-                    primaryColorChanged(index)
-                }
             }
 
             secondaryLineColorPicker.beVisibleIf(isPrimaryColorPicker)
@@ -123,9 +118,7 @@ class LineColorPickerDialog(
         return getDefaultColorPair()
     }
 
-    private fun primaryColorChanged(index: Int) {
-        view.lineColorPickerIcon.setImageResource(appIconIDs?.getOrNull(index) ?: 0)
-    }
+
 
     private fun getDefaultColorPair() = Pair(DEFAULT_PRIMARY_COLOR_INDEX, DEFAULT_SECONDARY_COLOR_INDEX)
 
@@ -172,7 +165,6 @@ fun LineColorPickerAlertDialog(
     isPrimaryColorPicker: Boolean,
     modifier: Modifier = Modifier,
     primaryColors: Int = R.array.md_primary_colors,
-    appIconIDs: ArrayList<Int>? = null,
     onActiveColorChange: (color: Int) -> Unit,
     onButtonPressed: (wasPositivePressed: Boolean, color: Int) -> Unit
 ) {
@@ -229,7 +221,6 @@ fun LineColorPickerAlertDialog(
                     val indexes = context.getColorIndexes(color, defaultColor)
 
                     val primaryColorIndex = indexes.first
-                    lineColorPickerIcon.setImageResource(appIconIDs?.getOrNull(primaryColorIndex) ?: 0)
                     primaryLineColorPicker.updateColors(context.getColors(primaryColors), primaryColorIndex)
                     primaryLineColorPicker.listener = LineColorPickerListener { index, color ->
                         val secondaryColors = context.getColorsForIndex(index)
@@ -238,9 +229,6 @@ fun LineColorPickerAlertDialog(
                         val newColor = if (isPrimaryColorPicker) secondaryLineColorPicker.getCurrentColor() else color
                         colorUpdated(newColor)
 
-                        if (!isPrimaryColorPicker) {
-                            lineColorPickerIcon.setImageResource(appIconIDs?.getOrNull(index) ?: 0)
-                        }
                     }
 
                     secondaryLineColorPicker.beVisibleIf(isPrimaryColorPicker)

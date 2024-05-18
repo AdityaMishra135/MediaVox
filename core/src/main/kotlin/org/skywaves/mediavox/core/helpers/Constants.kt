@@ -19,7 +19,6 @@ const val APP_NAME = "app_name"
 const val APP_LICENSES = "app_licenses"
 const val APP_FAQ = "app_faq"
 const val APP_VERSION_NAME = "app_version_name"
-const val APP_ICON_IDS = "app_icon_ids"
 const val APP_ID = "app_id"
 const val APP_LAUNCHER_NAME = "app_launcher_name"
 const val REAL_FILE_PATH = "real_file_path_2"
@@ -86,14 +85,11 @@ const val TEXT_COLOR = "text_color"
 const val BACKGROUND_COLOR = "background_color"
 const val PRIMARY_COLOR = "primary_color_2"
 const val ACCENT_COLOR = "accent_color"
-const val APP_ICON_COLOR = "app_icon_color"
 const val LAST_HANDLED_SHORTCUT_COLOR = "last_handled_shortcut_color"
-const val LAST_ICON_COLOR = "last_icon_color"
 const val CUSTOM_TEXT_COLOR = "custom_text_color"
 const val CUSTOM_BACKGROUND_COLOR = "custom_background_color"
 const val CUSTOM_PRIMARY_COLOR = "custom_primary_color"
 const val CUSTOM_ACCENT_COLOR = "custom_accent_color"
-const val CUSTOM_APP_ICON_COLOR = "custom_app_icon_color"
 const val WIDGET_BG_COLOR = "widget_bg_color"
 const val WIDGET_TEXT_COLOR = "widget_text_color"
 const val PASSWORD_PROTECTION = "password_protection"
@@ -129,10 +125,8 @@ const val WAS_REMINDER_WARNING_SHOWN = "was_reminder_warning_shown"
 const val USE_SAME_SNOOZE = "use_same_snooze"
 const val SNOOZE_TIME = "snooze_delay"
 const val VIBRATE_ON_BUTTON_PRESS = "vibrate_on_button_press"
-const val YOUR_ALARM_SOUNDS = "your_alarm_sounds"
 const val SILENT = "silent"
 const val OTG_PARTITION = "otg_partition_2"
-const val IS_USING_MODIFIED_APP_ICON = "is_using_modified_app_icon"
 const val INITIAL_WIDGET_HEIGHT = "initial_widget_height"
 const val WIDGET_ID_TO_MEASURE = "widget_id_to_measure"
 const val WAS_ORANGE_ICON_CHECKED = "was_orange_icon_checked"
@@ -140,7 +134,6 @@ const val WAS_APP_ON_SD_SHOWN = "was_app_on_sd_shown"
 const val WAS_BEFORE_ASKING_SHOWN = "was_before_asking_shown"
 const val WAS_BEFORE_RATE_SHOWN = "was_before_rate_shown"
 const val WAS_INITIAL_UPGRADE_TO_PRO_SHOWN = "was_initial_upgrade_to_pro_shown"
-const val WAS_APP_ICON_CUSTOMIZATION_WARNING_SHOWN = "was_app_icon_customization_warning_shown"
 const val APP_SIDELOADING_STATUS = "app_sideloading_status"
 const val DATE_FORMAT = "date_format"
 const val WAS_OTG_HANDLED = "was_otg_handled_2"
@@ -388,28 +381,6 @@ enum class NavigationIcon(@StringRes val accessibilityResId: Int) {
     Arrow(R.string.back),
     None(0)
 }
-
-val appIconColorStrings = arrayListOf(
-    ".Red",
-    ".Pink",
-    ".Purple",
-    ".Deep_purple",
-    ".Indigo",
-    ".Blue",
-    ".Light_blue",
-    ".Cyan",
-    ".Teal",
-    ".Green",
-    ".Light_green",
-    ".Lime",
-    ".Yellow",
-    ".Amber",
-    ".Orange",
-    ".Deep_orange",
-    ".Brown",
-    ".Blue_grey",
-    ".Grey_black"
-)
 
 // most app icon colors from md_app_icon_colors with reduced alpha
 // used at showing contact placeholders without image

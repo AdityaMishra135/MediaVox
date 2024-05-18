@@ -19,7 +19,6 @@ sealed class Theme : CommonTheme {
     data class SystemDefaultMaterialYou(
         override val primaryColorInt: Int,
         override val backgroundColorInt: Int,
-        override val appIconColorInt: Int,
         override val textColorInt: Int
     ) : Theme()
 
@@ -28,7 +27,6 @@ sealed class Theme : CommonTheme {
         val accentColor: Int,
         override val primaryColorInt: Int,
         override val backgroundColorInt: Int,
-        override val appIconColorInt: Int,
         override val textColorInt: Int
     ) : Theme()
 
@@ -36,7 +34,6 @@ sealed class Theme : CommonTheme {
     data class Dark(
         override val primaryColorInt: Int,
         override val backgroundColorInt: Int,
-        override val appIconColorInt: Int,
         override val textColorInt: Int
     ) : Theme()
 
@@ -45,7 +42,6 @@ sealed class Theme : CommonTheme {
         val accentColor: Int,
         override val primaryColorInt: Int,
         override val backgroundColorInt: Int,
-        override val appIconColorInt: Int,
         override val textColorInt: Int
     ) : Theme()
 
@@ -53,7 +49,6 @@ sealed class Theme : CommonTheme {
     data class Custom(
         override val primaryColorInt: Int,
         override val backgroundColorInt: Int,
-        override val appIconColorInt: Int,
         override val textColorInt: Int
     ) : Theme()
 
@@ -63,7 +58,6 @@ sealed class Theme : CommonTheme {
             val context = LocalContext.current
             val config = remember { context.config }
             return SystemDefaultMaterialYou(
-                appIconColorInt = config.appIconColor,
                 primaryColorInt = config.primaryColor,
                 backgroundColorInt = config.backgroundColor,
                 textColorInt = if (isSPlus()) colorResource(R.color.you_neutral_text_color).toArgb() else (if (isInDarkThemeAndSurfaceIsNotLitWell()) Color.White else Color.Black).toArgb()

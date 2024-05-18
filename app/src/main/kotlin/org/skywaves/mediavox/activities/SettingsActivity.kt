@@ -783,7 +783,6 @@ class SettingsActivity : SimpleActivity() {
                 put(BACKGROUND_COLOR, config.backgroundColor)
                 put(PRIMARY_COLOR, config.primaryColor)
                 put(ACCENT_COLOR, config.accentColor)
-                put(APP_ICON_COLOR, config.appIconColor)
                 put(USE_ENGLISH, config.useEnglish)
                 put(WAS_USE_ENGLISH_TOGGLED, config.wasUseEnglishToggled)
                 put(WIDGET_BG_COLOR, config.widgetBgColor)
@@ -910,12 +909,6 @@ class SettingsActivity : SimpleActivity() {
                 BACKGROUND_COLOR -> config.backgroundColor = value.toInt()
                 PRIMARY_COLOR -> config.primaryColor = value.toInt()
                 ACCENT_COLOR -> config.accentColor = value.toInt()
-                APP_ICON_COLOR -> {
-                    if (getAppIconColors().contains(value.toInt())) {
-                        config.appIconColor = value.toInt()
-                        checkAppIconColor()
-                    }
-                }
 
                 USE_ENGLISH -> config.useEnglish = value.toBoolean()
                 WAS_USE_ENGLISH_TOGGLED -> config.wasUseEnglishToggled = value.toBoolean()

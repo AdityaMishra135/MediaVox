@@ -23,7 +23,6 @@ fun getTheme(context: Context, materialYouTheme: Theme.SystemDefaultMaterialYou)
     }
 
     val backgroundColor = backgroundColorTheme.toArgb()
-    val appIconColor = baseConfig.appIconColor
     val textColor = context.getProperTextColor()
 
     val theme = when {
@@ -32,7 +31,6 @@ fun getTheme(context: Context, materialYouTheme: Theme.SystemDefaultMaterialYou)
             accentColor = accentColor,
             primaryColorInt = primaryColorInt,
             backgroundColorInt = backgroundColor,
-            appIconColorInt = appIconColor,
             textColorInt = textColor
         )
 
@@ -40,7 +38,6 @@ fun getTheme(context: Context, materialYouTheme: Theme.SystemDefaultMaterialYou)
             accentColor = accentColor,
             primaryColorInt = primaryColorInt,
             backgroundColorInt = backgroundColor,
-            appIconColorInt = appIconColor,
             textColorInt = textColor
         )
 
@@ -241,7 +238,6 @@ fun getTheme(context: Context, materialYouTheme: Theme.SystemDefaultMaterialYou)
             Theme.Custom(
                 primaryColorInt = customPrimaryColor.toArgb(),
                 backgroundColorInt = backgroundColor,
-                appIconColorInt = appIconColor,
                 textColorInt = textColor
             )
         }

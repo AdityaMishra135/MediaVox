@@ -87,8 +87,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         var funAfterManageMediaPermission: (() -> Unit)? = null
     }
 
-    abstract fun getAppIconIDs(): ArrayList<Int>
-
     abstract fun getAppLauncherName(): String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -134,7 +132,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             updateActionbarColor(color)
         }
 
-        updateRecentsAppIcon()
 
         var navBarColor = getProperBackgroundColor()
         if (isMaterialActivity) {
@@ -387,23 +384,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
-    fun updateRecentsAppIcon() {
-        if (baseConfig.isUsingModifiedAppIcon) {
-            val appIconIDs = getAppIconIDs()
-            val currentAppIconColorIndex = getCurrentAppIconColorIndex()
-            if (appIconIDs.size - 1 < currentAppIconColorIndex) {
-                return
-            }
-
-            val recentsIcon = BitmapFactory.decodeResource(resources, appIconIDs[currentAppIconColorIndex])
-            val title = getAppLauncherName()
-            val color = baseConfig.primaryColor
-
-            val description = ActivityManager.TaskDescription(title, recentsIcon, color)
-            setTaskDescription(description)
-        }
-    }
-
     fun updateMenuItemColors(menu: Menu?, baseColor: Int = getProperStatusBarColor(), forceWhiteIcons: Boolean = false) {
         if (menu == null) {
             return
@@ -420,16 +400,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
             } catch (ignored: Exception) {
             }
         }
-    }
-
-    private fun getCurrentAppIconColorIndex(): Int {
-        val appIconColor = baseConfig.appIconColor
-        getAppIconColors().forEachIndexed { index, color ->
-            if (color == appIconColor) {
-                return index
-            }
-        }
-        return 0
     }
 
     fun setTranslucentNavigation() {
@@ -628,7 +598,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     fun startAboutActivity(appNameId: Int, licenseMask: Long, versionName: String, faqItems: ArrayList<FAQItem>, showFAQBeforeMail: Boolean) {
         hideKeyboard()
         Intent(applicationContext, AboutActivity::class.java).apply {
-            putExtra(APP_ICON_IDS, getAppIconIDs())
             putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
             putExtra(APP_NAME, getString(appNameId))
             putExtra(APP_LICENSES, licenseMask)
@@ -651,7 +620,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
 
         Intent(applicationContext, CustomizationActivity::class.java).apply {
-            putExtra(APP_ICON_IDS, getAppIconIDs())
             putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
             startActivity(this)
         }

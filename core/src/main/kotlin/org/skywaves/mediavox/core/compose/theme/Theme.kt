@@ -63,9 +63,6 @@ internal fun Theme(
         previewColorScheme()
     }
 
-    SideEffect {
-        updateRecentsAppIcon(baseConfig, context)
-    }
 
     val dimensions = CommonDimensions
 

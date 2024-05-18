@@ -105,16 +105,6 @@ open class BaseConfig(val context: Context) {
         get() = prefs.getInt(LAST_HANDLED_SHORTCUT_COLOR, 1)
         set(lastHandledShortcutColor) = prefs.edit().putInt(LAST_HANDLED_SHORTCUT_COLOR, lastHandledShortcutColor).apply()
 
-    var appIconColor: Int
-        get() = prefs.getInt(APP_ICON_COLOR, ContextCompat.getColor(context, R.color.default_app_icon_color))
-        set(appIconColor) {
-            isUsingModifiedAppIcon = appIconColor != ContextCompat.getColor(context, R.color.color_primary)
-            prefs.edit().putInt(APP_ICON_COLOR, appIconColor).apply()
-        }
-
-    var lastIconColor: Int
-        get() = prefs.getInt(LAST_ICON_COLOR, ContextCompat.getColor(context, R.color.color_primary))
-        set(lastIconColor) = prefs.edit().putInt(LAST_ICON_COLOR, lastIconColor).apply()
 
     var customTextColor: Int
         get() = prefs.getInt(CUSTOM_TEXT_COLOR, textColor)
@@ -131,10 +121,6 @@ open class BaseConfig(val context: Context) {
     var customAccentColor: Int
         get() = prefs.getInt(CUSTOM_ACCENT_COLOR, accentColor)
         set(customAccentColor) = prefs.edit().putInt(CUSTOM_ACCENT_COLOR, customAccentColor).apply()
-
-    var customAppIconColor: Int
-        get() = prefs.getInt(CUSTOM_APP_ICON_COLOR, appIconColor)
-        set(customAppIconColor) = prefs.edit().putInt(CUSTOM_APP_ICON_COLOR, customAppIconColor).apply()
 
     var widgetBgColor: Int
         get() = prefs.getInt(WIDGET_BG_COLOR, ContextCompat.getColor(context, R.color.default_widget_bg_color))
@@ -292,49 +278,10 @@ open class BaseConfig(val context: Context) {
         }
         set(sundayFirst) = prefs.edit().putBoolean(SUNDAY_FIRST, sundayFirst).apply()
 
-    var wasAlarmWarningShown: Boolean
-        get() = prefs.getBoolean(WAS_ALARM_WARNING_SHOWN, false)
-        set(wasAlarmWarningShown) = prefs.edit().putBoolean(WAS_ALARM_WARNING_SHOWN, wasAlarmWarningShown).apply()
-
-    var wasReminderWarningShown: Boolean
-        get() = prefs.getBoolean(WAS_REMINDER_WARNING_SHOWN, false)
-        set(wasReminderWarningShown) = prefs.edit().putBoolean(WAS_REMINDER_WARNING_SHOWN, wasReminderWarningShown).apply()
-
-    var useSameSnooze: Boolean
-        get() = prefs.getBoolean(USE_SAME_SNOOZE, true)
-        set(useSameSnooze) = prefs.edit().putBoolean(USE_SAME_SNOOZE, useSameSnooze).apply()
-
-    var snoozeTime: Int
-        get() = prefs.getInt(SNOOZE_TIME, 10)
-        set(snoozeDelay) = prefs.edit().putInt(SNOOZE_TIME, snoozeDelay).apply()
-
-    var vibrateOnButtonPress: Boolean
-        get() = prefs.getBoolean(VIBRATE_ON_BUTTON_PRESS, context.resources.getBoolean(R.bool.default_vibrate_on_press))
-        set(vibrateOnButton) = prefs.edit().putBoolean(VIBRATE_ON_BUTTON_PRESS, vibrateOnButton).apply()
-
-    var yourAlarmSounds: String
-        get() = prefs.getString(YOUR_ALARM_SOUNDS, "")!!
-        set(yourAlarmSounds) = prefs.edit().putString(YOUR_ALARM_SOUNDS, yourAlarmSounds).apply()
-
-    var isUsingModifiedAppIcon: Boolean
-        get() = prefs.getBoolean(IS_USING_MODIFIED_APP_ICON, false)
-        set(isUsingModifiedAppIcon) = prefs.edit().putBoolean(IS_USING_MODIFIED_APP_ICON, isUsingModifiedAppIcon).apply()
 
     var appId: String
         get() = prefs.getString(APP_ID, "")!!
         set(appId) = prefs.edit().putString(APP_ID, appId).apply()
-
-    var initialWidgetHeight: Int
-        get() = prefs.getInt(INITIAL_WIDGET_HEIGHT, 0)
-        set(initialWidgetHeight) = prefs.edit().putInt(INITIAL_WIDGET_HEIGHT, initialWidgetHeight).apply()
-
-    var widgetIdToMeasure: Int
-        get() = prefs.getInt(WIDGET_ID_TO_MEASURE, 0)
-        set(widgetIdToMeasure) = prefs.edit().putInt(WIDGET_ID_TO_MEASURE, widgetIdToMeasure).apply()
-
-    var wasOrangeIconChecked: Boolean
-        get() = prefs.getBoolean(WAS_ORANGE_ICON_CHECKED, false)
-        set(wasOrangeIconChecked) = prefs.edit().putBoolean(WAS_ORANGE_ICON_CHECKED, wasOrangeIconChecked).apply()
 
     var wasAppOnSDShown: Boolean
         get() = prefs.getBoolean(WAS_APP_ON_SD_SHOWN, false)
@@ -351,11 +298,6 @@ open class BaseConfig(val context: Context) {
     var wasInitialUpgradeToProShown: Boolean
         get() = prefs.getBoolean(WAS_INITIAL_UPGRADE_TO_PRO_SHOWN, false)
         set(wasInitialUpgradeToProShown) = prefs.edit().putBoolean(WAS_INITIAL_UPGRADE_TO_PRO_SHOWN, wasInitialUpgradeToProShown).apply()
-
-    var wasAppIconCustomizationWarningShown: Boolean
-        get() = prefs.getBoolean(WAS_APP_ICON_CUSTOMIZATION_WARNING_SHOWN, false)
-        set(wasAppIconCustomizationWarningShown) = prefs.edit().putBoolean(WAS_APP_ICON_CUSTOMIZATION_WARNING_SHOWN, wasAppIconCustomizationWarningShown)
-            .apply()
 
     var dateFormat: String
         get() = prefs.getString(DATE_FORMAT, getDefaultDateFormat())!!

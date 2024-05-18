@@ -28,16 +28,12 @@ class CustomizationActivity : BaseSimpleActivity() {
     private var curBackgroundColor = 0
     private var curPrimaryColor = 0
     private var curAccentColor = 0
-    private var curAppIconColor = 0
     private var curSelectedThemeId = 0
-    private var originalAppIconColor = 0
     private var lastSavePromptTS = 0L
     private var hasUnsavedChanges = false
-    private var isThankYou = false      // show "Apply colors to all Fossify apps" in Fossify Thank You itself even with "Hide Google relations" enabled
     private var predefinedThemes = LinkedHashMap<Int, MyTheme>()
     private var curPrimaryLineColorPicker: LineColorPickerDialog? = null
 
-    override fun getAppIconIDs() = intent.getIntegerArrayListExtra(APP_ICON_IDS) ?: ArrayList()
 
     override fun getAppLauncherName() = intent.getStringExtra(APP_LAUNCHER_NAME) ?: ""
 
@@ -65,8 +61,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         }
 
         updateLabelColors(textColor)
-        originalAppIconColor = baseConfig.appIconColor
-
     }
 
     override fun onResume() {
@@ -125,7 +119,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                     textColorId = R.color.theme_light_text_color,
                     backgroundColorId = R.color.theme_light_background_color,
                     primaryColorId = R.color.color_primary,
-                    appIconColorId = R.color.color_primary
                 )
             )
             put(
@@ -135,7 +128,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                     textColorId = R.color.theme_dark_text_color,
                     backgroundColorId = R.color.theme_dark_background_color,
                     primaryColorId = R.color.color_primary,
-                    appIconColorId = R.color.color_primary
                 )
             )
             put(
@@ -145,7 +137,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                     textColorId = R.color.theme_dark_text_color,
                     backgroundColorId = R.color.theme_dark_background_color,
                     primaryColorId = R.color.theme_dark_red_primary_color,
-                    appIconColorId = R.color.md_red_700
                 )
             )
             put(
@@ -155,7 +146,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                     textColorId = R.color.dark_grey,
                     backgroundColorId = android.R.color.white,
                     primaryColorId = android.R.color.white,
-                    appIconColorId = R.color.color_primary
                 )
             )
             put(
@@ -165,10 +155,9 @@ class CustomizationActivity : BaseSimpleActivity() {
                     textColorId = android.R.color.white,
                     backgroundColorId = android.R.color.black,
                     primaryColorId = android.R.color.black,
-                    appIconColorId = R.color.md_grey_black
                 )
             )
-            put(THEME_CUSTOM, MyTheme(getString(R.string.custom), 0, 0, 0, 0))
+            put(THEME_CUSTOM, MyTheme(getString(R.string.custom), 0, 0, 0))
         }
         setupThemePicker()
         setupColorsPickers()
@@ -180,14 +169,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         updateAutoThemeFields()
         handleAccentColorLayout()
         binding.customizationThemeHolder.setOnClickListener {
-            if (baseConfig.wasAppIconCustomizationWarningShown) {
                 themePickerClicked()
-            } else {
-                ConfirmationDialog(this, "", R.string.app_icon_color_warning, R.string.ok, 0) {
-                    baseConfig.wasAppIconCustomizationWarningShown = true
-                    themePickerClicked()
-                }
-            }
         }
     }
 
@@ -220,7 +202,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                     curBackgroundColor = baseConfig.customBackgroundColor
                     curPrimaryColor = baseConfig.customPrimaryColor
                     curAccentColor = baseConfig.customAccentColor
-                    curAppIconColor = baseConfig.customAppIconColor
                     setTheme(getThemeId(curPrimaryColor))
                     updateMenuItemColors(binding.customizationToolbar.menu, curPrimaryColor)
                     setupToolbar(binding.customizationToolbar, NavigationIcon.Cross, curPrimaryColor)
@@ -230,7 +211,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                     baseConfig.customAccentColor = curAccentColor
                     baseConfig.customBackgroundColor = curBackgroundColor
                     baseConfig.customTextColor = curTextColor
-                    baseConfig.customAppIconColor = curAppIconColor
                 }
             } else {
                 val theme = predefinedThemes[curSelectedThemeId]!!
@@ -240,7 +220,6 @@ class CustomizationActivity : BaseSimpleActivity() {
                 if (curSelectedThemeId != THEME_AUTO && curSelectedThemeId != THEME_SYSTEM) {
                     curPrimaryColor = getColor(theme.primaryColorId)
                     curAccentColor = getColor(R.color.color_primary)
-                    curAppIconColor = getColor(theme.appIconColorId)
                 }
 
                 setTheme(getThemeId(getCurrentPrimaryColor()))
@@ -263,7 +242,7 @@ class CustomizationActivity : BaseSimpleActivity() {
         val isUsingSystemDarkTheme = isUsingSystemDarkTheme()
         val textColor = if (isUsingSystemDarkTheme) R.color.theme_dark_text_color else R.color.theme_light_text_color
         val backgroundColor = if (isUsingSystemDarkTheme) R.color.theme_dark_background_color else R.color.theme_light_background_color
-        return MyTheme(getString(R.string.auto_light_dark_theme), textColor, backgroundColor, R.color.color_primary, R.color.color_primary)
+        return MyTheme(getString(R.string.auto_light_dark_theme), textColor, backgroundColor, R.color.color_primary)
     }
 
     // doesn't really matter what colors we use here, everything will be taken from the system. Use the default dark theme values here.
@@ -273,7 +252,6 @@ class CustomizationActivity : BaseSimpleActivity() {
             R.color.theme_dark_text_color,
             R.color.theme_dark_background_color,
             R.color.color_primary,
-            R.color.color_primary
         )
     }
 
@@ -289,8 +267,7 @@ class CustomizationActivity : BaseSimpleActivity() {
             for ((key, value) in predefinedThemes.filter { it.key != THEME_CUSTOM  && it.key != THEME_AUTO && it.key != THEME_SYSTEM }) {
                 if (curTextColor == getColor(value.textColorId) &&
                     curBackgroundColor == getColor(value.backgroundColorId) &&
-                    curPrimaryColor == getColor(value.primaryColorId) &&
-                    curAppIconColor == getColor(value.appIconColorId)
+                    curPrimaryColor == getColor(value.primaryColorId)
                 ) {
                     themeId = key
                 }
@@ -331,17 +308,11 @@ class CustomizationActivity : BaseSimpleActivity() {
     }
 
     private fun saveChanges(finishAfterSave: Boolean) {
-        val didAppIconColorChange = curAppIconColor != originalAppIconColor
         baseConfig.apply {
             textColor = curTextColor
             backgroundColor = curBackgroundColor
             primaryColor = curPrimaryColor
             accentColor = curAccentColor
-            appIconColor = curAppIconColor
-        }
-
-        if (didAppIconColorChange) {
-            checkAppIconColor()
         }
 
 
@@ -371,7 +342,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         curBackgroundColor = baseConfig.backgroundColor
         curPrimaryColor = baseConfig.primaryColor
         curAccentColor = baseConfig.accentColor
-        curAppIconColor = baseConfig.appIconColor
     }
 
     private fun setupColorsPickers() {
@@ -382,7 +352,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         binding.customizationPrimaryColor.setFillWithStroke(primaryColor, backgroundColor)
         binding.customizationAccentColor.setFillWithStroke(curAccentColor, backgroundColor)
         binding.customizationBackgroundColor.setFillWithStroke(backgroundColor, backgroundColor)
-        binding.customizationAppIconColor.setFillWithStroke(curAppIconColor, backgroundColor)
 
         binding.customizationTextColorHolder.setOnClickListener { pickTextColor() }
         binding.customizationBackgroundColorHolder.setOnClickListener { pickBackgroundColor() }
@@ -390,17 +359,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         binding.customizationAccentColorHolder.setOnClickListener { pickAccentColor() }
 
         handleAccentColorLayout()
-
-        binding.customizationAppIconColorHolder.setOnClickListener {
-            if (baseConfig.wasAppIconCustomizationWarningShown) {
-                pickAppIconColor()
-            } else {
-                ConfirmationDialog(this, "", R.string.app_icon_color_warning, R.string.ok, 0) {
-                    baseConfig.wasAppIconCustomizationWarningShown = true
-                    pickAppIconColor()
-                }
-            }
-        }
     }
 
     private fun hasColorChanged(old: Int, new: Int) = Math.abs(old - new) > 1
@@ -508,18 +466,6 @@ class CustomizationActivity : BaseSimpleActivity() {
         }
     }
 
-    private fun pickAppIconColor() {
-        LineColorPickerDialog(this, curAppIconColor, false, R.array.md_app_icon_colors, getAppIconIDs()) { wasPositivePressed, color ->
-            if (wasPositivePressed) {
-                if (hasColorChanged(curAppIconColor, color)) {
-                    curAppIconColor = color
-                    colorChanged()
-                    updateColorTheme(getUpdatedTheme())
-                }
-            }
-        }
-    }
-
     private fun getUpdatedTheme() = getCurrentThemeId()
 
 
@@ -531,7 +477,6 @@ class CustomizationActivity : BaseSimpleActivity() {
             binding.customizationBackgroundColorLabel,
             binding.customizationPrimaryColorLabel,
             binding.customizationAccentColorLabel,
-            binding.customizationAppIconColorLabel
         ).forEach {
             it.setTextColor(textColor)
         }

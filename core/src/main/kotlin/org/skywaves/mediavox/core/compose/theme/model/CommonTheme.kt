@@ -7,12 +7,10 @@ import androidx.compose.ui.graphics.Color
 interface CommonTheme {
     val primaryColorInt: Int
     val backgroundColorInt: Int
-    val appIconColorInt: Int
     val textColorInt: Int
 
     val primaryColor get() = Color(primaryColorInt)
     val backgroundColor get() = Color(backgroundColorInt)
-    val appIconColor get() = Color(appIconColorInt)
     val textColor get() = Color(textColorInt)
 
 }
