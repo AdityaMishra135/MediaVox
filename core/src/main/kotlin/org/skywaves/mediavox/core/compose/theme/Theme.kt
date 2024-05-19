@@ -82,7 +82,7 @@ internal fun Theme(
 }
 
 val LocalTheme: ProvidableCompositionLocal<Theme> =
-    staticCompositionLocalOf { Theme.Custom(1, 1, 1, 1) }
+    staticCompositionLocalOf { Theme.Custom(1, 1, 1) }
 
 @Composable
 private fun previewColorScheme() = if (isSystemInDarkTheme()) {
