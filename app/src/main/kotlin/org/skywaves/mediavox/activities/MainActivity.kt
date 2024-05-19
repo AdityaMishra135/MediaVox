@@ -744,7 +744,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private fun changeColumnCount() {
         val items = ArrayList<RadioItem>()
         for (i in 1..MAX_COLUMN_COUNT) {
-            items.add(RadioItem(i, resources.getQuantityString(org.skywaves.mediavox.core.R.plurals.column_counts, i, i)))
+            items.add(RadioItem(i+1, resources.getQuantityString(org.skywaves.mediavox.core.R.plurals.column_counts, i, i+1)))
         }
 
         val currentColumnCount = (binding.directoriesGrid.layoutManager as MyGridLayoutManager).spanCount
