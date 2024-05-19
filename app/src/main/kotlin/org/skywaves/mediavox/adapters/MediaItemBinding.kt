@@ -14,6 +14,7 @@ interface MediaItemBinding {
     val playPortraitOutline: ImageView?
     val fileType: TextView?
     val mediumName: TextView
+    val mediumDir: TextView
     val videoDuration: TextView?
     val mediumCheck: ImageView
     val mediumThumbnail: MySquareImageView
@@ -26,6 +27,7 @@ class VideoListMediaItemBinding(val binding: VideoItemListBinding) : MediaItemBi
     override val playPortraitOutline: ImageView = binding.playPortraitOutline
     override val fileType: TextView? = null
     override val mediumName: TextView = binding.mediumName
+    override val mediumDir: TextView = binding.mediumDir
     override val videoDuration: TextView = binding.videoDuration
     override val mediumCheck: ImageView = binding.mediumCheck
     override val mediumThumbnail: MySquareImageView = binding.mediumThumbnail
@@ -40,6 +42,7 @@ class VideoGridMediaItemBinding(val binding: VideoItemGridBinding) : MediaItemBi
     override val playPortraitOutline: ImageView = binding.playPortraitOutline
     override val fileType: TextView? = null
     override val mediumName: TextView = binding.mediumName
+    override val mediumDir: TextView = binding.mediumDir
     override val videoDuration: TextView = binding.videoDuration
     override val mediumCheck: ImageView = binding.mediumCheck
     override val mediumThumbnail: MySquareImageView = binding.mediumThumbnail

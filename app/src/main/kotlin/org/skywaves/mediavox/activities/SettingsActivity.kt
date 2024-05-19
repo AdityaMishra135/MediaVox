@@ -465,12 +465,7 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
-    private fun getFolderStyleText() = getString(
-        when (config.folderStyle) {
-            FOLDER_STYLE_SQUARE -> R.string.square
-            else -> R.string.rounded_corners
-        }
-    )
+    private fun getFolderStyleText() = getString(R.string.rounded_corners)
 
     private fun setupKeepLastModified() {
         binding.settingsKeepLastModified.isChecked = config.keepLastModified
@@ -846,7 +841,6 @@ class SettingsActivity : SimpleActivity() {
                 put(EDITOR_BRUSH_HARDNESS, config.editorBrushHardness)
                 put(EDITOR_BRUSH_SIZE, config.editorBrushSize)
                 put(ALBUM_COVERS, config.albumCovers)
-                put(FOLDER_THUMBNAIL_STYLE, config.folderStyle)
                 put(FOLDER_MEDIA_COUNT, config.showFolderMediaCount)
                 put(LIMIT_FOLDER_TITLE, config.limitFolderTitle)
                 put(FILE_ROUNDED_CORNERS, config.fileRoundedCorners)
@@ -971,7 +965,6 @@ class SettingsActivity : SimpleActivity() {
                 EDITOR_BRUSH_COLOR -> config.editorBrushColor = value.toInt()
                 EDITOR_BRUSH_HARDNESS -> config.editorBrushHardness = value.toString().toFloat()
                 EDITOR_BRUSH_SIZE -> config.editorBrushSize = value.toString().toFloat()
-                FOLDER_THUMBNAIL_STYLE -> config.folderStyle = value.toInt()
                 FOLDER_MEDIA_COUNT -> config.showFolderMediaCount = value.toInt()
                 LIMIT_FOLDER_TITLE -> config.limitFolderTitle = value.toBoolean()
                 FILE_ROUNDED_CORNERS -> config.fileRoundedCorners = value.toBoolean()

@@ -199,7 +199,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             getRecyclerAdapter()?.updatePrimaryColor()
         }
 
-        val styleString = "${config.folderStyle}${config.showFolderMediaCount}${config.limitFolderTitle}"
+        val styleString = "${config.showFolderMediaCount}${config.limitFolderTitle}"
         if (mStoredStyleString != styleString) {
             setupAdapter(mDirs, forceRecreate = true)
         }
@@ -411,7 +411,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         mStoredPrimaryColor = getProperPrimaryColor()
         config.apply {
             mStoredCropThumbnails = cropThumbnails
-            mStoredStyleString = "$folderStyle$showFolderMediaCount$limitFolderTitle"
+            mStoredStyleString = "$showFolderMediaCount$limitFolderTitle"
         }
     }
 

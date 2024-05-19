@@ -6,6 +6,7 @@ import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.os.Handler
 import android.os.Looper
+import android.text.TextUtils
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -518,7 +519,10 @@ class MediaAdapter(
             }
 
             mediumName.text = medium.name
-            mediumName.tag = medium.path
+            mediumDir.text = medium.path
+            mediumDir.maxLines = 2
+            mediumDir.ellipsize = TextUtils.TruncateAt.END
+
 
             val showVideoDuration = medium.isVideo() || medium.isAudio()
             if (showVideoDuration) {
@@ -566,6 +570,7 @@ class MediaAdapter(
             }
 
             mediumName.setTextColor(textColor)
+            mediumDir.setTextColor(textColor)
             playPortraitOutline?.applyColorFilter(textColor)
 
         }

@@ -62,7 +62,6 @@ class DirectoryAdapter(
     private var startReorderDragListener: StartReorderDragListener? = null
 
     private var showMediaCount = config.showFolderMediaCount
-    private var folderStyle = config.folderStyle
     private var limitFolderTitle = config.limitFolderTitle
     var directorySorting = config.directorySorting
     var dateFormat = config.dateFormat
@@ -78,7 +77,6 @@ class DirectoryAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = when {
             isListViewType -> DirectoryItemListBinding.inflate(layoutInflater, parent, false)
-            folderStyle == FOLDER_STYLE_SQUARE -> DirectoryItemGridSquareBinding.inflate(layoutInflater, parent, false)
             else -> DirectoryItemGridRoundedCornersBinding.inflate(layoutInflater, parent, false)
         }
 
@@ -770,7 +768,8 @@ class DirectoryAdapter(
             if (isSelected) {
                 dirCheck.background?.applyColorFilter(properPrimaryColor)
                 dirCheck.applyColorFilter(contrastColor)
-            }
+                dirHolder.background = resources.getDrawable(R.drawable.ic_selected_bg)
+            } else dirHolder.setBackgroundResource(0)
 
             if (isListViewType) {
                 dirHolder.isSelected = isSelected
@@ -784,7 +783,6 @@ class DirectoryAdapter(
                 dirLock.beGone()
                 val roundedCorners = when {
                     isListViewType -> ROUNDED_CORNERS_SMALL
-                    folderStyle == FOLDER_STYLE_SQUARE -> ROUNDED_CORNERS_NONE
                     else -> ROUNDED_CORNERS_BIG
                 }
 
@@ -801,7 +799,7 @@ class DirectoryAdapter(
             dirPin.beVisibleIf(pinnedFolders.contains(directory.path))
             dirLocation.beVisibleIf(directory.location != LOCATION_INTERNAL)
             if (dirLocation.isVisible()) {
-                dirLocation.setImageResource(if (directory.location == LOCATION_SD) org.skywaves.mediavox.core.R.drawable.ic_sd_card_vector else org.skywaves.mediavox.core.R.drawable.ic_usb_vector)
+                dirLocation.setImageResource(if (directory.location == LOCATION_SD) R.drawable.ic_sd_card else org.skywaves.mediavox.core.R.drawable.ic_usb_vector)
             }
 
             photoCnt.text = directory.subfoldersMediaCount.toString()
@@ -824,15 +822,12 @@ class DirectoryAdapter(
             }
 
             dirName.text = nameCount
-
-            if (isListViewType || folderStyle == FOLDER_STYLE_ROUNDED_CORNERS) {
-                photoCnt.setTextColor(textColor)
-                dirName.setTextColor(textColor)
-                dirLocation.applyColorFilter(textColor)
-            }
+            photoCnt.setTextColor(textColor)
+            dirName.setTextColor(textColor)
+            dirLocation.applyColorFilter(textColor)
+            dirPath?.setTextColor(textColor)
 
             if (isListViewType) {
-                dirPath?.setTextColor(textColor)
                 dirPin.applyColorFilter(textColor)
                 dirLocation.applyColorFilter(textColor)
                 dirDragHandle.beVisibleIf(isDragAndDropping)
@@ -879,7 +874,6 @@ class DirectoryAdapter(
     private fun bindItem(view: View): DirectoryItemBinding {
         return when {
             isListViewType -> DirectoryItemListBinding.bind(view).toItemBinding()
-            folderStyle == FOLDER_STYLE_SQUARE -> DirectoryItemGridSquareBinding.bind(view).toItemBinding()
             else -> DirectoryItemGridRoundedCornersBinding.bind(view).toItemBinding()
         }
     }

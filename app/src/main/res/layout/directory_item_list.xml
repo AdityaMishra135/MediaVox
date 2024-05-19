@@ -3,28 +3,41 @@
     android:id="@+id/dir_holder"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/tiny_margin"
-    android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="@drawable/selector"
-    android:paddingStart="@dimen/medium_margin"
-    android:paddingTop="@dimen/small_margin"
-    android:paddingBottom="@dimen/small_margin">
+    android:padding="@dimen/medium_margin"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="1dp">
 
-    <org.skywaves.mediavox.core.views.MySquareImageView
-        android:id="@+id/dir_thumbnail"
-        android:layout_width="@dimen/list_view_folder_thumbnail_size"
-        android:layout_height="@dimen/list_view_folder_thumbnail_size" />
+    <RelativeLayout
+        android:id="@+id/dir_thumb_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/dir_thumb2"
+            android:layout_width="120dp"
+            android:layout_height="95dp"
+            android:src="@drawable/folder_thumb"/>
+        <org.skywaves.mediavox.core.views.MySquareImageView
+            android:id="@+id/dir_thumbnail"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="8dp"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
 
     <ImageView
         android:id="@+id/dir_lock"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignStart="@+id/dir_thumbnail"
-        android:layout_alignTop="@+id/dir_thumbnail"
-        android:layout_alignEnd="@+id/dir_thumbnail"
-        android:layout_alignBottom="@+id/dir_thumbnail"
+        android:layout_alignStart="@+id/dir_thumb_holder"
+        android:layout_alignTop="@+id/dir_thumb_holder"
+        android:layout_alignEnd="@+id/dir_thumb_holder"
+        android:layout_alignBottom="@+id/dir_thumb_holder"
         android:layout_centerInParent="true"
         android:background="@color/default_background_color"
         android:contentDescription="@string/lock_folder"
@@ -50,13 +63,16 @@
         android:id="@+id/dir_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/dir_thumbnail"
+        android:layout_toEndOf="@+id/dir_thumb_holder"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingStart="@dimen/medium_margin"
         android:paddingEnd="@dimen/medium_margin"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/bigger_text_size" />
+        android:textSize="@dimen/bigger_text_size"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="@dimen/small_margin"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/dir_path"
@@ -65,9 +81,9 @@
         android:layout_below="@+id/dir_name"
         android:layout_alignStart="@+id/dir_name"
         android:layout_marginEnd="@dimen/activity_margin"
-        android:alpha="0.4"
+        android:alpha="0.5"
         android:ellipsize="end"
-        android:maxLines="1"
+        android:maxLines="2"
         android:paddingStart="@dimen/medium_margin"
         android:paddingEnd="@dimen/medium_margin"
         android:textColor="@android:color/white"
@@ -75,13 +91,28 @@
 
     <TextView
         android:id="@+id/photo_cnt"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/dir_name"
-        android:layout_toEndOf="@+id/dir_name"
+        android:layout_below="@id/dir_path"
+        android:layout_toEndOf="@+id/dir_thumb_holder"
         android:alpha="0.4"
+        android:paddingStart="@dimen/medium_margin"
         android:textColor="@android:color/white"
         android:textSize="@dimen/smaller_text_size" />
+
+    <TextView
+        android:id="@+id/dir_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dir_path"
+        android:layout_toEndOf="@+id/photo_cnt"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/smaller_text_size"
+        android:layout_margin="@dimen/small_margin"
+        android:background="@drawable/ic_duration_bg"
+        android:padding="@dimen/tiny_margin"
+        android:textStyle="bold"
+        android:text="20MB"/>
 
     <LinearLayout
         android:id="@+id/dir_icon_holder"

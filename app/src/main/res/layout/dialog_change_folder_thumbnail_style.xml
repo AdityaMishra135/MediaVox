@@ -18,32 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <RadioGroup
-            android:id="@+id/dialog_radio_folder_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:layout_marginBottom="@dimen/medium_margin">
-
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/dialog_radio_folder_square"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/medium_margin"
-                android:paddingBottom="@dimen/medium_margin"
-                android:text="@string/square" />
-
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/dialog_radio_folder_rounded_corners"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/medium_margin"
-                android:paddingBottom="@dimen/medium_margin"
-                android:text="@string/rounded_corners" />
-
-        </RadioGroup>
-
-        <include layout="@layout/divider" />
 
         <RadioGroup
             android:id="@+id/dialog_radio_folder_count_holder"

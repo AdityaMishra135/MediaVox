@@ -479,10 +479,6 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getInt(FOLDER_MEDIA_COUNT, FOLDER_MEDIA_CNT_LINE)
         set(showFolderMediaCount) = prefs.edit().putInt(FOLDER_MEDIA_COUNT, showFolderMediaCount).apply()
 
-    var folderStyle: Int
-        get() = prefs.getInt(FOLDER_THUMBNAIL_STYLE, FOLDER_STYLE_SQUARE)
-        set(folderStyle) = prefs.edit().putInt(FOLDER_THUMBNAIL_STYLE, folderStyle).apply()
-
     var limitFolderTitle: Boolean
         get() = prefs.getBoolean(LIMIT_FOLDER_TITLE, false)
         set(limitFolderTitle) = prefs.edit().putBoolean(LIMIT_FOLDER_TITLE, limitFolderTitle).apply()
