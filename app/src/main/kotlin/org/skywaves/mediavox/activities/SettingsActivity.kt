@@ -849,7 +849,6 @@ class SettingsActivity : SimpleActivity() {
                 put(FOLDER_THUMBNAIL_STYLE, config.folderStyle)
                 put(FOLDER_MEDIA_COUNT, config.showFolderMediaCount)
                 put(LIMIT_FOLDER_TITLE, config.limitFolderTitle)
-                put(THUMBNAIL_SPACING, config.thumbnailSpacing)
                 put(FILE_ROUNDED_CORNERS, config.fileRoundedCorners)
                 put(SEARCH_ALL_FILES_BY_DEFAULT, config.searchAllFilesByDefault)
             }
@@ -975,7 +974,6 @@ class SettingsActivity : SimpleActivity() {
                 FOLDER_THUMBNAIL_STYLE -> config.folderStyle = value.toInt()
                 FOLDER_MEDIA_COUNT -> config.showFolderMediaCount = value.toInt()
                 LIMIT_FOLDER_TITLE -> config.limitFolderTitle = value.toBoolean()
-                THUMBNAIL_SPACING -> config.thumbnailSpacing = value.toInt()
                 FILE_ROUNDED_CORNERS -> config.fileRoundedCorners = value.toBoolean()
                 SEARCH_ALL_FILES_BY_DEFAULT -> config.searchAllFilesByDefault = value.toBoolean()
                 ALBUM_COVERS -> {

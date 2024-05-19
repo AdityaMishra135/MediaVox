@@ -505,22 +505,17 @@ class MediaAdapter(
     private fun setupThumbnail(view: View, medium: Medium) {
         val isSelected = selectedKeys.contains(medium.path.hashCode())
         bindItem(view, medium).apply {
-            val padding = if (config.thumbnailSpacing <= 1) {
-                config.thumbnailSpacing
-            } else {
-                0
-            }
-
-            mediaItemHolder.setPadding(padding, padding, padding, padding)
 
             favorite.beVisibleIf(medium.isFavorite)
 
             playPortraitOutline?.beVisibleIf(medium.isVideo() || medium.isAudio())
-            if (medium.isVideo() || medium.isAudio()) {
-                playPortraitOutline?.setImageResource(org.skywaves.mediavox.core.R.drawable.ic_play_vector)
+            if (medium.isAudio()) {
+                playPortraitOutline?.setImageResource(R.drawable.ic_music)
+                playPortraitOutline?.beVisible()
+            } else {
+                playPortraitOutline?.setImageResource(R.drawable.ic_video)
                 playPortraitOutline?.beVisible()
             }
-
 
             mediumName.text = medium.name
             mediumName.tag = medium.path
@@ -535,7 +530,8 @@ class MediaAdapter(
             if (isSelected) {
                 mediumCheck.background?.applyColorFilter(properPrimaryColor)
                 mediumCheck.applyColorFilter(contrastColor)
-            }
+                mediaItemHolder.background =resources.getDrawable(R.drawable.ic_selected_bg)
+            } else mediaItemHolder.setBackgroundResource(0)
 
             if (isListViewType) {
                 mediaItemHolder.isSelected = isSelected
@@ -569,10 +565,9 @@ class MediaAdapter(
                 }, IMAGE_LOAD_DELAY)
             }
 
-            if (isListViewType) {
-                mediumName.setTextColor(textColor)
-                playPortraitOutline?.applyColorFilter(textColor)
-            }
+            mediumName.setTextColor(textColor)
+            playPortraitOutline?.applyColorFilter(textColor)
+
         }
     }
 

@@ -89,7 +89,6 @@ class PickMediumDialog(val activity: BaseSimpleActivity, val path: String, val c
     private fun handleGridSpacing(media: ArrayList<ThumbnailItem>) {
         if (isGridViewType) {
             val spanCount = config.mediaColumnCnt
-            val spacing = config.thumbnailSpacing
             val useGridPosition = media.firstOrNull() is ThumbnailSection
 
             var currentGridDecoration: GridSpacingItemDecoration? = null
@@ -98,7 +97,7 @@ class PickMediumDialog(val activity: BaseSimpleActivity, val path: String, val c
                 currentGridDecoration.items = media
             }
 
-            val newGridDecoration = GridSpacingItemDecoration(spanCount, spacing, config.fileRoundedCorners, media, useGridPosition)
+            val newGridDecoration = GridSpacingItemDecoration(spanCount, config.fileRoundedCorners, media, useGridPosition)
             if (currentGridDecoration.toString() != newGridDecoration.toString()) {
                 if (currentGridDecoration != null) {
                     binding.mediaGrid.removeItemDecoration(currentGridDecoration)

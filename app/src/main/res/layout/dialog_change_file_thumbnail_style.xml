@@ -12,40 +12,6 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/dialog_file_style_spacing_holder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_top_corners"
-            android:paddingStart="@dimen/activity_margin"
-            android:paddingTop="@dimen/bigger_margin"
-            android:paddingEnd="@dimen/activity_margin"
-            android:paddingBottom="@dimen/bigger_margin">
-
-            <org.skywaves.mediavox.core.views.MyTextView
-                android:id="@+id/dialog_file_style_spacing_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/dialog_file_style_spacing"
-                android:ellipsize="end"
-                android:lines="1"
-                android:paddingStart="@dimen/small_margin"
-                android:paddingEnd="@dimen/medium_margin"
-                android:text="@string/thumbnail_spacing" />
-
-            <org.skywaves.mediavox.core.views.MyTextView
-                android:id="@+id/dialog_file_style_spacing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/normal_margin"
-                android:background="@null"
-                android:clickable="false"
-                tools:text="1x" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/dialog_file_style_rounded_corners_holder"
             style="@style/SettingsHolderCheckboxStyle"
             android:layout_width="match_parent"

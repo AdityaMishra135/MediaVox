@@ -137,8 +137,7 @@ class SearchActivity : SimpleActivity(), MediaOperationsListener {
             }
 
             val spanCount = config.mediaColumnCnt
-            val spacing = config.thumbnailSpacing
-            val decoration = GridSpacingItemDecoration(spanCount, spacing, config.fileRoundedCorners, media, true)
+            val decoration = GridSpacingItemDecoration(spanCount, config.fileRoundedCorners, media, true)
             binding.searchGrid.addItemDecoration(decoration)
         }
     }

@@ -65,7 +65,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
     private var mStoredRoundedCorners = false
     private var mStoredTextColor = 0
     private var mStoredPrimaryColor = 0
-    private var mStoredThumbnailSpacing = 0
 
     private val binding by viewBinding(ActivityMediaBinding::inflate)
 
@@ -137,8 +136,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
         }
 
         if (
-            mStoredThumbnailSpacing != config.thumbnailSpacing
-            || mStoredRoundedCorners != config.fileRoundedCorners
+             mStoredRoundedCorners != config.fileRoundedCorners
         ) {
             binding.mediaGrid.adapter = null
             setupAdapter()
@@ -319,7 +317,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
         config.apply {
             mStoredCropThumbnails = cropThumbnails
             mStoredShowFileTypes = showThumbnailFileTypes
-            mStoredThumbnailSpacing = thumbnailSpacing
             mStoredRoundedCorners = fileRoundedCorners
             mShowAll = showAll && mPath != RECYCLE_BIN
         }
@@ -681,7 +678,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
         val viewType = config.getFolderViewType(if (mShowAll) SHOW_ALL else mPath)
         if (viewType == VIEW_TYPE_GRID) {
             val spanCount = config.mediaColumnCnt
-            val spacing = config.thumbnailSpacing
             val useGridPosition = media.firstOrNull() is ThumbnailSection
 
             var currentGridDecoration: GridSpacingItemDecoration? = null
@@ -690,7 +686,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                 currentGridDecoration.items = media
             }
 
-            val newGridDecoration = GridSpacingItemDecoration(spanCount, spacing, config.fileRoundedCorners, media, useGridPosition)
+            val newGridDecoration = GridSpacingItemDecoration(spanCount, config.fileRoundedCorners, media, useGridPosition)
             if (currentGridDecoration.toString() != newGridDecoration.toString()) {
                 if (currentGridDecoration != null) {
                     binding.mediaGrid.removeItemDecoration(currentGridDecoration)
