@@ -13,7 +13,6 @@ class MySquareImageView : AppCompatImageView {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val spec = widthMeasureSpec
-        super.onMeasure(spec, spec)
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
 }
