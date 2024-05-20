@@ -53,6 +53,7 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
     private fun updateSample() {
         val photoCount = 36
         val folderName = "Camera"
+        val folderDir = "SD/Camera/Picture"
         binding.apply {
             binding.dialogFolderSampleHolder.removeAllViews()
             val sampleBinding = DirectoryItemGridRoundedCornersBinding.inflate(activity.layoutInflater).toItemBinding()
@@ -76,19 +77,21 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
 
                 else -> {
                     sampleBinding.dirName.text = folderName
+                    sampleBinding.dirPath.text = folderDir
                     sampleBinding.photoCnt.beGone()
                 }
             }
 
             val options = RequestOptions().centerCrop()
             var builder = Glide.with(activity)
-                .load(R.drawable.sample_logo)
+                .load(R.mipmap.ic_launcher_round)
                 .apply(options)
 
                 val cornerRadius = root.resources.getDimension(org.skywaves.mediavox.core.R.dimen.rounded_corner_radius_big).toInt()
                 builder = builder.transform(CenterCrop(), RoundedCorners(cornerRadius))
                 sampleBinding.dirName.setTextColor(activity.getProperTextColor())
                 sampleBinding.photoCnt.setTextColor(activity.getProperTextColor())
+                sampleBinding.dirPath.setTextColor(activity.getProperTextColor())
 
             builder.into(sampleBinding.dirThumbnail)
         }

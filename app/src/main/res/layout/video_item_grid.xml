@@ -55,7 +55,7 @@
             android:visibility="visible"
             android:layout_marginEnd="@dimen/tiny_margin"
             android:layout_alignParentStart="true"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
 
         <TextView
             android:id="@+id/medium_size"
