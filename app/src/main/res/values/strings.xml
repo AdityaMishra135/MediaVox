@@ -137,6 +137,7 @@
     <string name="compromise">Compromise</string>
     <string name="avoid_showing_invalid_files">Avoid showing invalid files</string>
     <string name="show_image_file_types">Show file types</string>
+    <string name="show_image_file_dir">Show file directory</string>
     <string name="allow_zooming_videos">Allow zooming videos with double tapping them</string>
     <string name="folder_thumbnail_style">Folder thumbnail style</string>
     <string name="file_thumbnail_style">File thumbnail style</string>

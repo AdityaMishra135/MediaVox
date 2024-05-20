@@ -51,7 +51,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
     private var mShowAll = false
     private var mLoadedInitialPhotos = false
     private var mWasFullscreenViewOpen = false
-    private var mWasUpgradedFromFreeShown = false
     private var mLastSearchedText = ""
     private var mLatestMediaId = 0L
     private var mLatestMediaDateId = 0L
@@ -62,6 +61,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
 
     private var mStoredCropThumbnails = true
     private var mStoredShowFileTypes = true
+    private var mStoredShowFileDir = true
     private var mStoredRoundedCorners = false
     private var mStoredTextColor = 0
     private var mStoredPrimaryColor = 0
@@ -124,6 +124,10 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
 
         if (mStoredShowFileTypes != config.showThumbnailFileTypes) {
             getMediaAdapter()?.updateShowFileTypes(config.showThumbnailFileTypes)
+        }
+
+        if (mStoredShowFileDir != config.showThumbnailFileDir) {
+            getMediaAdapter()?.updateShowFileDir(config.showThumbnailFileDir)
         }
 
         if (mStoredTextColor != getProperTextColor()) {
@@ -317,6 +321,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
         config.apply {
             mStoredCropThumbnails = cropThumbnails
             mStoredShowFileTypes = showThumbnailFileTypes
+            mStoredShowFileDir = showThumbnailFileDir
             mStoredRoundedCorners = fileRoundedCorners
             mShowAll = showAll && mPath != RECYCLE_BIN
         }

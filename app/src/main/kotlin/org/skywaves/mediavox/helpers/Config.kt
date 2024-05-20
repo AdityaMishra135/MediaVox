@@ -173,6 +173,10 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(SHOW_THUMBNAIL_FILE_TYPES, true)
         set(showThumbnailFileTypes) = prefs.edit().putBoolean(SHOW_THUMBNAIL_FILE_TYPES, showThumbnailFileTypes).apply()
 
+    var showThumbnailFileDir: Boolean
+        get() = prefs.getBoolean(SHOW_THUMBNAIL_FILE_DIR, true)
+        set(showThumbnailFileDir) = prefs.edit().putBoolean(SHOW_THUMBNAIL_FILE_DIR, showThumbnailFileDir).apply()
+
     var screenRotation: Int
         get() = prefs.getInt(SCREEN_ROTATION, ROTATE_BY_SYSTEM_SETTING)
         set(screenRotation) = prefs.edit().putInt(SCREEN_ROTATION, screenRotation).apply()

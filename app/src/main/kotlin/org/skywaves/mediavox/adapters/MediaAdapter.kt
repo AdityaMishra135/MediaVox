@@ -57,6 +57,7 @@ class MediaAdapter(
 
     private var cropThumbnails = config.cropThumbnails
     private var showFileTypes = config.showThumbnailFileTypes
+    private var showFileDir = config.showThumbnailFileDir
 
     var sorting = config.getFolderSorting(if (config.showAll) SHOW_ALL else path)
     var dateFormat = config.dateFormat
@@ -496,6 +497,11 @@ class MediaAdapter(
         notifyDataSetChanged()
     }
 
+    fun updateShowFileDir(showFileDir: Boolean) {
+        this.showFileDir = showFileDir
+        notifyDataSetChanged()
+    }
+
     private fun enableInstantLoad() {
         loadImageInstantly = true
         delayHandler.postDelayed({
@@ -516,6 +522,7 @@ class MediaAdapter(
                 playPortraitOutline?.setImageResource(R.drawable.ic_video)
             }
 
+            mediumDir.beVisibleIf(showFileDir)
             mediumName.text = medium.name
             mediumDir.text = medium.path
             mediumDir.maxLines = 2

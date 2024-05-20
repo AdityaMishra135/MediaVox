@@ -43,5 +43,21 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/dialog_file_style_show_file_dir_holder"
+            style="@style/SettingsHolderCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground">
+
+            <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+                android:id="@+id/dialog_file_style_show_thumbnail_file_dir"
+                style="@style/SettingsCheckboxStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/show_image_file_dir" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 </ScrollView>

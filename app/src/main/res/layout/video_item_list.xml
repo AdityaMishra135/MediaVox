@@ -84,7 +84,8 @@
         android:layout_marginStart="5dp"
         android:textColor="@android:color/white"
         android:textSize="@dimen/small_text_size"
-        tools:text="sd/camera" />
+        tools:text="sd/camera"
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
