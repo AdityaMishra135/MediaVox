@@ -509,20 +509,17 @@ class MediaAdapter(
 
             favorite.beVisibleIf(medium.isFavorite)
 
-            playPortraitOutline?.beVisibleIf(medium.isVideo() || medium.isAudio() && showFileTypes)
+            playPortraitOutline?.beVisibleIf((medium.isVideo() || medium.isAudio()) && showFileTypes)
             if (medium.isAudio()) {
                 playPortraitOutline?.setImageResource(R.drawable.ic_music)
-                playPortraitOutline?.beVisible()
             } else {
                 playPortraitOutline?.setImageResource(R.drawable.ic_video)
-                playPortraitOutline?.beVisible()
             }
 
             mediumName.text = medium.name
             mediumDir.text = medium.path
             mediumDir.maxLines = 2
             mediumDir.ellipsize = TextUtils.TruncateAt.END
-
 
             val showVideoDuration = medium.isVideo() || medium.isAudio()
             if (showVideoDuration) {
