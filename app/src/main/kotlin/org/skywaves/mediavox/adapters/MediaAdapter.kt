@@ -509,7 +509,7 @@ class MediaAdapter(
 
             favorite.beVisibleIf(medium.isFavorite)
 
-            playPortraitOutline?.beVisibleIf(medium.isVideo() || medium.isAudio())
+            playPortraitOutline?.beVisibleIf(medium.isVideo() || medium.isAudio() && showFileTypes)
             if (medium.isAudio()) {
                 playPortraitOutline?.setImageResource(R.drawable.ic_music)
                 playPortraitOutline?.beVisible()
