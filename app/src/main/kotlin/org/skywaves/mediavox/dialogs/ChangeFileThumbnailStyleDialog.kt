@@ -21,6 +21,7 @@ class ChangeFileThumbnailStyleDialog(val activity: BaseSimpleActivity) : DialogI
 
             dialogFileStyleRoundedCornersHolder.setOnClickListener { dialogFileStyleRoundedCorners.toggle() }
             dialogFileStyleShowThumbnailFileTypesHolder.setOnClickListener { dialogFileStyleShowThumbnailFileTypes.toggle() }
+            dialogFileStyleShowThumbnailFileDirsHolder.setOnClickListener { dialogFileStyleShowThumbnailFileDir.toggle() }
 
         }
 
