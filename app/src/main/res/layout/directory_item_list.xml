@@ -17,8 +17,9 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/dir_thumb2"
-            android:layout_width="120dp"
-            android:layout_height="95dp"
+            android:layout_width="110dp"
+            android:layout_height="78dp"
+            android:scaleType="fitXY"
             android:src="@drawable/folder_thumb"/>
         <org.skywaves.mediavox.core.views.MySquareImageView
             android:id="@+id/dir_thumbnail"
@@ -26,9 +27,53 @@
             android:layout_height="45dp"
             android:paddingLeft="10dp"
             android:paddingBottom="8dp"
+            android:src="@drawable/sample_logo"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/dir_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/dir_thumb_holder"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingStart="@dimen/medium_margin"
+        android:paddingEnd="@dimen/medium_margin"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/bigger_text_size"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="@dimen/small_margin"
+        android:textStyle="bold"
+        android:text="@string/save_as"/>
+
+    <TextView
+        android:id="@+id/dir_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dir_name"
+        android:layout_alignStart="@+id/dir_name"
+        android:layout_marginEnd="@dimen/activity_margin"
+        android:alpha="0.5"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingStart="@dimen/medium_margin"
+        android:paddingEnd="@dimen/medium_margin"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/smaller_text_size"
+        android:text="SD/Camera/Picture"/>
+
+    <TextView
+        android:id="@+id/photo_cnt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dir_path"
+        android:layout_toEndOf="@+id/dir_thumb_holder"
+        android:alpha="0.4"
+        android:paddingStart="@dimen/medium_margin"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/smaller_text_size"
+        android:text="12"/>
 
     <ImageView
         android:id="@+id/dir_lock"
@@ -59,46 +104,6 @@
         android:src="@drawable/ic_check_vector"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/dir_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/dir_thumb_holder"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:paddingStart="@dimen/medium_margin"
-        android:paddingEnd="@dimen/medium_margin"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/bigger_text_size"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="@dimen/small_margin"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/dir_path"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/dir_name"
-        android:layout_alignStart="@+id/dir_name"
-        android:layout_marginEnd="@dimen/activity_margin"
-        android:alpha="0.5"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:paddingStart="@dimen/medium_margin"
-        android:paddingEnd="@dimen/medium_margin"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/smaller_text_size" />
-
-    <TextView
-        android:id="@+id/photo_cnt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dir_path"
-        android:layout_toEndOf="@+id/dir_thumb_holder"
-        android:alpha="0.4"
-        android:paddingStart="@dimen/medium_margin"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/smaller_text_size" />
 
     <TextView
         android:id="@+id/dir_size"
