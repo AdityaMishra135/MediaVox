@@ -826,10 +826,12 @@ class DirectoryAdapter(
             dirName.setTextColor(textColor)
             dirLocation.applyColorFilter(textColor)
             dirPath?.setTextColor(textColor)
-            dirSize.text = File("${directory.path.substringBeforeLast("/")}/${directory.name}",directory.name)
+             val psize =  ensureBackgroundThread {
+                 File("${directory.path.substringBeforeLast("/")}/",directory.name)
                 .walkTopDown()
                 .map { it.length() }
-                .sum().formatSize()
+                .sum().formatSize()}
+            dirSize.text = psize.toString()
 
             if (isListViewType) {
                 dirPin.applyColorFilter(textColor)
