@@ -826,7 +826,7 @@ class DirectoryAdapter(
             dirName.setTextColor(textColor)
             dirLocation.applyColorFilter(textColor)
             dirPath?.setTextColor(textColor)
-            dirSize.text = File(directory.path,directory.name)
+            dirSize.text = File("${directory.path.substringBeforeLast("/")}/",directory.name)
                 .walkTopDown()
                 .map { it.length() }
                 .sum().formatSize()
