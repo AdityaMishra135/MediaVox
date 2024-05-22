@@ -25,7 +25,7 @@
             android:id="@+id/dir_thumbnail"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="7dp"
             android:paddingBottom="8dp"
             android:src="@drawable/sample_logo"
             android:layout_alignParentBottom="true"/>
@@ -73,6 +73,9 @@
         android:paddingStart="@dimen/medium_margin"
         android:textColor="@android:color/white"
         android:textSize="@dimen/smaller_text_size"
+        android:layout_margin="4dp"
+        android:paddingTop="3dp"
+        android:textAlignment="center"
         android:text="12"/>
 
     <ImageView
