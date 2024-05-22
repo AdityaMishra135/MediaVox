@@ -826,7 +826,7 @@ class DirectoryAdapter(
             dirName.setTextColor(textColor)
             dirLocation.applyColorFilter(textColor)
             dirPath?.setTextColor(textColor)
-            dirSize.text = directory.size.formatSize()
+            dirSize.text = dirs.sumByLong { it.size }.formatSize()
 
             if (isListViewType) {
                 dirPin.applyColorFilter(textColor)
