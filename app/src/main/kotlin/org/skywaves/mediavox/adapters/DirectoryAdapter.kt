@@ -826,12 +826,13 @@ class DirectoryAdapter(
             dirName.setTextColor(textColor)
             dirLocation.applyColorFilter(textColor)
             dirPath?.setTextColor(textColor)
-             val psize =  ensureBackgroundThread {
-                 File("${directory.path.substringBeforeLast("/")}/",directory.name)
+             ensureBackgroundThread {
+                 var psize =   File("${directory.path.substringBeforeLast("/")}/",directory.name)
                 .walkTopDown()
                 .map { it.length() }
-                .sum().formatSize()}
-            dirSize.text = psize.toString()
+                .sum().formatSize()
+                 dirSize.text = psize.toString()
+             }
 
             if (isListViewType) {
                 dirPin.applyColorFilter(textColor)
