@@ -826,11 +826,7 @@ class DirectoryAdapter(
             dirName.setTextColor(textColor)
             dirLocation.applyColorFilter(textColor)
             dirPath?.setTextColor(textColor)
-            var psize =   File("${directory.path.substringBeforeLast("/")}/",directory.name)
-                .walkTopDown()
-                .map { it.length() }
-                .sum().formatSize()
-            dirSize.text = psize
+            dirSize.text = directory.size.formatSize()
 
             if (isListViewType) {
                 dirPin.applyColorFilter(textColor)
