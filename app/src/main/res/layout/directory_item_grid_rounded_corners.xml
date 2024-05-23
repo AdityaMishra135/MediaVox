@@ -165,7 +165,9 @@
         android:maxLines="2"
         android:text="sd/csaerewr/"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/small_text_size" />
+        android:textSize="@dimen/small_text_size"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>
