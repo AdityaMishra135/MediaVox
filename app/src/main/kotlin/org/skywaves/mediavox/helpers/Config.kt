@@ -21,7 +21,7 @@ class Config(context: Context) : BaseConfig(context) {
         set(order) = prefs.edit().putInt(DIRECTORY_SORT_ORDER, order).apply()
 
     var showDirSize: Boolean
-        get() = prefs.getBoolean(SHOW_DIR_SIZE, false)
+        get() = prefs.getBoolean(SHOW_DIR_SIZE, true)
         set(showDirSize) = prefs.edit().putBoolean(SHOW_DIR_SIZE, showDirSize).apply()
 
     fun saveFolderGrouping(path: String, value: Int) {
@@ -490,10 +490,6 @@ class Config(context: Context) : BaseConfig(context) {
     var limitFolderTitle: Boolean
         get() = prefs.getBoolean(LIMIT_FOLDER_TITLE, false)
         set(limitFolderTitle) = prefs.edit().putBoolean(LIMIT_FOLDER_TITLE, limitFolderTitle).apply()
-
-    var showFolderSize: Boolean
-        get() = prefs.getBoolean(SHOW_FOLDER_SIZE, false)
-        set(showFolderSize) = prefs.edit().putBoolean(SHOW_FOLDER_SIZE, showFolderSize).apply()
 
     var fileRoundedCorners: Boolean
         get() = prefs.getBoolean(FILE_ROUNDED_CORNERS, false)

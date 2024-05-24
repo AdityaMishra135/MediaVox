@@ -844,7 +844,7 @@ class SettingsActivity : SimpleActivity() {
                 put(ALBUM_COVERS, config.albumCovers)
                 put(FOLDER_MEDIA_COUNT, config.showFolderMediaCount)
                 put(LIMIT_FOLDER_TITLE, config.limitFolderTitle)
-                put(SHOW_FOLDER_SIZE, config.showFolderSize)
+                put(SHOW_DIR_SIZE, config.showDirSize)
                 put(FILE_ROUNDED_CORNERS, config.fileRoundedCorners)
                 put(SEARCH_ALL_FILES_BY_DEFAULT, config.searchAllFilesByDefault)
             }
@@ -970,7 +970,7 @@ class SettingsActivity : SimpleActivity() {
                 EDITOR_BRUSH_SIZE -> config.editorBrushSize = value.toString().toFloat()
                 FOLDER_MEDIA_COUNT -> config.showFolderMediaCount = value.toInt()
                 LIMIT_FOLDER_TITLE -> config.limitFolderTitle = value.toBoolean()
-                SHOW_FOLDER_SIZE -> config.showFolderSize = value.toBoolean()
+                SHOW_DIR_SIZE -> config.showDirSize = value.toBoolean()
                 FILE_ROUNDED_CORNERS -> config.fileRoundedCorners = value.toBoolean()
                 SEARCH_ALL_FILES_BY_DEFAULT -> config.searchAllFilesByDefault = value.toBoolean()
                 ALBUM_COVERS -> {
