@@ -120,7 +120,8 @@
         android:background="@drawable/ic_duration_bg"
         android:padding="@dimen/tiny_margin"
         android:textStyle="bold"
-        android:text="20MB"/>
+        android:text="20MB"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/dir_icon_holder"

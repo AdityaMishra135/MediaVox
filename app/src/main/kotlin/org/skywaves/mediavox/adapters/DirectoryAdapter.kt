@@ -826,6 +826,7 @@ class DirectoryAdapter(
             dirName.setTextColor(textColor)
             dirLocation.applyColorFilter(textColor)
             dirPath?.setTextColor(textColor)
+            dirSize.beVisibleIf(config.showFolderSize)
             dirSize.text = directory.size.formatSize()
 
             if (isListViewType) {

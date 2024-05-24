@@ -61,5 +61,13 @@
             android:paddingBottom="@dimen/activity_margin"
             android:text="@string/limit_folder_title" />
 
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/dialog_folder_show_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_margin"
+            android:paddingBottom="@dimen/activity_margin"
+            android:text="@string/show_folder_size" />
+
     </LinearLayout>
 </ScrollView>

@@ -147,6 +147,7 @@
     <string name="show_file_count_brackets">Show file count in brackets</string>
     <string name="show_file_count_none">Do not show file count</string>
     <string name="limit_folder_title">Limit long folder titles to 1 line</string>
+    <string name="show_folder_size">Show Folder Size</string>
     <string name="square">Square</string>
     <string name="rounded_corners">Rounded corners</string>
     <string name="export_favorite_paths">Export favorites</string>
