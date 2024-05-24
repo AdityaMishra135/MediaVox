@@ -6,11 +6,11 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:layout_marginStart="5dp"
+    android:layout_marginStart="2dp"
     android:layout_marginTop="8dp"
-    android:layout_marginBottom="3dp"
-    android:layout_marginEnd="5dp"
-    android:padding="8dp">
+    android:layout_marginBottom="1dp"
+    android:layout_marginEnd="2dp"
+    android:padding="6dp">
 
     <RelativeLayout
         android:id="@+id/dir_thumb_holder"
@@ -33,7 +33,7 @@
             android:src="@drawable/ic_folder_vector"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="18dp"
             android:layout_marginBottom="7dp"/>
 
     </RelativeLayout>
@@ -135,7 +135,10 @@
         android:layout_toEndOf="@+id/photo_cnt"
         android:textColor="@android:color/white"
         android:textSize="@dimen/small_text_size"
-        android:layout_margin="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_marginStart="@dimen/smaller_margin"
+        android:layout_marginEnd="@dimen/small_margin"
         android:background="@drawable/ic_duration_bg"
         android:paddingStart="@dimen/tiny_margin"
         android:paddingEnd="@dimen/tiny_margin"

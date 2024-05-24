@@ -20,6 +20,10 @@ class Config(context: Context) : BaseConfig(context) {
         get(): Int = prefs.getInt(DIRECTORY_SORT_ORDER, SORT_BY_DATE_MODIFIED or SORT_DESCENDING)
         set(order) = prefs.edit().putInt(DIRECTORY_SORT_ORDER, order).apply()
 
+    var showDirSize: Boolean
+        get() = prefs.getBoolean(SHOW_DIR_SIZE, true)
+        set(showDirSize) = prefs.edit().putBoolean(SHOW_DIR_SIZE, showDirSize).apply()
+
     fun saveFolderGrouping(path: String, value: Int) {
         if (path.isEmpty()) {
             groupBy = value
