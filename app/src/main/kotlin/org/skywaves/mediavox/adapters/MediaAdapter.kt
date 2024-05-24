@@ -527,6 +527,7 @@ class MediaAdapter(
             mediumDir.text = medium.path
             mediumDir.maxLines = 2
             mediumDir.ellipsize = TextUtils.TruncateAt.END
+            mediumSize.text = medium.size.formatSize()
 
             val showVideoDuration = medium.isVideo() || medium.isAudio()
             if (showVideoDuration) {
