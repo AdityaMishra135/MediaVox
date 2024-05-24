@@ -24,16 +24,16 @@
             android:layout_centerInParent="true"
             android:src="@drawable/folder_thumb"
             android:scaleType="fitXY"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"/>
         <org.skywaves.mediavox.core.views.MySquareImageView
             android:id="@+id/dir_thumbnail"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@drawable/ic_folder_vector"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="13dp"
+            android:layout_marginStart="16dp"
             android:layout_marginBottom="7dp"/>
 
     </RelativeLayout>
@@ -112,8 +112,7 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/normal_text_size"
         tools:text="Camera"
-        android:textAlignment="center"
-        android:layout_centerHorizontal="true"
+        android:paddingStart="16dp"
         android:textStyle="bold"/>
 
     <TextView
@@ -123,6 +122,7 @@
         android:layout_below="@+id/dir_path"
         android:layout_alignStart="@+id/dir_thumb_holder"
         android:paddingTop="@dimen/one_dp"
+        android:paddingStart="16dp"
         android:textColor="@android:color/white"
         android:textSize="@dimen/normal_text_size"
         android:text="fhg"/>
@@ -137,7 +137,8 @@
         android:textSize="@dimen/small_text_size"
         android:layout_margin="@dimen/small_margin"
         android:background="@drawable/ic_duration_bg"
-        android:padding="@dimen/one_dp"
+        android:paddingStart="@dimen/tiny_margin"
+        android:paddingEnd="@dimen/tiny_margin"
         android:textStyle="bold"
         android:text="20MB"/>
 
@@ -148,6 +149,7 @@
         android:layout_below="@id/dir_path"
         android:layout_alignParentEnd="true"
         android:alpha="0.8"
+        android:paddingEnd="16dp"
         android:contentDescription="@null"
         android:paddingTop="@dimen/tiny_margin"
         android:paddingBottom="@dimen/tiny_margin"
@@ -166,8 +168,7 @@
         android:text="sd/csaerewr/"
         android:textColor="@android:color/white"
         android:textSize="@dimen/small_text_size"
-        android:textAlignment="center"
-        android:layout_centerHorizontal="true"/>
+        android:paddingStart="16dp"/>
 
 
 </RelativeLayout>
