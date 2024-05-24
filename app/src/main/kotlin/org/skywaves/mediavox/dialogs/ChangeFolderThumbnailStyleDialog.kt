@@ -21,7 +21,7 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
     private val binding = DialogChangeFolderThumbnailStyleBinding.inflate(activity.layoutInflater).apply {
         dialogFolderLimitTitle.isChecked = config.limitFolderTitle
         dialogFolderShowSize.isChecked = config.showFolderSize
-        if (binding.dialogFolderShowSize.isChecked) config.showDirSize= true
+        if (dialogFolderShowSize.isChecked) config.showDirSize= true
     }
 
     init {
