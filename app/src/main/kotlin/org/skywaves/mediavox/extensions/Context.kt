@@ -1033,7 +1033,7 @@ fun Context.updateDirectoryPath(path: String) {
         grouping and GROUP_BY_LAST_MODIFIED_DAILY != 0 ||
         grouping and GROUP_BY_LAST_MODIFIED_MONTHLY != 0
 
-    val getProperFileSize = config.directorySorting and SORT_BY_SIZE != 0 || config.showDirSize
+    val getProperFileSize = true
 
     val lastModifieds = if (getProperLastModified) mediaFetcher.getFolderLastModifieds(path) else HashMap()
     val dateTakens = mediaFetcher.getFolderDateTakens(path)

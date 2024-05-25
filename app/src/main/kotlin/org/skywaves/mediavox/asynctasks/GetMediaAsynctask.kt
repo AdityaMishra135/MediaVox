@@ -31,7 +31,7 @@ class GetMediaAsynctask(
             folderGrouping and GROUP_BY_LAST_MODIFIED_DAILY != 0 ||
             folderGrouping and GROUP_BY_LAST_MODIFIED_MONTHLY != 0
 
-        val getProperFileSize = folderSorting and SORT_BY_SIZE != 0 || context.config.showDirSize
+        val getProperFileSize = true
         val favoritePaths = context.getFavoritePaths()
         val getVideoDurations = true
         val lastModifieds = if (getProperLastModified) mediaFetcher.getLastModifieds() else HashMap()

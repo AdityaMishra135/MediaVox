@@ -14,11 +14,11 @@
 
     <RelativeLayout
         android:id="@+id/medium_thumb_holder"
-        android:layout_width="120dp"
+        android:layout_width="130dp"
         android:layout_height="75dp">
         <org.skywaves.mediavox.core.views.MySquareImageView
             android:id="@+id/medium_thumbnail"
-            android:layout_width="120dp"
+            android:layout_width="130dp"
             android:layout_height="75dp" />
 
         <TextView
@@ -37,7 +37,88 @@
             android:textStyle="bold"/>
     </RelativeLayout>
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_toEndOf="@id/medium_thumb_holder"
+    android:layout_marginStart="15dp">
+    <TextView
+        android:id="@+id/medium_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/bigger_text_size"
+        tools:text="My photo"
+        android:textStyle="bold"/>
 
+    <TextView
+        android:id="@+id/medium_dir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/medium_name"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/small_text_size"
+        tools:text="sd/camera"
+        android:layout_marginTop="4dp"
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/medium_dir"
+        android:layout_alignStart="@id/medium_name"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:id="@+id/play_portrait_outline"
+            android:layout_width="@dimen/favorite_list_icon_size"
+            android:layout_height="@dimen/favorite_list_icon_size"
+            android:src="@drawable/ic_play_outline_vector"
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/small_margin" />
+
+        <TextView
+            android:id="@+id/medium_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_size"
+            android:paddingStart="@dimen/small_margin"
+            android:textSize="@dimen/small_text_size"
+            android:textStyle="bold"
+            android:paddingEnd="@dimen/small_margin"
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:text="20MB" />
+
+        <TextView
+            android:id="@+id/medium_resolution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_size"
+            android:gravity="center"
+            android:paddingStart="@dimen/small_margin"
+            android:textSize="@dimen/small_text_size"
+            android:textStyle="bold"
+            android:paddingEnd="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/tiny_margin"
+            android:visibility="visible"
+            android:text="260p"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="@dimen/favorite_list_icon_size"
+        android:layout_height="@dimen/favorite_list_icon_size"
+        android:layout_alignEnd="@id/medium_name"
+        android:layout_below="@id/medium_dir"
+        android:src="@drawable/ic_fav"
+        android:visibility="visible"
+        android:layout_marginTop="4dp"/>
+</RelativeLayout>
 
     <ImageView
         android:id="@+id/medium_check"
@@ -52,104 +133,6 @@
         android:padding="@dimen/tiny_margin"
         android:src="@drawable/ic_check_vector"
         android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/medium_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/medium_thumb_holder"
-        android:layout_toEndOf="@+id/medium_thumb_holder"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="3"
-        android:paddingStart="@dimen/medium_margin"
-        android:paddingEnd="@dimen/normal_margin"
-        android:layout_marginStart="5dp"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/bigger_text_size"
-        tools:text="My photo"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/medium_dir"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/medium_thumb_holder"
-        android:layout_below="@id/medium_name"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="3"
-        android:paddingStart="@dimen/medium_margin"
-        android:paddingEnd="@dimen/normal_margin"
-        android:layout_marginStart="5dp"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/small_text_size"
-        tools:text="sd/camera"
-        android:visibility="gone"/>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/medium_dir"
-        android:layout_margin="@dimen/tiny_margin"
-        android:gravity="center_vertical"
-        android:layout_toEndOf="@id/medium_thumb_holder">
-        <ImageView
-            android:id="@+id/play_portrait_outline"
-            android:layout_width="@dimen/play_outline_icon_size"
-            android:layout_height="@dimen/play_outline_icon_size"
-            android:src="@drawable/ic_play_outline_vector"
-            android:visibility="visible"
-            android:layout_alignParentStart="true"
-            android:layout_marginEnd="@dimen/tiny_margin"
-            android:layout_centerInParent="true"/>
-
-        <TextView
-            android:id="@+id/medium_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/play_portrait_outline"
-            android:background="@drawable/ic_size"
-            android:gravity="center"
-            android:paddingStart="@dimen/small_margin"
-            android:textSize="@dimen/small_text_size"
-            android:textStyle="bold"
-            android:paddingEnd="@dimen/small_margin"
-            android:paddingTop="@dimen/one_dp"
-            android:paddingBottom="@dimen/one_dp"
-            android:visibility="visible"
-            android:layout_marginEnd="@dimen/tiny_margin"
-            android:text="20MB"
-            android:layout_centerInParent="true"/>
-
-        <ImageView
-            android:id="@+id/favorite"
-            android:layout_width="@dimen/lock_p"
-            android:layout_height="@dimen/lock_p"
-            android:layout_toEndOf="@id/medium_size"
-            android:src="@drawable/ic_fav"
-            android:visibility="gone"
-            android:layout_marginEnd="@dimen/tiny_margin"
-            android:layout_centerInParent="true"/>
-
-        <TextView
-            android:id="@+id/medium_resolution"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/favorite"
-            android:background="@drawable/ic_size"
-            android:gravity="center"
-            android:paddingStart="@dimen/small_margin"
-            android:textSize="@dimen/small_text_size"
-            android:textStyle="bold"
-            android:paddingEnd="@dimen/small_margin"
-            android:paddingTop="@dimen/one_dp"
-            android:paddingBottom="@dimen/one_dp"
-            android:layout_marginEnd="@dimen/tiny_margin"
-            android:visibility="visible"
-            android:layout_centerInParent="true"
-            android:text="260p"/>
-    </RelativeLayout>
 
 
     <ImageView

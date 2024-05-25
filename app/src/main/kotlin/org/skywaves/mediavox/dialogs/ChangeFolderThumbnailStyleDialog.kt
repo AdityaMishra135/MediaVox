@@ -12,7 +12,6 @@ import org.skywaves.mediavox.R
 import org.skywaves.mediavox.adapters.toItemBinding
 import org.skywaves.mediavox.databinding.DialogChangeFolderThumbnailStyleBinding
 import org.skywaves.mediavox.databinding.DirectoryItemGridRoundedCornersBinding
-import org.skywaves.mediavox.databinding.DirectoryItemGridSquareBinding
 import org.skywaves.mediavox.extensions.config
 import org.skywaves.mediavox.helpers.*
 

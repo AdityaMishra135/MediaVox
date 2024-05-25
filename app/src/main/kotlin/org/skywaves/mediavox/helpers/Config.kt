@@ -181,6 +181,10 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(SHOW_THUMBNAIL_FILE_DIR, true)
         set(showThumbnailFileDir) = prefs.edit().putBoolean(SHOW_THUMBNAIL_FILE_DIR, showThumbnailFileDir).apply()
 
+    var showMediumSize: Boolean
+        get() = prefs.getBoolean(SHOW_MEDIUM_FILE_SIZE, true)
+        set(showMediumSize) = prefs.edit().putBoolean(SHOW_MEDIUM_FILE_SIZE, showMediumSize).apply()
+
     var screenRotation: Int
         get() = prefs.getInt(SCREEN_ROTATION, ROTATE_BY_SYSTEM_SETTING)
         set(screenRotation) = prefs.edit().putInt(SCREEN_ROTATION, screenRotation).apply()
@@ -490,10 +494,6 @@ class Config(context: Context) : BaseConfig(context) {
     var limitFolderTitle: Boolean
         get() = prefs.getBoolean(LIMIT_FOLDER_TITLE, false)
         set(limitFolderTitle) = prefs.edit().putBoolean(LIMIT_FOLDER_TITLE, limitFolderTitle).apply()
-
-    var fileRoundedCorners: Boolean
-        get() = prefs.getBoolean(FILE_ROUNDED_CORNERS, false)
-        set(fileRoundedCorners) = prefs.edit().putBoolean(FILE_ROUNDED_CORNERS, fileRoundedCorners).apply()
 
     var customFoldersOrder: String
         get() = prefs.getString(CUSTOM_FOLDERS_ORDER, "")!!

@@ -95,14 +95,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        if (!packageName.startsWith("org.skywaves.", true)) {
-            if ((0..50).random() == 10 || baseConfig.appRunCount % 100 == 0) {
-                val label = "You are using a fake version of the app. For your own safety download the original one from www.fossify.org. Thanks"
-                ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {
-                    launchViewIntent(DEVELOPER_PLAY_STORE_URL)
-                }
-            }
-        }
     }
 
     @SuppressLint("NewApi")
@@ -609,16 +601,6 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     }
 
     fun startCustomizationActivity() {
-        if (!packageName.contains("yfissof".reversed(), true)) {
-            if (baseConfig.appRunCount > 100) {
-                val label = "You are using a fake version of the app. For your own safety download the original one from www.fossify.org. Thanks"
-                ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {
-                    launchViewIntent(DEVELOPER_PLAY_STORE_URL)
-                }
-                return
-            }
-        }
-
         Intent(applicationContext, CustomizationActivity::class.java).apply {
             putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
             startActivity(this)
@@ -1146,35 +1128,5 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
     private fun getExportSettingsFilename(): String {
         val appName = baseConfig.appId.removeSuffix(".debug").removeSuffix(".pro").removePrefix("org.skywaves.")
         return "$appName-settings_${getCurrentFormattedDateTime()}"
-    }
-
-    @SuppressLint("InlinedApi")
-    protected fun launchSetDefaultDialerIntent() {
-        if (isQPlus()) {
-            val roleManager = getSystemService(RoleManager::class.java)
-            if (roleManager!!.isRoleAvailable(RoleManager.ROLE_DIALER) && !roleManager.isRoleHeld(RoleManager.ROLE_DIALER)) {
-                val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_DIALER)
-                startActivityForResult(intent, REQUEST_CODE_SET_DEFAULT_DIALER)
-            }
-        } else {
-            Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName).apply {
-                try {
-                    startActivityForResult(this, REQUEST_CODE_SET_DEFAULT_DIALER)
-                } catch (e: ActivityNotFoundException) {
-                    toast(R.string.no_app_found)
-                } catch (e: Exception) {
-                    showErrorToast(e)
-                }
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.Q)
-    fun setDefaultCallerIdApp() {
-        val roleManager = getSystemService(RoleManager::class.java)
-        if (roleManager.isRoleAvailable(RoleManager.ROLE_CALL_SCREENING) && !roleManager.isRoleHeld(RoleManager.ROLE_CALL_SCREENING)) {
-            val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_CALL_SCREENING)
-            startActivityForResult(intent, REQUEST_CODE_SET_DEFAULT_CALLER_ID)
-        }
     }
 }

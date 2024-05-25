@@ -23,60 +23,119 @@
             android:src="@drawable/folder_thumb"/>
         <org.skywaves.mediavox.core.views.MySquareImageView
             android:id="@+id/dir_thumbnail"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:paddingLeft="7dp"
-            android:paddingBottom="8dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:paddingLeft="4dp"
+            android:paddingBottom="6dp"
             android:src="@drawable/sample_logo"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/dir_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/dir_thumb_holder"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:paddingStart="@dimen/medium_margin"
-        android:paddingEnd="@dimen/medium_margin"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/bigger_text_size"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="@dimen/small_margin"
-        android:textStyle="bold"
-        android:text="@string/save_as"/>
-
-    <TextView
-        android:id="@+id/dir_path"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dir_name"
-        android:layout_alignStart="@+id/dir_name"
-        android:layout_marginEnd="@dimen/activity_margin"
-        android:alpha="0.5"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:paddingStart="@dimen/medium_margin"
-        android:paddingEnd="@dimen/medium_margin"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/smaller_text_size"
-        android:text="SD/Camera/Picture"/>
+        android:layout_toEndOf="@id/dir_thumb_holder"
+        android:layout_marginStart="15dp">
+        <TextView
+            android:id="@+id/dir_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/bigger_text_size"
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"
+            android:text="@string/save_as"/>
 
-    <TextView
-        android:id="@+id/photo_cnt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dir_path"
-        android:layout_toEndOf="@+id/dir_thumb_holder"
-        android:alpha="0.4"
-        android:paddingStart="@dimen/medium_margin"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/smaller_text_size"
-        android:layout_margin="4dp"
-        android:paddingTop="3dp"
-        android:textAlignment="center"
-        android:text="12"/>
+        <TextView
+            android:id="@+id/dir_path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dir_name"
+            android:layout_alignStart="@+id/dir_name"
+            android:layout_marginEnd="@dimen/activity_margin"
+            android:alpha="0.5"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:layout_marginTop="2dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/smaller_text_size"
+            android:text="SD/Camera/Picture"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dir_path"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/photo_cnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/smaller_text_size"
+                android:background="@drawable/ic_duration_bg"
+                android:textAlignment="center"
+                android:paddingEnd="3dp"
+                android:paddingStart="3dp"
+                android:textStyle="bold"
+                android:text="12"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/dir_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/smaller_text_size"
+                android:textStyle="bold"
+                android:text="20MB"
+                android:layout_marginStart="@dimen/smaller_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:background="@drawable/ic_duration_bg"
+                android:paddingStart="@dimen/tiny_margin"
+                android:paddingEnd="@dimen/tiny_margin"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dir_icon_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dir_path"
+            android:layout_alignEnd="@id/dir_name"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:id="@+id/dir_pin"
+                android:layout_width="@dimen/sd_card_icon_size"
+                android:layout_height="@dimen/sd_card_icon_size"
+                android:contentDescription="@string/pin"
+                android:paddingBottom="@dimen/small_margin"
+                android:src="@drawable/ic_pin_filled_vector"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/dir_location"
+                android:layout_width="@dimen/sd_card_icon_size"
+                android:layout_height="@dimen/sd_card_icon_size"
+                android:contentDescription="@null"
+                android:paddingBottom="@dimen/small_margin"
+                android:src="@drawable/ic_sd_card_vector"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/dir_drag_handle"
+                android:layout_width="@dimen/selection_check_size"
+                android:layout_height="@dimen/selection_check_size"
+                android:layout_marginStart="@dimen/small_margin"
+                android:contentDescription="@string/reorder_by_dragging"
+                android:src="@drawable/ic_drag_handle_vector"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/dir_lock"
@@ -108,58 +167,7 @@
         android:visibility="gone" />
 
 
-    <TextView
-        android:id="@+id/dir_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dir_path"
-        android:layout_toEndOf="@+id/photo_cnt"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/smaller_text_size"
-        android:layout_margin="@dimen/small_margin"
-        android:background="@drawable/ic_duration_bg"
-        android:padding="@dimen/tiny_margin"
-        android:textStyle="bold"
-        android:text="20MB"
-        android:visibility="gone"/>
 
-    <LinearLayout
-        android:id="@+id/dir_icon_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/medium_margin"
-        android:gravity="end|bottom"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/tiny_margin">
 
-        <ImageView
-            android:id="@+id/dir_location"
-            android:layout_width="@dimen/sd_card_icon_size"
-            android:layout_height="@dimen/sd_card_icon_size"
-            android:contentDescription="@null"
-            android:paddingBottom="@dimen/small_margin"
-            android:src="@drawable/ic_sd_card_vector"
-            android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/dir_pin"
-            android:layout_width="@dimen/sd_card_icon_size"
-            android:layout_height="@dimen/sd_card_icon_size"
-            android:contentDescription="@string/pin"
-            android:paddingBottom="@dimen/small_margin"
-            android:src="@drawable/ic_pin_filled_vector"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/dir_drag_handle"
-            android:layout_width="@dimen/selection_check_size"
-            android:layout_height="@dimen/selection_check_size"
-            android:layout_marginStart="@dimen/small_margin"
-            android:contentDescription="@string/reorder_by_dragging"
-            android:src="@drawable/ic_drag_handle_vector"
-            android:visibility="gone" />
-
-    </LinearLayout>
 </RelativeLayout>

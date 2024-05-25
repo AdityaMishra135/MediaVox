@@ -5,7 +5,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import org.skywaves.mediavox.core.views.MySquareImageView
 import org.skywaves.mediavox.databinding.DirectoryItemGridRoundedCornersBinding
-import org.skywaves.mediavox.databinding.DirectoryItemGridSquareBinding
 import org.skywaves.mediavox.databinding.DirectoryItemListBinding
 
 interface DirectoryItemBinding {

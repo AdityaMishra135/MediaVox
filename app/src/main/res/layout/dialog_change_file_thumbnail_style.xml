@@ -12,22 +12,6 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/dialog_file_style_rounded_corners_holder"
-            style="@style/SettingsHolderCheckboxStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground">
-
-            <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
-                android:id="@+id/dialog_file_style_rounded_corners"
-                style="@style/SettingsCheckboxStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/rounded_corners" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/dialog_file_style_show_thumbnail_file_types_holder"
             style="@style/SettingsHolderCheckboxStyle"
             android:layout_width="match_parent"
@@ -59,5 +43,20 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/dialog_file_style_show_medium_size_holder"
+            style="@style/SettingsHolderCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground">
+
+            <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+                android:id="@+id/dialog_file_style_show_medium_file_size"
+                style="@style/SettingsCheckboxStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/show_image_file_size" />
+
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>

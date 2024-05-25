@@ -15,13 +15,13 @@ class ChangeFileThumbnailStyleDialog(val activity: BaseSimpleActivity) : DialogI
 
     init {
         binding = DialogChangeFileThumbnailStyleBinding.inflate(activity.layoutInflater).apply {
-            dialogFileStyleRoundedCorners.isChecked = config.fileRoundedCorners
             dialogFileStyleShowThumbnailFileTypes.isChecked = config.showThumbnailFileTypes
             dialogFileStyleShowThumbnailFileDir.isChecked = config.showThumbnailFileDir
+            dialogFileStyleShowMediumFileSize.isChecked = config.showMediumSize
 
-            dialogFileStyleRoundedCornersHolder.setOnClickListener { dialogFileStyleRoundedCorners.toggle() }
             dialogFileStyleShowThumbnailFileTypesHolder.setOnClickListener { dialogFileStyleShowThumbnailFileTypes.toggle() }
             dialogFileStyleShowfileDirsHolder.setOnClickListener { dialogFileStyleShowThumbnailFileDir.toggle() }
+            dialogFileStyleShowMediumSizeHolder.setOnClickListener { dialogFileStyleShowMediumFileSize.toggle() }
 
         }
 
@@ -34,9 +34,9 @@ class ChangeFileThumbnailStyleDialog(val activity: BaseSimpleActivity) : DialogI
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        config.fileRoundedCorners = binding.dialogFileStyleRoundedCorners.isChecked
         config.showThumbnailFileTypes = binding.dialogFileStyleShowThumbnailFileTypes.isChecked
         config.showThumbnailFileDir = binding.dialogFileStyleShowThumbnailFileDir.isChecked
+        config.showMediumSize = binding.dialogFileStyleShowMediumFileSize.isChecked
     }
 
 }

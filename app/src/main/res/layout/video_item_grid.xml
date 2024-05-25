@@ -14,11 +14,11 @@
     <RelativeLayout
         android:id="@+id/medium_thumb_holder"
         android:layout_width="match_parent"
-        android:layout_height="95dp">
+        android:layout_height="97dp">
         <org.skywaves.mediavox.core.views.MySquareImageView
             android:id="@+id/medium_thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="95dp" />
+            android:layout_height="97dp" />
 
         <TextView
             android:id="@+id/video_duration"
@@ -41,76 +41,96 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/xyz"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/medium_dir"
-        android:gravity="center_vertical"
-        android:layout_margin="@dimen/tiny_margin">
-
-        <ImageView
-            android:id="@+id/play_portrait_outline"
-            android:layout_width="@dimen/play_outline_icon_size"
-            android:layout_height="@dimen/play_outline_icon_size"
-            android:src="@drawable/ic_video"
-            android:visibility="visible"
-            android:layout_marginEnd="@dimen/tiny_margin"
-            android:layout_alignParentStart="true"
-            android:layout_centerInParent="true" />
+        android:layout_below="@id/medium_thumb_holder"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/medium_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/smaller_text_size"
+            tools:text="My photo"
+            android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/medium_size"
+            android:id="@+id/medium_dir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/medium_name"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/small_text_size"
+            tools:text="sd/camera/download"
+            android:visibility="visible"
+            android:layout_marginTop="5dp"/>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/play_portrait_outline"
-            android:background="@drawable/ic_size"
-            android:gravity="center"
-            android:paddingStart="@dimen/small_margin"
-            android:textSize="@dimen/small_text_size"
-            android:textStyle="bold"
-            android:paddingEnd="@dimen/small_margin"
-            android:paddingTop="@dimen/tiny_margin"
-            android:paddingBottom="@dimen/one_dp"
-            android:layout_marginEnd="@dimen/one_dp"
-            android:visibility="visible"
-            android:layout_centerInParent="true"
-            android:text="20MB"/>
+            android:layout_below="@id/medium_dir"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <ImageView
+                android:id="@+id/play_portrait_outline"
+                android:layout_width="@dimen/favorite_list_icon_size"
+                android:layout_height="@dimen/favorite_list_icon_size"
+                android:src="@drawable/ic_video"
+                android:visibility="gone"
+                android:layout_marginEnd="@dimen/small_margin" />
+
+            <TextView
+                android:id="@+id/medium_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_size"
+                android:paddingStart="@dimen/small_margin"
+                android:textSize="@dimen/small_text_size"
+                android:textStyle="bold"
+                android:paddingEnd="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:visibility="gone"
+                android:text="20MB"/>
+
+
+            <TextView
+                android:id="@+id/medium_resolution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_size"
+                android:paddingStart="@dimen/small_margin"
+                android:textSize="@dimen/small_text_size"
+                android:textStyle="bold"
+                android:paddingEnd="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/tiny_margin"
+                android:visibility="visible"
+                android:text="260p"/>
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/favorite"
-            android:layout_width="@dimen/lock_p"
-            android:layout_height="@dimen/lock_p"
-            android:layout_toEndOf="@id/medium_size"
-            android:layout_marginEnd="@dimen/tiny_margin"
-            android:layout_centerInParent="true"
+            android:layout_width="@dimen/favorite_list_icon_size"
+            android:layout_height="@dimen/favorite_list_icon_size"
             android:src="@drawable/ic_fav"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/medium_resolution"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/favorite"
-            android:background="@drawable/ic_size"
-            android:gravity="center"
-            android:paddingStart="@dimen/small_margin"
-            android:textSize="@dimen/small_text_size"
-            android:textStyle="bold"
-            android:paddingEnd="@dimen/small_margin"
-            android:paddingTop="@dimen/one_dp"
-            android:paddingBottom="@dimen/one_dp"
-            android:layout_marginEnd="@dimen/tiny_margin"
+            android:layout_alignEnd="@id/medium_name"
+            android:layout_below="@id/medium_dir"
             android:visibility="visible"
-            android:layout_centerInParent="true"
-            android:text="260p"/>
+            android:layout_marginTop="4dp" />
+
     </RelativeLayout>
-
-
 
     <ImageView
         android:id="@+id/medium_check"
         android:layout_width="@dimen/selection_check_size"
         android:layout_height="@dimen/selection_check_size"
-        android:layout_alignEnd="@+id/medium_name"
+        android:layout_alignEnd="@+id/xyz"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/medium_margin"
@@ -120,39 +140,13 @@
         android:src="@drawable/ic_check_vector"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/medium_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:padding="@dimen/small_margin"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/smaller_text_size"
-        tools:text="My photo"
-        android:textStyle="bold"
-        android:layout_below="@id/medium_thumb_holder"/>
-
-    <TextView
-        android:id="@+id/medium_dir"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/small_text_size"
-        tools:text="sd/camera/download"
-        android:layout_below="@id/medium_name"
-        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/medium_drag_handle_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/medium_name"
-        android:layout_alignEnd="@+id/medium_name"
+        android:layout_alignStart="@+id/xyz"
+        android:layout_alignEnd="@+id/xyz"
         android:visibility="gone">
 
         <ImageView

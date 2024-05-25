@@ -58,6 +58,7 @@ class MediaAdapter(
     private var cropThumbnails = config.cropThumbnails
     private var showFileTypes = config.showThumbnailFileTypes
     private var showFileDir = config.showThumbnailFileDir
+    private var showFileSize = config.showMediumSize
 
     var sorting = config.getFolderSorting(if (config.showAll) SHOW_ALL else path)
     var dateFormat = config.dateFormat
@@ -501,6 +502,10 @@ class MediaAdapter(
         this.showFileDir = showFileDir
         notifyDataSetChanged()
     }
+    fun updateShowFileSize(showFileSize: Boolean) {
+        this.showFileSize = showFileSize
+        notifyDataSetChanged()
+    }
 
     private fun enableInstantLoad() {
         loadImageInstantly = true
@@ -527,6 +532,7 @@ class MediaAdapter(
             mediumDir.text = medium.path
             mediumDir.maxLines = 2
             mediumDir.ellipsize = TextUtils.TruncateAt.END
+            mediumSize.beVisibleIf(showFileSize)
             mediumSize.text = medium.size.formatSize()
 
             val showVideoDuration = medium.isVideo() || medium.isAudio()
@@ -553,8 +559,7 @@ class MediaAdapter(
 
             val roundedCorners = when {
                 isListViewType -> ROUNDED_CORNERS_SMALL
-                config.fileRoundedCorners -> ROUNDED_CORNERS_BIG
-                else -> ROUNDED_CORNERS_NONE
+                else -> ROUNDED_CORNERS_BIG
             }
 
             if (loadImageInstantly) {

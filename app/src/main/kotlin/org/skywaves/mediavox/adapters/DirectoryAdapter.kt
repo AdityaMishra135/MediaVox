@@ -32,7 +32,6 @@ import org.skywaves.mediavox.core.views.MyRecyclerView
 import org.skywaves.mediavox.R
 import org.skywaves.mediavox.activities.MediaActivity
 import org.skywaves.mediavox.databinding.DirectoryItemGridRoundedCornersBinding
-import org.skywaves.mediavox.databinding.DirectoryItemGridSquareBinding
 import org.skywaves.mediavox.databinding.DirectoryItemListBinding
 import org.skywaves.mediavox.dialogs.ConfirmDeleteFolderDialog
 import org.skywaves.mediavox.dialogs.ExcludeFolderDialog
@@ -818,7 +817,6 @@ class DirectoryAdapter(
             }
 
             dirName.text = nameCount
-            photoCnt.setTextColor(textColor)
             dirName.setTextColor(textColor)
             dirLocation.applyColorFilter(textColor)
             dirPath?.setTextColor(textColor)

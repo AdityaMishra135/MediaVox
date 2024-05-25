@@ -361,21 +361,6 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
             checkSystemUI()
             fullscreenToggled()
         }
-
-        if (intent.action == "com.android.camera.action.REVIEW") {
-            ensureBackgroundThread {
-                if (mediaDB.getMediaFromPath(mPath).isEmpty()) {
-                    val filename = mPath.getFilenameFromPath()
-                    val parent = mPath.getParentPath()
-                    val type = getTypeFromPath(mPath)
-                    val isFavorite = favoritesDB.isFavorite(mPath)
-                    val duration = if (type == TYPE_VIDEOS || type == TYPE_AUDIOS) getDuration(mPath) ?: 0 else 0
-                    val ts = System.currentTimeMillis()
-                    val medium = Medium(null, filename, mPath, parent, ts, ts, File(mPath).length(), type, duration, isFavorite, 0, 0L)
-                    mediaDB.insert(medium)
-                }
-            }
-        }
     }
 
     private fun getTypeFromPath(path: String): Int {

@@ -5,15 +5,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp">
+        <TextView
+            android:id="@+id/app_name_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="@dimen/extra_big_text_size"
+            android:textStyle="bold"
+            android:fontFamily="@font/extra"
+            android:layout_marginTop="16dp"
+            android:layout_alignParentStart="true"/>
+
+        <org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch
+            android:id="@+id/handle_media_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:forceAspectRatio="false"
+            app:state="left"
+            app:enabled="true"
+            app:switchDesign="slim"
+            app:switchBkgLeftColor="@color/md_cyan_200"
+            app:switchBkgMiddleColor="@color/dark_grey"
+            app:switchBkgRightColor="@color/md_blue_200"
+            app:switchToggleLeftColor="@color/md_cyan_400"
+            app:switchToggleLeftImage="@drawable/ic_audio"
+            app:switchToggleMiddleColor="@color/dark_grey"
+            app:switchToggleMiddleImage="@drawable/ic_filter_vector"
+            app:switchToggleRightColor="@color/md_blue_400"
+            app:switchToggleRightImage="@drawable/ic_video"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp" />
+    </RelativeLayout>
+
     <org.skywaves.mediavox.core.views.MySearchMenu
         android:id="@+id/main_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"/>
 
     <RelativeLayout
         android:id="@+id/directories_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <org.skywaves.mediavox.core.views.MyTextView

@@ -212,7 +212,7 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
         bundle.putSerializable(MEDIUM, mMedium)
 
         if (savedInstanceState == null) {
-            mFragment = VideoFragment()
+            mFragment = if (mIsVideo) VideoFragment() else null
             mFragment!!.listener = this
             mFragment!!.arguments = bundle
             supportFragmentManager.beginTransaction().replace(R.id.fragment_placeholder, mFragment!!).commit()

@@ -62,7 +62,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
     private var mStoredCropThumbnails = true
     private var mStoredShowFileTypes = true
     private var mStoredShowFileDir = true
-    private var mStoredRoundedCorners = false
+    private var mStoredShowFileSize = true
     private var mStoredTextColor = 0
     private var mStoredPrimaryColor = 0
 
@@ -130,6 +130,10 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
             getMediaAdapter()?.updateShowFileDir(config.showThumbnailFileDir)
         }
 
+        if (mStoredShowFileSize != config.showMediumSize) {
+            getMediaAdapter()?.updateShowFileSize(config.showMediumSize)
+        }
+
         if (mStoredTextColor != getProperTextColor()) {
             getMediaAdapter()?.updateTextColor(getProperTextColor())
         }
@@ -137,13 +141,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
         val primaryColor = getProperPrimaryColor()
         if (mStoredPrimaryColor != primaryColor) {
             getMediaAdapter()?.updatePrimaryColor()
-        }
-
-        if (
-             mStoredRoundedCorners != config.fileRoundedCorners
-        ) {
-            binding.mediaGrid.adapter = null
-            setupAdapter()
         }
 
         refreshMenuItems()
@@ -322,7 +319,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
             mStoredCropThumbnails = cropThumbnails
             mStoredShowFileTypes = showThumbnailFileTypes
             mStoredShowFileDir = showThumbnailFileDir
-            mStoredRoundedCorners = fileRoundedCorners
+            mStoredShowFileSize = showMediumSize
             mShowAll = showAll && mPath != RECYCLE_BIN
         }
     }
@@ -691,7 +688,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                 currentGridDecoration.items = media
             }
 
-            val newGridDecoration = GridSpacingItemDecoration(spanCount, config.fileRoundedCorners, media, useGridPosition)
+            val newGridDecoration = GridSpacingItemDecoration(spanCount, media, useGridPosition)
             if (currentGridDecoration.toString() != newGridDecoration.toString()) {
                 if (currentGridDecoration != null) {
                     binding.mediaGrid.removeItemDecoration(currentGridDecoration)

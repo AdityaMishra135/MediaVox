@@ -796,6 +796,7 @@ class SettingsActivity : SimpleActivity() {
                 put(CROP_THUMBNAILS, config.cropThumbnails)
                 put(SHOW_THUMBNAIL_FILE_TYPES, config.showThumbnailFileTypes)
                 put(SHOW_THUMBNAIL_FILE_DIR, config.showThumbnailFileDir)
+                put(SHOW_MEDIUM_FILE_SIZE, config.showMediumSize)
                 put(MAX_BRIGHTNESS, config.maxBrightness)
                 put(BLACK_BACKGROUND, config.blackBackground)
                 put(HIDE_SYSTEM_UI, config.hideSystemUI)
@@ -845,7 +846,6 @@ class SettingsActivity : SimpleActivity() {
                 put(FOLDER_MEDIA_COUNT, config.showFolderMediaCount)
                 put(LIMIT_FOLDER_TITLE, config.limitFolderTitle)
                 put(SHOW_DIR_SIZE, config.showDirSize)
-                put(FILE_ROUNDED_CORNERS, config.fileRoundedCorners)
                 put(SEARCH_ALL_FILES_BY_DEFAULT, config.searchAllFilesByDefault)
             }
 
@@ -923,6 +923,7 @@ class SettingsActivity : SimpleActivity() {
                 CROP_THUMBNAILS -> config.cropThumbnails = value.toBoolean()
                 SHOW_THUMBNAIL_FILE_TYPES -> config.showThumbnailFileTypes = value.toBoolean()
                 SHOW_THUMBNAIL_FILE_DIR -> config.showThumbnailFileDir = value.toBoolean()
+                SHOW_MEDIUM_FILE_SIZE -> config.showMediumSize = value.toBoolean()
                 MAX_BRIGHTNESS -> config.maxBrightness = value.toBoolean()
                 BLACK_BACKGROUND -> config.blackBackground = value.toBoolean()
                 HIDE_SYSTEM_UI -> config.hideSystemUI = value.toBoolean()
@@ -971,7 +972,6 @@ class SettingsActivity : SimpleActivity() {
                 FOLDER_MEDIA_COUNT -> config.showFolderMediaCount = value.toBoolean()
                 LIMIT_FOLDER_TITLE -> config.limitFolderTitle = value.toBoolean()
                 SHOW_DIR_SIZE -> config.showDirSize = value.toBoolean()
-                FILE_ROUNDED_CORNERS -> config.fileRoundedCorners = value.toBoolean()
                 SEARCH_ALL_FILES_BY_DEFAULT -> config.searchAllFilesByDefault = value.toBoolean()
                 ALBUM_COVERS -> {
                     val existingCovers = config.parseAlbumCovers()

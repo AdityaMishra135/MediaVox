@@ -7,11 +7,11 @@ import org.skywaves.mediavox.models.Medium
 import org.skywaves.mediavox.models.ThumbnailItem
 
 class GridSpacingItemDecoration(
-    val spanCount: Int, val addSideSpacing: Boolean,
+    val spanCount: Int,
     var items: ArrayList<ThumbnailItem>, val useGridPosition: Boolean
 ) : RecyclerView.ItemDecoration() {
 
-    override fun toString() = "spanCount: $spanCount, addSideSpacing: $addSideSpacing, " +
+    override fun toString() = "spanCount: $spanCount, " +
         "items: ${items.hashCode()}, useGridPosition: $useGridPosition"
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {

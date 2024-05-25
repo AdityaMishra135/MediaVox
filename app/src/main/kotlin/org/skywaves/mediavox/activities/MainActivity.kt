@@ -13,6 +13,9 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import org.skywaves.mediavox.BuildConfig
+import org.skywaves.mediavox.R
+import org.skywaves.mediavox.adapters.DirectoryAdapter
 import org.skywaves.mediavox.core.dialogs.CreateNewFolderDialog
 import org.skywaves.mediavox.core.dialogs.FilePickerDialog
 import org.skywaves.mediavox.core.dialogs.RadioGroupDialog
@@ -23,9 +26,11 @@ import org.skywaves.mediavox.core.models.RadioItem
 import org.skywaves.mediavox.core.models.Release
 import org.skywaves.mediavox.core.views.MyGridLayoutManager
 import org.skywaves.mediavox.core.views.MyRecyclerView
-import org.skywaves.mediavox.BuildConfig
-import org.skywaves.mediavox.R
-import org.skywaves.mediavox.adapters.DirectoryAdapter
+import org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch
+import org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch.RMTristateSwitchObserver
+import org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch.STATE_LEFT
+import org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch.STATE_MIDDLE
+import org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch.STATE_RIGHT
 import org.skywaves.mediavox.databases.GalleryDatabase
 import org.skywaves.mediavox.databinding.ActivityMainBinding
 import org.skywaves.mediavox.dialogs.ChangeSortingDialog
@@ -39,6 +44,7 @@ import org.skywaves.mediavox.jobs.NewPhotoFetcher
 import org.skywaves.mediavox.models.Directory
 import org.skywaves.mediavox.models.Medium
 import java.io.*
+
 
 class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     companion object {
@@ -152,6 +158,8 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 finish()
             }
         }
+        binding.appNameHome.setTextColor(getProperBackgroundColor().getContrastColor())
+        setupFilterFunction(binding)
     }
 
     private fun handleMediaPermissions(callback: (granted: Boolean) -> Unit) {
@@ -434,6 +442,56 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 }
             }
             config.tempFolderPath = ""
+        }
+    }
+
+    private fun setupFilterFunction(binding: ActivityMainBinding) {
+        val handleMFSwitch = binding.handleMediaFilter
+        handleMFSwitch.switchBkgMiddleColor= getProperTextColor().adjustAlpha(MEDIUM_ALPHA)
+        handleMFSwitch.switchToggleMiddleColor = getProperTextColor()
+        handleMFSwitch.switchToggleMiddleDrawableRes.setTint(getProperBackgroundColor())
+
+        handleMFSwitch.switchBkgLeftColor= getProperTextColor().adjustAlpha(MEDIUM_ALPHA)
+        handleMFSwitch.switchToggleLeftColor = getProperTextColor()
+        handleMFSwitch.switchToggleLeftDrawable.setTint(getProperBackgroundColor())
+
+        handleMFSwitch.switchBkgRightColor= getProperTextColor().adjustAlpha(MEDIUM_ALPHA)
+        handleMFSwitch.switchToggleRightColor = getProperTextColor()
+        handleMFSwitch.switchToggleRightDrawableRes.setTint(getProperBackgroundColor())
+        handleMFSwitch.state = when (config.filterMedia) {
+            TYPE_AUDIOS -> {
+                STATE_LEFT
+            }
+            TYPE_VIDEOS -> {
+                STATE_RIGHT
+            }
+            else -> {
+                STATE_MIDDLE
+            }
+        }
+
+
+        handleMFSwitch.addSwitchObserver { switchView, state ->
+            when (state) {
+                STATE_LEFT -> {
+                    config.filterMedia = TYPE_AUDIOS
+                    binding.directoriesRefreshLayout.isRefreshing = true
+                    binding.directoriesGrid.adapter = null
+                    getDirectories()
+                }
+                STATE_RIGHT -> {
+                    config.filterMedia= TYPE_VIDEOS
+                    binding.directoriesRefreshLayout.isRefreshing = true
+                    binding.directoriesGrid.adapter = null
+                    getDirectories()
+                }
+                else -> {
+                    config.filterMedia = getDefaultFileFilter()
+                    binding.directoriesRefreshLayout.isRefreshing = true
+                    binding.directoriesGrid.adapter = null
+                    getDirectories()
+                }
+            }
         }
     }
 
@@ -902,7 +960,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         val includedFolders = config.includedFolders
         val noMediaFolders = getNoMediaFoldersSync()
         val tempFolderPath = config.tempFolderPath
-        val getProperFileSize = config.directorySorting and SORT_BY_SIZE != 0 || config.showDirSize
+        val getProperFileSize = true
         val dirPathsToRemove = ArrayList<String>()
         val lastModifieds = mLastMediaFetcher!!.getLastModifieds()
         val dateTakens = mLastMediaFetcher!!.getDateTakens()
