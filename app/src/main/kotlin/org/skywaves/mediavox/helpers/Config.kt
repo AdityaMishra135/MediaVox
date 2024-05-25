@@ -21,7 +21,7 @@ class Config(context: Context) : BaseConfig(context) {
         set(order) = prefs.edit().putInt(DIRECTORY_SORT_ORDER, order).apply()
 
     var showDirSize: Boolean
-        get() = prefs.getBoolean(SHOW_DIR_SIZE, true)
+        get() = prefs.getBoolean(SHOW_DIR_SIZE, false)
         set(showDirSize) = prefs.edit().putBoolean(SHOW_DIR_SIZE, showDirSize).apply()
 
     fun saveFolderGrouping(path: String, value: Int) {
@@ -483,9 +483,9 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(WERE_FAVORITES_MIGRATED, false)
         set(wereFavoritesMigrated) = prefs.edit().putBoolean(WERE_FAVORITES_MIGRATED, wereFavoritesMigrated).apply()
 
-    var showFolderMediaCount: Int
-        get() = prefs.getInt(FOLDER_MEDIA_COUNT, FOLDER_MEDIA_CNT_LINE)
-        set(showFolderMediaCount) = prefs.edit().putInt(FOLDER_MEDIA_COUNT, showFolderMediaCount).apply()
+    var showFolderMediaCount: Boolean
+        get() = prefs.getBoolean(FOLDER_MEDIA_COUNT, true)
+        set(showFolderMediaCount) = prefs.edit().putBoolean(FOLDER_MEDIA_COUNT, showFolderMediaCount).apply()
 
     var limitFolderTitle: Boolean
         get() = prefs.getBoolean(LIMIT_FOLDER_TITLE, false)

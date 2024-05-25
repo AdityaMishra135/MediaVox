@@ -19,6 +19,7 @@ import org.skywaves.mediavox.helpers.*
 class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val callback: () -> Unit) : DialogInterface.OnClickListener {
     private var config = activity.config
     private val binding = DialogChangeFolderThumbnailStyleBinding.inflate(activity.layoutInflater).apply {
+        dialogRadioFolderCountLine.isChecked = config.showFolderMediaCount
         dialogFolderLimitTitle.isChecked = config.limitFolderTitle
         dialogFolderShowSize.isChecked = config.showDirSize
     }
@@ -29,27 +30,11 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
             .setNegativeButton(org.skywaves.mediavox.core.R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this) {
-                    setupMediaCount()
                     updateSample()
                 }
             }
     }
 
-
-    private fun setupMediaCount() {
-        val countRadio = binding.dialogRadioFolderCountHolder
-        countRadio.setOnCheckedChangeListener { group, checkedId ->
-            updateSample()
-        }
-
-        val countBtn = when (config.showFolderMediaCount) {
-            FOLDER_MEDIA_CNT_LINE -> binding.dialogRadioFolderCountLine
-            FOLDER_MEDIA_CNT_BRACKETS -> binding.dialogRadioFolderCountBrackets
-            else -> binding.dialogRadioFolderCountNone
-        }
-
-        countBtn.isChecked = true
-    }
 
     private fun updateSample() {
         val photoCount = 36
@@ -69,11 +54,6 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
                     sampleBinding.dirName.text = folderName
                     sampleBinding.photoCnt.text = photoCount.toString()
                     sampleBinding.photoCnt.beVisible()
-                }
-
-                R.id.dialog_radio_folder_count_brackets -> {
-                    sampleBinding.photoCnt.beGone()
-                    sampleBinding.dirName.text = "$folderName ($photoCount)"
                 }
 
                 else -> {
@@ -99,13 +79,7 @@ class ChangeFolderThumbnailStyleDialog(val activity: BaseSimpleActivity, val cal
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        val count = when (binding.dialogRadioFolderCountHolder.checkedRadioButtonId) {
-            R.id.dialog_radio_folder_count_line -> FOLDER_MEDIA_CNT_LINE
-            R.id.dialog_radio_folder_count_brackets -> FOLDER_MEDIA_CNT_BRACKETS
-            else -> FOLDER_MEDIA_CNT_NONE
-        }
-
-        config.showFolderMediaCount = count
+        config.showFolderMediaCount = binding.dialogRadioFolderCountLine.isChecked
         config.limitFolderTitle = binding.dialogFolderLimitTitle.isChecked
         config.showDirSize = binding.dialogFolderShowSize.isChecked
         callback()

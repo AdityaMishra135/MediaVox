@@ -802,8 +802,8 @@ class DirectoryAdapter(
                 dirLocation.setImageResource(if (directory.location == LOCATION_SD) R.drawable.ic_sd_card else org.skywaves.mediavox.core.R.drawable.ic_usb_vector)
             }
 
-            photoCnt.text = directory.subfoldersMediaCount.toString()
-            photoCnt.beVisibleIf(showMediaCount == FOLDER_MEDIA_CNT_LINE)
+            photoCnt.text = "${directory.subfoldersMediaCount} files"
+            photoCnt.beVisibleIf(showMediaCount)
 
             if (limitFolderTitle) {
                 dirName.setSingleLine()
@@ -811,10 +811,6 @@ class DirectoryAdapter(
             }
 
             var nameCount = directory.name
-            if (showMediaCount == FOLDER_MEDIA_CNT_BRACKETS) {
-                nameCount += " (${directory.subfoldersMediaCount})"
-            }
-
             if (groupDirectSubfolders) {
                 if (directory.subfoldersCount > 1) {
                     nameCount += " [${directory.subfoldersCount}]"

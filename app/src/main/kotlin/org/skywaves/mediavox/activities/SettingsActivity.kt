@@ -968,7 +968,7 @@ class SettingsActivity : SimpleActivity() {
                 EDITOR_BRUSH_COLOR -> config.editorBrushColor = value.toInt()
                 EDITOR_BRUSH_HARDNESS -> config.editorBrushHardness = value.toString().toFloat()
                 EDITOR_BRUSH_SIZE -> config.editorBrushSize = value.toString().toFloat()
-                FOLDER_MEDIA_COUNT -> config.showFolderMediaCount = value.toInt()
+                FOLDER_MEDIA_COUNT -> config.showFolderMediaCount = value.toBoolean()
                 LIMIT_FOLDER_TITLE -> config.limitFolderTitle = value.toBoolean()
                 SHOW_DIR_SIZE -> config.showDirSize = value.toBoolean()
                 FILE_ROUNDED_CORNERS -> config.fileRoundedCorners = value.toBoolean()
