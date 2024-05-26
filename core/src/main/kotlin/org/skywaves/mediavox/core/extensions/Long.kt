@@ -23,3 +23,4 @@ fun Long.formatDate(context: Context, dateFormat: String? = null, timeFormat: St
     cal.timeInMillis = this
     return DateFormat.format("$useDateFormat, $useTimeFormat", cal).toString()
 }
+

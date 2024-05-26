@@ -8,6 +8,9 @@ const val GROUP_FOLDER_PREFIX = "group_folder_"
 const val VIEW_TYPE_PREFIX = "view_type_folder_"
 const val SHOW_HIDDEN_MEDIA = "show_hidden_media"
 const val SHOW_DIR_SIZE = "show_dir_size"
+const val VIDEOS = "videos"
+const val AUDIO = "audio"
+val extraAudioMimeTypes = arrayListOf("application/ogg")
 const val TEMPORARILY_SHOW_HIDDEN = "temporarily_show_hidden"
 const val TEMPORARILY_SHOW_EXCLUDED = "temporarily_show_excluded"
 const val EXCLUDED_PASSWORD_PROTECTION = "excluded_password_protection"
@@ -132,6 +135,7 @@ const val FAST_FORWARD_VIDEO_MS = 10000
 const val EXOPLAYER_MIN_BUFFER_MS = 2000
 const val EXOPLAYER_MAX_BUFFER_MS = 8000
 
+const val PRIMARY_VOLUME_NAME = "external_primary"
 const val DIRECTORY = "directory"
 const val MEDIUM = "medium"
 const val PATH = "path"

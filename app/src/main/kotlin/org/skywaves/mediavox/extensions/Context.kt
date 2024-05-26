@@ -12,6 +12,7 @@ import android.graphics.Bitmap
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Process
+import android.os.storage.StorageManager
 import android.provider.MediaStore
 import android.provider.MediaStore.Files
 import com.bumptech.glide.Glide
@@ -59,6 +60,7 @@ import org.skywaves.mediavox.core.helpers.SORT_BY_SIZE
 import org.skywaves.mediavox.core.helpers.SORT_DESCENDING
 import org.skywaves.mediavox.core.helpers.SORT_USE_NUMERIC_VALUE
 import org.skywaves.mediavox.core.helpers.ensureBackgroundThread
+import org.skywaves.mediavox.core.helpers.isNougatPlus
 import org.skywaves.mediavox.core.helpers.sumByLong
 import org.skywaves.mediavox.core.views.MySquareImageView
 import org.skywaves.mediavox.databases.GalleryDatabase
@@ -73,6 +75,7 @@ import org.skywaves.mediavox.helpers.LOCATION_OTG
 import org.skywaves.mediavox.helpers.LOCATION_SD
 import org.skywaves.mediavox.helpers.MediaFetcher
 import org.skywaves.mediavox.helpers.MyWidgetProvider
+import org.skywaves.mediavox.helpers.PRIMARY_VOLUME_NAME
 import org.skywaves.mediavox.helpers.RECYCLE_BIN
 import org.skywaves.mediavox.helpers.ROUNDED_CORNERS_NONE
 import org.skywaves.mediavox.helpers.ROUNDED_CORNERS_SMALL
@@ -468,6 +471,22 @@ fun Context.rescanFolderMedia(path: String) {
         rescanFolderMediaSync(path)
     }
 }
+
+fun Context.getAllVolumeNames(): List<String> {
+    val volumeNames = mutableListOf(PRIMARY_VOLUME_NAME)
+    if (isNougatPlus()) {
+        val storageManager = getSystemService(Context.STORAGE_SERVICE) as StorageManager
+        getExternalFilesDirs(null)
+            .mapNotNull { storageManager.getStorageVolume(it) }
+            .filterNot { it.isPrimary }
+            .mapNotNull { it.uuid?.lowercase(Locale.US) }
+            .forEach {
+                volumeNames.add(it)
+            }
+    }
+    return volumeNames
+}
+
 
 fun Context.rescanFolderMediaSync(path: String) {
     getCachedMedia(path) { cached ->

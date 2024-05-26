@@ -1,17 +1,21 @@
 package org.skywaves.mediavox.activities
 
 import android.app.Activity
+import android.app.usage.StorageStatsManager
 import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.storage.StorageManager
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio
 import android.provider.MediaStore.Video
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import org.skywaves.mediavox.BuildConfig
 import org.skywaves.mediavox.R
@@ -42,6 +46,7 @@ import org.skywaves.mediavox.jobs.NewPhotoFetcher
 import org.skywaves.mediavox.models.Directory
 import org.skywaves.mediavox.models.Medium
 import java.io.*
+import java.util.Locale
 
 
 class MainActivity : SimpleActivity(), DirectoryOperationsListener {
@@ -79,6 +84,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private var mLastMediaFetcher: MediaFetcher? = null
     private var mDirs = ArrayList<Directory>()
     private var mDirsIgnoringSearch = ArrayList<Directory>()
+    private val SIZE_DIVIDER = 100000
 
     private var mStoredCropThumbnails = true
     private var mStoredTextColor = 0
@@ -86,6 +92,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private var mStoredStyleString = ""
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
@@ -176,6 +183,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 binding.moreFeaturesShow.beVisible()
                 binding.moreFeaturesHolder.beGone()
         }
+        setupMoreFeatures(binding)
 }
 
 
@@ -306,6 +314,142 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             }
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun setupMoreFeatures(binding: ActivityMainBinding) {
+        getSizes(binding, null)
+        getVolumeStorageStats(binding)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun getVolumeStorageStats(binding: ActivityMainBinding) {
+        val externalDirs = getExternalFilesDirs(null)
+        val storageManager = getSystemService(STORAGE_SERVICE) as StorageManager
+
+        val totalSizeHolder = binding.storageTotalSize
+        val usedSizeHolder = binding.storageUsedSize
+        val freeSizeHolder = binding.storageFreeSize
+        val storageProgressView = binding.mainStorageUsageProgressbar
+
+        arrayOf(totalSizeHolder, usedSizeHolder, freeSizeHolder).forEach {
+            it.setTextColor(getProperTextColor())
+        }
+
+
+        externalDirs.forEach { file ->
+            val volumeName: String
+            val totalStorageSpace: Long
+            val freeStorageSpace: Long
+            val usedStorageSpace: Long
+            val storageVolume = storageManager.getStorageVolume(file) ?: return
+            if (storageVolume.isPrimary) {
+                // internal storage
+                volumeName = PRIMARY_VOLUME_NAME
+                if (isOreoPlus()) {
+                    val storageStatsManager = getSystemService(Activity.STORAGE_STATS_SERVICE) as StorageStatsManager
+                    val uuid = StorageManager.UUID_DEFAULT
+                    totalStorageSpace = storageStatsManager.getTotalBytes(uuid)
+                    freeStorageSpace = storageStatsManager.getFreeBytes(uuid)
+                } else {
+                    totalStorageSpace = file.totalSpace
+                    freeStorageSpace = file.freeSpace
+                }
+                usedStorageSpace = totalStorageSpace - freeStorageSpace
+            } else {
+                volumeName = storageVolume.uuid!!.lowercase(Locale.US)
+                totalStorageSpace = file.totalSpace
+                freeStorageSpace = file.freeSpace
+                usedStorageSpace = totalStorageSpace - freeStorageSpace
+            }
+
+            if (volumeName == PRIMARY_VOLUME_NAME) {
+                storageProgressView.maxValue = (totalStorageSpace / SIZE_DIVIDER).toFloat()
+                storageProgressView.text = "${freeStorageSpace.formatSize()}/${totalStorageSpace.formatSize()}"
+                storageProgressView.progress = ((totalStorageSpace - freeStorageSpace) / SIZE_DIVIDER).toFloat()
+                storageProgressView.beVisible()
+                freeSizeHolder.text  = "Free: ${freeStorageSpace.formatSize()}"
+                totalSizeHolder.text = "Total: ${totalStorageSpace.formatSize()}"
+                usedSizeHolder.text  = "Used: ${usedStorageSpace.formatSize()}"
+                getSizes(binding,usedStorageSpace)
+            }
+        }
+
+    }
+
+
+
+    private fun getSizes(binding: ActivityMainBinding, usedStorageSpace: Long?) {
+        if (!isOreoPlus()) {
+            return
+        }
+
+        val totalVideosSizeHolder = binding.totolVideosSize
+        val totalAudiosSizeHolder = binding.totolAudiosSize
+        val totalOthersSizeHolder = binding.totolOthersSize
+        val storageProgressView = binding.mainStorageUsageProgressbar
+
+        arrayOf(totalVideosSizeHolder, totalAudiosSizeHolder, totalOthersSizeHolder).forEach {
+            it.setTextColor(getProperTextColor())
+        }
+        val volumeNames = getAllVolumeNames()
+        volumeNames.forEach { volumeName ->
+            if (volumeName == PRIMARY_VOLUME_NAME) {
+                storageProgressView.text = "Internal"
+            }
+
+            val filesSize = getSizesByMimeType(volumeName)
+            val fileSizeVideos = filesSize[VIDEOS]!!
+            val fileSizeAudios = filesSize[AUDIO]!!
+
+            if (volumeName == PRIMARY_VOLUME_NAME) {
+                totalVideosSizeHolder.text = "Total Videos: ${fileSizeVideos.formatSize()}"
+                totalAudiosSizeHolder.text = "Total Audios: ${fileSizeAudios.formatSize()}"
+                if (usedStorageSpace != null) {
+                    totalOthersSizeHolder.text = "Others: ${(usedStorageSpace-(fileSizeAudios+fileSizeVideos)).formatSize()}"
+                }
+            }
+        }
+    }
+
+    private fun getSizesByMimeType(volumeName: String): HashMap<String, Long> {
+        val uri = MediaStore.Files.getContentUri(volumeName)
+        val projection = arrayOf(
+            MediaStore.Files.FileColumns.SIZE,
+            MediaStore.Files.FileColumns.MIME_TYPE,
+            MediaStore.Files.FileColumns.DATA
+        )
+        var videosSize = 0L
+        var audioSize = 0L
+        try {
+            queryCursor(uri, projection) { cursor ->
+                try {
+                    val mimeType = cursor.getStringValue(MediaStore.Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault())
+                    val size = cursor.getLongValue(MediaStore.Files.FileColumns.SIZE)
+                    if (mimeType != null) {
+                        when (mimeType.substringBefore("/")) {
+                            "video" -> videosSize += size
+                            "audio" -> audioSize += size
+                            else -> {
+                                when {
+                                    extraAudioMimeTypes.contains(mimeType) -> audioSize += size
+                                }
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                }
+            }
+        } catch (e: Exception) {
+        }
+
+        val mimeTypeSizes = HashMap<String, Long>().apply {
+            put(VIDEOS, videosSize)
+            put(AUDIO, audioSize)
+        }
+
+        return mimeTypeSizes
+    }
+
 
     override fun onBackPressed() {
         if (binding.mainMenu.isSearchOpen) {
