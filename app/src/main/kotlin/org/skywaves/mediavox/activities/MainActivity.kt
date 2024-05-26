@@ -402,8 +402,8 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             val fileSizeAudios = filesSize[AUDIO]!!
 
             if (volumeName == PRIMARY_VOLUME_NAME) {
-                totalVideosSizeHolder.text = "Total Videos: ${fileSizeVideos.formatSize()}"
-                totalAudiosSizeHolder.text = "Total Audios: ${fileSizeAudios.formatSize()}"
+                totalVideosSizeHolder.text = "Videos: ${fileSizeVideos.formatSize()}"
+                totalAudiosSizeHolder.text = "Audios: ${fileSizeAudios.formatSize()}"
                 if (usedStorageSpace != null) {
                     totalOthersSizeHolder.text = "Others: ${(usedStorageSpace-(fileSizeAudios+fileSizeVideos)).formatSize()}"
                 }
