@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="98dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp">
         <TextView
@@ -18,8 +18,26 @@
             android:textSize="@dimen/extra_big_text_size"
             android:textStyle="bold"
             android:fontFamily="@font/extra"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="18dp"
             android:layout_alignParentStart="true"/>
+
+        <ImageView
+            android:id="@+id/more_featuresShow"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_feature_show"
+            android:layout_toStartOf="@id/handle_media_filter"
+            android:layout_marginEnd="11dp"
+            android:layout_marginTop="18dp" />
+        <ImageView
+            android:id="@+id/more_featuresHide"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_features"
+            android:layout_toStartOf="@id/handle_media_filter"
+            android:layout_marginEnd="11dp"
+            android:layout_marginTop="18dp"
+            android:visibility="gone"/>
 
         <org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch
             android:id="@+id/handle_media_filter"
@@ -39,14 +57,42 @@
             app:switchToggleRightColor="@color/md_blue_400"
             app:switchToggleRightImage="@drawable/ic_video"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="18dp" />
+
+        <LinearLayout
+            android:id="@+id/more_features_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_name_home"
+            android:layout_margin="12dp"
+            android:gravity="center_horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_audio"
+                android:layout_marginEnd="25dp"/>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_fav"
+                android:layout_marginEnd="25dp"/>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_audio"
+                android:layout_marginEnd="25dp"/>
+        </LinearLayout>
+
     </RelativeLayout>
 
     <org.skywaves.mediavox.core.views.MySearchMenu
         android:id="@+id/main_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"/>
+        android:layout_marginTop="58dp" />
+
 
     <RelativeLayout
         android:id="@+id/directories_holder"

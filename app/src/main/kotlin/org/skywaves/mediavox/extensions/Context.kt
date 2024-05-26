@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.media.AudioManager
@@ -24,15 +25,71 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
-import org.skywaves.mediavox.core.extensions.*
-import org.skywaves.mediavox.core.helpers.*
-import org.skywaves.mediavox.core.views.MySquareImageView
 import org.skywaves.mediavox.R
 import org.skywaves.mediavox.asynctasks.GetMediaAsynctask
+import org.skywaves.mediavox.core.extensions.doesThisOrParentHaveNoMedia
+import org.skywaves.mediavox.core.extensions.getDocumentFile
+import org.skywaves.mediavox.core.extensions.getDoesFilePathExist
+import org.skywaves.mediavox.core.extensions.getDuration
+import org.skywaves.mediavox.core.extensions.getFilenameFromPath
+import org.skywaves.mediavox.core.extensions.getLongValue
+import org.skywaves.mediavox.core.extensions.getOTGPublicPath
+import org.skywaves.mediavox.core.extensions.getParentPath
+import org.skywaves.mediavox.core.extensions.getStringValue
+import org.skywaves.mediavox.core.extensions.humanizePath
+import org.skywaves.mediavox.core.extensions.internalStoragePath
+import org.skywaves.mediavox.core.extensions.isAudioFast
+import org.skywaves.mediavox.core.extensions.isPathOnOTG
+import org.skywaves.mediavox.core.extensions.isPathOnSD
+import org.skywaves.mediavox.core.extensions.normalizeString
+import org.skywaves.mediavox.core.extensions.otgPath
+import org.skywaves.mediavox.core.extensions.recycleBinPath
+import org.skywaves.mediavox.core.extensions.sdCardPath
+import org.skywaves.mediavox.core.extensions.toast
+import org.skywaves.mediavox.core.helpers.AlphanumericComparator
+import org.skywaves.mediavox.core.helpers.FAVORITES
+import org.skywaves.mediavox.core.helpers.NOMEDIA
+import org.skywaves.mediavox.core.helpers.SORT_BY_CUSTOM
+import org.skywaves.mediavox.core.helpers.SORT_BY_DATE_MODIFIED
+import org.skywaves.mediavox.core.helpers.SORT_BY_DATE_TAKEN
+import org.skywaves.mediavox.core.helpers.SORT_BY_NAME
+import org.skywaves.mediavox.core.helpers.SORT_BY_PATH
+import org.skywaves.mediavox.core.helpers.SORT_BY_RANDOM
+import org.skywaves.mediavox.core.helpers.SORT_BY_SIZE
+import org.skywaves.mediavox.core.helpers.SORT_DESCENDING
+import org.skywaves.mediavox.core.helpers.SORT_USE_NUMERIC_VALUE
+import org.skywaves.mediavox.core.helpers.ensureBackgroundThread
+import org.skywaves.mediavox.core.helpers.sumByLong
+import org.skywaves.mediavox.core.views.MySquareImageView
 import org.skywaves.mediavox.databases.GalleryDatabase
-import org.skywaves.mediavox.helpers.*
-import org.skywaves.mediavox.interfaces.*
-import org.skywaves.mediavox.models.*
+import org.skywaves.mediavox.helpers.Config
+import org.skywaves.mediavox.helpers.GROUP_BY_DATE_TAKEN_DAILY
+import org.skywaves.mediavox.helpers.GROUP_BY_DATE_TAKEN_MONTHLY
+import org.skywaves.mediavox.helpers.GROUP_BY_LAST_MODIFIED_DAILY
+import org.skywaves.mediavox.helpers.GROUP_BY_LAST_MODIFIED_MONTHLY
+import org.skywaves.mediavox.helpers.IsoTypeReader
+import org.skywaves.mediavox.helpers.LOCATION_INTERNAL
+import org.skywaves.mediavox.helpers.LOCATION_OTG
+import org.skywaves.mediavox.helpers.LOCATION_SD
+import org.skywaves.mediavox.helpers.MediaFetcher
+import org.skywaves.mediavox.helpers.MyWidgetProvider
+import org.skywaves.mediavox.helpers.RECYCLE_BIN
+import org.skywaves.mediavox.helpers.ROUNDED_CORNERS_NONE
+import org.skywaves.mediavox.helpers.ROUNDED_CORNERS_SMALL
+import org.skywaves.mediavox.helpers.SHOW_ALL
+import org.skywaves.mediavox.helpers.THUMBNAIL_FADE_DURATION_MS
+import org.skywaves.mediavox.helpers.TYPE_AUDIOS
+import org.skywaves.mediavox.helpers.TYPE_VIDEOS
+import org.skywaves.mediavox.interfaces.DateTakensDao
+import org.skywaves.mediavox.interfaces.DirectoryDao
+import org.skywaves.mediavox.interfaces.FavoritesDao
+import org.skywaves.mediavox.interfaces.MediumDao
+import org.skywaves.mediavox.interfaces.WidgetsDao
+import org.skywaves.mediavox.models.AlbumCover
+import org.skywaves.mediavox.models.Directory
+import org.skywaves.mediavox.models.Favorite
+import org.skywaves.mediavox.models.Medium
+import org.skywaves.mediavox.models.ThumbnailItem
 import java.io.File
 import java.io.FileInputStream
 import java.nio.ByteBuffer
@@ -40,6 +97,7 @@ import java.nio.channels.FileChannel
 import java.util.Locale
 import kotlin.collections.set
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 
 val Context.audioManager get() = getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -402,6 +460,9 @@ fun Context.getNoMediaFoldersSync(): ArrayList<String> {
     return folders
 }
 
+fun Context.dpFromPx(px: Int): Int {
+    return (px * Resources.getSystem().displayMetrics.density).toInt()
+}
 fun Context.rescanFolderMedia(path: String) {
     ensureBackgroundThread {
         rescanFolderMediaSync(path)

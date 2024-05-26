@@ -26,8 +26,6 @@ import org.skywaves.mediavox.core.models.RadioItem
 import org.skywaves.mediavox.core.models.Release
 import org.skywaves.mediavox.core.views.MyGridLayoutManager
 import org.skywaves.mediavox.core.views.MyRecyclerView
-import org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch
-import org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch.RMTristateSwitchObserver
 import org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch.STATE_LEFT
 import org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch.STATE_MIDDLE
 import org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch.STATE_RIGHT
@@ -69,8 +67,10 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private var mWasUpgradedFromFreeShown = false
     private var mLatestMediaId = 0L
     private var mLatestMediaDateId = 0L
-    private var mCurrentPathPrefix = ""                 // used at "Group direct subfolders" for navigation
-    private var mOpenedSubfolders = arrayListOf("")     // used at "Group direct subfolders" for navigating Up with the back button
+    private var mCurrentPathPrefix =
+        ""                 // used at "Group direct subfolders" for navigation
+    private var mOpenedSubfolders =
+        arrayListOf("")     // used at "Group direct subfolders" for navigating Up with the back button
     private var mDateFormat = ""
     private var mTimeFormat = ""
     private var mLastMediaHandler = Handler()
@@ -108,8 +108,9 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         mIsGetAudioContentIntent = isGetAudioContentIntent(intent)
         mIsGetAnyContentIntent = isGetAnyContentIntent(intent)
         mAllowPickingMultiple = intent.getBooleanExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-        mIsThirdPartyIntent = mIsPickVideoIntent || mIsPickAudioIntent || mIsGetVideoContentIntent ||  mIsGetAudioContentIntent ||
-            mIsGetAnyContentIntent
+        mIsThirdPartyIntent =
+            mIsPickVideoIntent || mIsPickAudioIntent || mIsGetVideoContentIntent || mIsGetAudioContentIntent ||
+                    mIsGetAnyContentIntent
 
         setupOptionsMenu()
         refreshMenuItems()
@@ -160,7 +161,23 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         }
         binding.appNameHome.setTextColor(getProperBackgroundColor().getContrastColor())
         setupFilterFunction(binding)
-    }
+        binding.moreFeaturesShow.setOnClickListener {
+            val view = binding.mainMenu.layoutParams as ViewGroup.MarginLayoutParams
+            view.setMargins(0, dpFromPx(98), 0, 0)
+            it.beGone()
+            binding.moreFeaturesHide.beVisible()
+            binding.moreFeaturesHolder.beVisible()
+        }
+
+        binding.moreFeaturesHide.setOnClickListener {
+                val view = binding.mainMenu.layoutParams as ViewGroup.MarginLayoutParams
+                view.setMargins(0, dpFromPx(58), 0, 0)
+                it.beGone()
+                binding.moreFeaturesShow.beVisible()
+                binding.moreFeaturesHolder.beGone()
+        }
+}
+
 
     private fun handleMediaPermissions(callback: (granted: Boolean) -> Unit) {
         handlePermission(getPermissionToRequest()) { granted ->

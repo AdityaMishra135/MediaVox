@@ -60,4 +60,5 @@
         <attr name="switchToggleLeftImage" format="reference"/>
     </declare-styleable>
 
+
 </resources>
