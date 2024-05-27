@@ -44,6 +44,7 @@ import org.skywaves.mediavox.core.extensions.isPathOnOTG
 import org.skywaves.mediavox.core.extensions.isPathOnSD
 import org.skywaves.mediavox.core.extensions.normalizeString
 import org.skywaves.mediavox.core.extensions.otgPath
+import org.skywaves.mediavox.core.extensions.queryCursor
 import org.skywaves.mediavox.core.extensions.recycleBinPath
 import org.skywaves.mediavox.core.extensions.sdCardPath
 import org.skywaves.mediavox.core.extensions.toast
@@ -64,6 +65,7 @@ import org.skywaves.mediavox.core.helpers.isNougatPlus
 import org.skywaves.mediavox.core.helpers.sumByLong
 import org.skywaves.mediavox.core.views.MySquareImageView
 import org.skywaves.mediavox.databases.GalleryDatabase
+import org.skywaves.mediavox.helpers.AUDIO
 import org.skywaves.mediavox.helpers.Config
 import org.skywaves.mediavox.helpers.GROUP_BY_DATE_TAKEN_DAILY
 import org.skywaves.mediavox.helpers.GROUP_BY_DATE_TAKEN_MONTHLY
@@ -83,6 +85,8 @@ import org.skywaves.mediavox.helpers.SHOW_ALL
 import org.skywaves.mediavox.helpers.THUMBNAIL_FADE_DURATION_MS
 import org.skywaves.mediavox.helpers.TYPE_AUDIOS
 import org.skywaves.mediavox.helpers.TYPE_VIDEOS
+import org.skywaves.mediavox.helpers.VIDEOS
+import org.skywaves.mediavox.helpers.extraAudioMimeTypes
 import org.skywaves.mediavox.interfaces.DateTakensDao
 import org.skywaves.mediavox.interfaces.DirectoryDao
 import org.skywaves.mediavox.interfaces.FavoritesDao
@@ -1146,4 +1150,44 @@ fun Context.getFileDateTaken(path: String): Long {
     }
 
     return 0L
+}
+
+
+fun Context.getSizesByMimeType(volumeName: String): HashMap<String, Long> {
+    val uri = Files.getContentUri(volumeName)
+    val projection = arrayOf(
+        Files.FileColumns.SIZE,
+        Files.FileColumns.MIME_TYPE,
+        Files.FileColumns.DATA
+    )
+    var videosSize = 0L
+    var audioSize = 0L
+    try {
+        queryCursor(uri, projection) { cursor ->
+            try {
+                val mimeType = cursor.getStringValue(Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault())
+                val size = cursor.getLongValue(Files.FileColumns.SIZE)
+                if (mimeType != null) {
+                    when (mimeType.substringBefore("/")) {
+                        "video" -> videosSize += size
+                        "audio" -> audioSize += size
+                        else -> {
+                            when {
+                                extraAudioMimeTypes.contains(mimeType) -> audioSize += size
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+            }
+        }
+    } catch (e: Exception) {
+    }
+
+    val mimeTypeSizes = HashMap<String, Long>().apply {
+        put(VIDEOS, videosSize)
+        put(AUDIO, audioSize)
+    }
+
+    return mimeTypeSizes
 }

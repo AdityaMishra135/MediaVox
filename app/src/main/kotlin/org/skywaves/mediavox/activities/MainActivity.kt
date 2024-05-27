@@ -335,7 +335,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             it.setTextColor(getProperTextColor())
         }
 
-
         externalDirs.forEach { file ->
             val volumeName: String
             val totalStorageSpace: Long
@@ -364,12 +363,12 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
 
             if (volumeName == PRIMARY_VOLUME_NAME) {
                 storageProgressView.maxValue = (totalStorageSpace / SIZE_DIVIDER).toFloat()
-                storageProgressView.text = "${freeStorageSpace.formatSize()}/${totalStorageSpace.formatSize()}"
+                storageProgressView.text = "${freeStorageSpace.formatSizeThousand()}/${totalStorageSpace.formatSizeThousand()}"
                 storageProgressView.progress = ((totalStorageSpace - freeStorageSpace) / SIZE_DIVIDER).toFloat()
                 storageProgressView.beVisible()
-                freeSizeHolder.text  = "Free: ${freeStorageSpace.formatSize()}"
-                totalSizeHolder.text = "Total: ${totalStorageSpace.formatSize()}"
-                usedSizeHolder.text  = "Used: ${usedStorageSpace.formatSize()}"
+                freeSizeHolder.text  = "Free: ${freeStorageSpace.formatSizeThousand()}"
+                totalSizeHolder.text = "Total: ${totalStorageSpace.formatSizeThousand()}"
+                usedSizeHolder.text  = "Used: ${usedStorageSpace.formatSizeThousand()}"
                 getSizes(binding,usedStorageSpace)
             }
         }
@@ -397,58 +396,20 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 storageProgressView.text = "Internal"
             }
 
-            val filesSize = getSizesByMimeType(volumeName)
+            val filesSize = applicationContext.getSizesByMimeType(volumeName)
             val fileSizeVideos = filesSize[VIDEOS]!!
             val fileSizeAudios = filesSize[AUDIO]!!
 
             if (volumeName == PRIMARY_VOLUME_NAME) {
-                totalVideosSizeHolder.text = "Videos: ${fileSizeVideos.formatSize()}"
-                totalAudiosSizeHolder.text = "Audios: ${fileSizeAudios.formatSize()}"
+                totalVideosSizeHolder.text = "Videos: ${fileSizeVideos.formatSizeThousand()}"
+                totalAudiosSizeHolder.text = "Audios: ${fileSizeAudios.formatSizeThousand()}"
                 if (usedStorageSpace != null) {
-                    totalOthersSizeHolder.text = "Others: ${(usedStorageSpace-(fileSizeAudios+fileSizeVideos)).formatSize()}"
+                    totalOthersSizeHolder.text = "Others: ${(usedStorageSpace-(fileSizeAudios+fileSizeVideos)).formatSizeThousand()}"
                 }
             }
         }
     }
 
-    private fun getSizesByMimeType(volumeName: String): HashMap<String, Long> {
-        val uri = MediaStore.Files.getContentUri(volumeName)
-        val projection = arrayOf(
-            MediaStore.Files.FileColumns.SIZE,
-            MediaStore.Files.FileColumns.MIME_TYPE,
-            MediaStore.Files.FileColumns.DATA
-        )
-        var videosSize = 0L
-        var audioSize = 0L
-        try {
-            queryCursor(uri, projection) { cursor ->
-                try {
-                    val mimeType = cursor.getStringValue(MediaStore.Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault())
-                    val size = cursor.getLongValue(MediaStore.Files.FileColumns.SIZE)
-                    if (mimeType != null) {
-                        when (mimeType.substringBefore("/")) {
-                            "video" -> videosSize += size
-                            "audio" -> audioSize += size
-                            else -> {
-                                when {
-                                    extraAudioMimeTypes.contains(mimeType) -> audioSize += size
-                                }
-                            }
-                        }
-                    }
-                } catch (e: Exception) {
-                }
-            }
-        } catch (e: Exception) {
-        }
-
-        val mimeTypeSizes = HashMap<String, Long>().apply {
-            put(VIDEOS, videosSize)
-            put(AUDIO, audioSize)
-        }
-
-        return mimeTypeSizes
-    }
 
 
     override fun onBackPressed() {
