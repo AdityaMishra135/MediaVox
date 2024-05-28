@@ -29,6 +29,7 @@ import com.bumptech.glide.signature.ObjectKey
 import org.skywaves.mediavox.R
 import org.skywaves.mediavox.asynctasks.GetMediaAsynctask
 import org.skywaves.mediavox.core.extensions.doesThisOrParentHaveNoMedia
+import org.skywaves.mediavox.core.extensions.formatSizeThousand
 import org.skywaves.mediavox.core.extensions.getDocumentFile
 import org.skywaves.mediavox.core.extensions.getDoesFilePathExist
 import org.skywaves.mediavox.core.extensions.getDuration
@@ -36,6 +37,7 @@ import org.skywaves.mediavox.core.extensions.getFilenameFromPath
 import org.skywaves.mediavox.core.extensions.getLongValue
 import org.skywaves.mediavox.core.extensions.getOTGPublicPath
 import org.skywaves.mediavox.core.extensions.getParentPath
+import org.skywaves.mediavox.core.extensions.getProperTextColor
 import org.skywaves.mediavox.core.extensions.getStringValue
 import org.skywaves.mediavox.core.extensions.humanizePath
 import org.skywaves.mediavox.core.extensions.internalStoragePath
@@ -62,9 +64,11 @@ import org.skywaves.mediavox.core.helpers.SORT_DESCENDING
 import org.skywaves.mediavox.core.helpers.SORT_USE_NUMERIC_VALUE
 import org.skywaves.mediavox.core.helpers.ensureBackgroundThread
 import org.skywaves.mediavox.core.helpers.isNougatPlus
+import org.skywaves.mediavox.core.helpers.isOreoPlus
 import org.skywaves.mediavox.core.helpers.sumByLong
 import org.skywaves.mediavox.core.views.MySquareImageView
 import org.skywaves.mediavox.databases.GalleryDatabase
+import org.skywaves.mediavox.databinding.ActivityMainBinding
 import org.skywaves.mediavox.helpers.AUDIO
 import org.skywaves.mediavox.helpers.Config
 import org.skywaves.mediavox.helpers.GROUP_BY_DATE_TAKEN_DAILY
@@ -1191,3 +1195,4 @@ fun Context.getSizesByMimeType(volumeName: String): HashMap<String, Long> {
 
     return mimeTypeSizes
 }
+

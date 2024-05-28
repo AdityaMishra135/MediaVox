@@ -183,7 +183,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 binding.moreFeaturesShow.beVisible()
                 binding.moreFeaturesHolder.beGone()
         }
-        setupMoreFeatures(binding)
 }
 
 
@@ -311,101 +310,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             if (!config.showAll) {
                 mLastMediaFetcher?.shouldStop = true
                 GalleryDatabase.destroyInstance()
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun setupMoreFeatures(binding: ActivityMainBinding) {
-        getSizes(binding, null)
-        getVolumeStorageStats(binding)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun getVolumeStorageStats(binding: ActivityMainBinding) {
-        val externalDirs = getExternalFilesDirs(null)
-        val storageManager = getSystemService(STORAGE_SERVICE) as StorageManager
-
-        val totalSizeHolder = binding.storageTotalSize
-        val usedSizeHolder = binding.storageUsedSize
-        val freeSizeHolder = binding.storageFreeSize
-        val storageProgressView = binding.mainStorageUsageProgressbar
-
-        arrayOf(totalSizeHolder, usedSizeHolder, freeSizeHolder).forEach {
-            it.setTextColor(getProperTextColor())
-        }
-
-        externalDirs.forEach { file ->
-            val volumeName: String
-            val totalStorageSpace: Long
-            val freeStorageSpace: Long
-            val usedStorageSpace: Long
-            val storageVolume = storageManager.getStorageVolume(file) ?: return
-            if (storageVolume.isPrimary) {
-                // internal storage
-                volumeName = PRIMARY_VOLUME_NAME
-                if (isOreoPlus()) {
-                    val storageStatsManager = getSystemService(Activity.STORAGE_STATS_SERVICE) as StorageStatsManager
-                    val uuid = StorageManager.UUID_DEFAULT
-                    totalStorageSpace = storageStatsManager.getTotalBytes(uuid)
-                    freeStorageSpace = storageStatsManager.getFreeBytes(uuid)
-                } else {
-                    totalStorageSpace = file.totalSpace
-                    freeStorageSpace = file.freeSpace
-                }
-                usedStorageSpace = totalStorageSpace - freeStorageSpace
-            } else {
-                volumeName = storageVolume.uuid!!.lowercase(Locale.US)
-                totalStorageSpace = file.totalSpace
-                freeStorageSpace = file.freeSpace
-                usedStorageSpace = totalStorageSpace - freeStorageSpace
-            }
-
-            if (volumeName == PRIMARY_VOLUME_NAME) {
-                storageProgressView.maxValue = (totalStorageSpace / SIZE_DIVIDER).toFloat()
-                storageProgressView.text = "${freeStorageSpace.formatSizeThousand()}/${totalStorageSpace.formatSizeThousand()}"
-                storageProgressView.progress = ((totalStorageSpace - freeStorageSpace) / SIZE_DIVIDER).toFloat()
-                storageProgressView.beVisible()
-                freeSizeHolder.text  = "Free: ${freeStorageSpace.formatSizeThousand()}"
-                totalSizeHolder.text = "Total: ${totalStorageSpace.formatSizeThousand()}"
-                usedSizeHolder.text  = "Used: ${usedStorageSpace.formatSizeThousand()}"
-                getSizes(binding,usedStorageSpace)
-            }
-        }
-
-    }
-
-
-
-    private fun getSizes(binding: ActivityMainBinding, usedStorageSpace: Long?) {
-        if (!isOreoPlus()) {
-            return
-        }
-
-        val totalVideosSizeHolder = binding.totolVideosSize
-        val totalAudiosSizeHolder = binding.totolAudiosSize
-        val totalOthersSizeHolder = binding.totolOthersSize
-        val storageProgressView = binding.mainStorageUsageProgressbar
-
-        arrayOf(totalVideosSizeHolder, totalAudiosSizeHolder, totalOthersSizeHolder).forEach {
-            it.setTextColor(getProperTextColor())
-        }
-        val volumeNames = getAllVolumeNames()
-        volumeNames.forEach { volumeName ->
-            if (volumeName == PRIMARY_VOLUME_NAME) {
-                storageProgressView.text = "Internal"
-            }
-
-            val filesSize = applicationContext.getSizesByMimeType(volumeName)
-            val fileSizeVideos = filesSize[VIDEOS]!!
-            val fileSizeAudios = filesSize[AUDIO]!!
-
-            if (volumeName == PRIMARY_VOLUME_NAME) {
-                totalVideosSizeHolder.text = "Videos: ${fileSizeVideos.formatSizeThousand()}"
-                totalAudiosSizeHolder.text = "Audios: ${fileSizeAudios.formatSizeThousand()}"
-                if (usedStorageSpace != null) {
-                    totalOthersSizeHolder.text = "Others: ${(usedStorageSpace-(fileSizeAudios+fileSizeVideos)).formatSizeThousand()}"
-                }
             }
         }
     }
