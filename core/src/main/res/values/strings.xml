@@ -333,6 +333,7 @@
     <!-- File properties -->
     <string name="properties">Properties</string>
     <string name="path">Path</string>
+    <string name="storage_analyse">Storage Info</string>
     <string name="items_selected">Items selected</string>
     <string name="direct_children_count">Direct children count</string>
     <string name="files_count">Total files count</string>

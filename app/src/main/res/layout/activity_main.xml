@@ -69,6 +69,70 @@
             android:gravity="center_horizontal"
             android:visibility="visible">
 
+            <LinearLayout
+                android:id="@+id/storage_info"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/ic_duration_bg">
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_info_vector"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/storage_analyse"
+                    android:textSize="@dimen/smaller_text_size"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/favorite_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/storage_info"
+                android:background="@drawable/ic_duration_bg">
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_fav"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/favorites"
+                    android:textSize="@dimen/smaller_text_size"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/trash_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/favorite_holder"
+                android:background="@drawable/ic_duration_bg">
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_fav"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recycle_bin"
+                    android:textSize="@dimen/smaller_text_size"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
         </RelativeLayout>
 
     </RelativeLayout>
