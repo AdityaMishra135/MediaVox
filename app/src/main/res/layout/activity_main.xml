@@ -67,7 +67,7 @@
             android:layout_below="@id/app_name_home"
             android:layout_margin="10dp"
             android:gravity="center_horizontal|center_vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/favorite_info_holder"

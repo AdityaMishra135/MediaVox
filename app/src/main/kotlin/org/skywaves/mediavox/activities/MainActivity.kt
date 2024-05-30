@@ -170,7 +170,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         setupFilterFunction(binding)
         binding.moreFeaturesShow.setOnClickListener {
             val view = binding.mainMenu.layoutParams as ViewGroup.MarginLayoutParams
-            view.setMargins(0, dpFromPx(118), 0, 0)
+            view.setMargins(0, dpFromPx(116), 0, 0)
             it.beGone()
             binding.moreFeaturesHide.beVisible()
             binding.moreFeaturesHolder.beVisible()
@@ -178,7 +178,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
 
         binding.moreFeaturesHide.setOnClickListener {
                 val view = binding.mainMenu.layoutParams as ViewGroup.MarginLayoutParams
-                view.setMargins(0, dpFromPx(51), 0, 0)
+                view.setMargins(0, dpFromPx(58), 0, 0)
                 it.beGone()
                 binding.moreFeaturesShow.beVisible()
                 binding.moreFeaturesHolder.beGone()
