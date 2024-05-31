@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cpb="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:id="@+id/storage_info_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    app:ignore="NamespaceTypo">
+
+    <RelativeLayout
+        android:id="@+id/more_features_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:gravity="center_horizontal"
+        android:visibility="visible">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:layout_centerVertical="true">
+
+            <LinearLayout
+                android:id="@+id/storage_infos_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:layout_centerVertical="true">
+                <org.skywaves.mediavox.core.views.CircleProgressBar
+                    android:id="@+id/main_storage_usage_progressbar"
+                    android:layout_width="82dp"
+                    android:layout_height="852dp"
+                    cpb:progressColor="#e76130"
+                    cpb:backgroundColor="#e7b330"
+                    cpb:backgroundWidth="5"
+                    app:progressText="Internal"
+                    cpb:roundedCorners="true"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:layout_marginBottom="@dimen/medium_margin"
+                    cpb:progressTextColor="#f9916b"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+                    <TextView
+                        android:id="@+id/storage_total_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total: 128GB"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/storage_used_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Used: 98GB"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/storage_free_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Free: 32GB"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="@dimen/divider_height"
+                android:layout_height="match_parent"
+                android:background="@color/divider_grey"
+                android:layout_toEndOf="@id/storage_infos_holder"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"/>
+
+            <LinearLayout
+                android:id="@+id/media_storage_info_holder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toEndOf="@id/storage_infos_holder"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true">
+                <TextView
+                    android:id="@+id/totol_videos_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Videos: 5GB"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/totol_audios_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Audio: 5GB"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/totol_others_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Others: 5GB"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
+

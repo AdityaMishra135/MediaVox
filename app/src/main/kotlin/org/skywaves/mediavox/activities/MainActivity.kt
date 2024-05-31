@@ -39,6 +39,7 @@ import org.skywaves.mediavox.dialogs.ChangeSortingDialog
 import org.skywaves.mediavox.dialogs.ChangeViewTypeDialog
 import org.skywaves.mediavox.dialogs.FilterMediaDialog
 import org.skywaves.mediavox.dialogs.GrantAllFilesDialog
+import org.skywaves.mediavox.dialogs.StorageInfoDialog
 import org.skywaves.mediavox.extensions.*
 import org.skywaves.mediavox.helpers.*
 import org.skywaves.mediavox.interfaces.DirectoryOperationsListener
@@ -182,6 +183,9 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 it.beGone()
                 binding.moreFeaturesShow.beVisible()
                 binding.moreFeaturesHolder.beGone()
+        }
+        binding.storageInfoHolder.setOnClickListener {
+            StorageInfoDialog(this)
         }
 }
 
