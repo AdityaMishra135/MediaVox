@@ -50,8 +50,12 @@ class StorageInfoDialog(val activity: BaseSimpleActivity) {
         val usedSizeHolder = binding.storageUsedSize
         val freeSizeHolder = binding.storageFreeSize
         val storageProgressView = binding.mainStorageUsageProgressbar
+        val totalExternalSizeHolder = binding.storageExternalTotalSize
+        val usedExternalSizeHolder = binding.storageExternalUsedSize
+        val freeExternalSizeHolder = binding.storageExternalFreeSize
+        val storageExternalProgressView = binding.mainStorageExternalUsageProgressbar
 
-        arrayOf(totalSizeHolder, usedSizeHolder, freeSizeHolder).forEach {
+        arrayOf(totalSizeHolder, usedSizeHolder, freeSizeHolder,totalExternalSizeHolder,usedExternalSizeHolder,freeExternalSizeHolder).forEach {
             it.setTextColor(activity.getProperTextColor())
         }
 
@@ -91,6 +95,15 @@ class StorageInfoDialog(val activity: BaseSimpleActivity) {
                 totalSizeHolder.text = "Total: ${totalStorageSpace.formatSizeThousand()}"
                 usedSizeHolder.text  = "Used: ${usedStorageSpace.formatSizeThousand()}"
                 getSizes(binding,usedStorageSpace)
+            } else {
+                storageExternalProgressView.maxValue = (totalStorageSpace / SIZE_DIVIDER).toFloat()
+                storageExternalProgressView.text = "${freeStorageSpace.formatSizeThousand()}/${totalStorageSpace.formatSizeThousand()}"
+                storageExternalProgressView.progress = ((totalStorageSpace - freeStorageSpace) / SIZE_DIVIDER).toFloat()
+                storageExternalProgressView.beVisible()
+                freeExternalSizeHolder.text  = "Free: ${freeStorageSpace.formatSizeThousand()}"
+                totalExternalSizeHolder.text = "Total: ${totalStorageSpace.formatSizeThousand()}"
+                usedExternalSizeHolder.text  = "Used: ${usedStorageSpace.formatSizeThousand()}"
+                getSizes(binding,usedStorageSpace)
             }
         }
 
@@ -107,15 +120,20 @@ class StorageInfoDialog(val activity: BaseSimpleActivity) {
         val totalAudiosSizeHolder = binding.totolAudiosSize
         val totalOthersSizeHolder = binding.totolOthersSize
         val storageProgressView = binding.mainStorageUsageProgressbar
+        val totalExternalVideosSizeHolder = binding.totolExternalVideosSize
+        val totalExternalAudiosSizeHolder = binding.totolExternalAudiosSize
+        val totalExternalOthersSizeHolder = binding.totolExternalOthersSize
+        val storageExternalProgressView = binding.mainStorageExternalUsageProgressbar
 
-        arrayOf(totalVideosSizeHolder, totalAudiosSizeHolder, totalOthersSizeHolder).forEach {
+
+        arrayOf(totalVideosSizeHolder, totalAudiosSizeHolder, totalOthersSizeHolder,totalExternalVideosSizeHolder,totalExternalAudiosSizeHolder,totalExternalOthersSizeHolder).forEach {
             it.setTextColor(activity.getProperTextColor())
         }
         val volumeNames = activity.getAllVolumeNames()
         volumeNames.forEach { volumeName ->
             if (volumeName == PRIMARY_VOLUME_NAME) {
                 storageProgressView.text = "Internal"
-            }
+            } else { storageExternalProgressView.text = "SD Card" }
 
             val filesSize = getSizesByMimeType(volumeName)
             val fileSizeVideos = filesSize[VIDEOS]!!
@@ -123,9 +141,12 @@ class StorageInfoDialog(val activity: BaseSimpleActivity) {
 
             if (volumeName == PRIMARY_VOLUME_NAME) {
                 totalVideosSizeHolder.text = "Videos: ${fileSizeVideos.formatSizeThousand()}"
+                totalExternalVideosSizeHolder.text = "Videos: ${fileSizeVideos.formatSizeThousand()}"
                 totalAudiosSizeHolder.text = "Audios: ${fileSizeAudios.formatSizeThousand()}"
+                totalExternalAudiosSizeHolder.text = "Audios: ${fileSizeAudios.formatSizeThousand()}"
                 if (usedStorageSpace != null) {
                     totalOthersSizeHolder.text = "Others: ${(usedStorageSpace-(fileSizeAudios+fileSizeVideos)).formatSizeThousand()}"
+                    totalExternalOthersSizeHolder.text = "Others: ${(usedStorageSpace-(fileSizeAudios+fileSizeVideos)).formatSizeThousand()}"
                 }
             }
         }
