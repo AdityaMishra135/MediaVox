@@ -1,14 +1,12 @@
 package org.skywaves.mediavox.activities
 
 import android.app.Activity
-import android.app.usage.StorageStatsManager
 import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.os.storage.StorageManager
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio
 import android.provider.MediaStore.Video
@@ -47,7 +45,6 @@ import org.skywaves.mediavox.jobs.NewPhotoFetcher
 import org.skywaves.mediavox.models.Directory
 import org.skywaves.mediavox.models.Medium
 import java.io.*
-import java.util.Locale
 
 
 class MainActivity : SimpleActivity(), DirectoryOperationsListener {

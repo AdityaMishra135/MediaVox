@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.content.ContentProviderOperation
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,6 +14,7 @@ import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.storage.StorageManager
 import android.provider.MediaStore
 import android.provider.MediaStore.Files
 import android.provider.MediaStore.Video
@@ -40,8 +42,12 @@ import org.skywaves.mediavox.activities.SettingsActivity
 import org.skywaves.mediavox.activities.SimpleActivity
 import org.skywaves.mediavox.dialogs.AllFilesPermissionDialog
 import org.skywaves.mediavox.dialogs.PickDirectoryDialog
+import org.skywaves.mediavox.helpers.AUDIO
 import org.skywaves.mediavox.helpers.DIRECTORY
+import org.skywaves.mediavox.helpers.PRIMARY_VOLUME_NAME
 import org.skywaves.mediavox.helpers.RECYCLE_BIN
+import org.skywaves.mediavox.helpers.VIDEOS
+import org.skywaves.mediavox.helpers.extraAudioMimeTypes
 import org.skywaves.mediavox.models.DateTaken
 import java.io.*
 import java.text.SimpleDateFormat
@@ -733,4 +739,60 @@ fun Activity.openRecycleBin() {
         putExtra(DIRECTORY, RECYCLE_BIN)
         startActivity(this)
     }
+}
+
+
+fun Activity.getSizesByMimeType(volumeName: String): HashMap<String, Long> {
+    val uri = Files.getContentUri(volumeName)
+    val projection = arrayOf(
+        Files.FileColumns.SIZE,
+        Files.FileColumns.MIME_TYPE,
+        Files.FileColumns.DATA
+    )
+    var videosSize = 0L
+    var audioSize = 0L
+    try {
+        queryCursor(uri, projection) { cursor ->
+            try {
+                val mimeType = cursor.getStringValue(Files.FileColumns.MIME_TYPE)?.lowercase(Locale.getDefault())
+                val size = cursor.getLongValue(Files.FileColumns.SIZE)
+                if (mimeType != null) {
+                    when (mimeType.substringBefore("/")) {
+                        "video" -> videosSize += size
+                        "audio" -> audioSize += size
+                        else -> {
+                            when {
+                                extraAudioMimeTypes.contains(mimeType) -> audioSize += size
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+            }
+        }
+    } catch (e: Exception) {
+    }
+
+    val mimeTypeSizes = HashMap<String, Long>().apply {
+        put(VIDEOS, videosSize)
+        put(AUDIO, audioSize)
+    }
+
+    return mimeTypeSizes
+}
+
+
+fun Activity.getAllVolumeNames(): List<String> {
+    val volumeNames = mutableListOf(PRIMARY_VOLUME_NAME)
+    if (isNougatPlus()) {
+        val storageManager = getSystemService(Context.STORAGE_SERVICE) as StorageManager
+        getExternalFilesDirs(null)
+            .mapNotNull { storageManager.getStorageVolume(it) }
+            .filterNot { it.isPrimary }
+            .mapNotNull { it.uuid?.lowercase(Locale.US) }
+            .forEach {
+                volumeNames.add(it)
+            }
+    }
+    return volumeNames
 }
