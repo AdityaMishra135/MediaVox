@@ -11,10 +11,9 @@ import org.skywaves.mediavox.extensions.launchGrantAllFilesIntent
 class StorageInfoDialog(val activity: BaseSimpleActivity) {
     init {
         val binding = DialogStorageInfoBinding.inflate(activity.layoutInflater)
-        binding.grantAllFilesImage.applyColorFilter(activity.getProperTextColor())
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(org.skywaves.mediavox.core.R.string.ok) { dialog, which -> activity.launchGrantAllFilesIntent() }
+            .setPositiveButton(org.skywaves.mediavox.core.R.string.ok) { dialog, which -> }
             .setNegativeButton(org.skywaves.mediavox.core.R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this) { alertDialog -> }
