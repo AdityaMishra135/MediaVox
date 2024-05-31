@@ -21,7 +21,6 @@
         android:id="@+id/more_features_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
         android:gravity="center_horizontal"
         android:layout_below="@id/storage_analyde_text"
         android:visibility="visible">
@@ -41,8 +40,8 @@
                 android:layout_centerVertical="true">
                 <org.skywaves.mediavox.core.views.CircleProgressBar
                     android:id="@+id/main_storage_usage_progressbar"
-                    android:layout_width="105dp"
-                    android:layout_height="105dp"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
                     cpb:progressColor="#e76130"
                     cpb:backgroundColor="#e7b330"
                     cpb:backgroundWidth="5"
@@ -55,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginStart="8dp">
+                    android:layout_marginStart="5dp">
                     <TextView
                         android:id="@+id/storage_total_size"
                         android:layout_width="wrap_content"
@@ -132,8 +131,8 @@
                 android:layout_centerVertical="true">
                 <org.skywaves.mediavox.core.views.CircleProgressBar
                     android:id="@+id/main_storage_external_usage_progressbar"
-                    android:layout_width="105dp"
-                    android:layout_height="105dp"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
                     cpb:progressColor="#e76130"
                     cpb:backgroundColor="#e7b330"
                     cpb:backgroundWidth="5"
@@ -146,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginStart="8dp">
+                    android:layout_marginStart="5dp">
                     <TextView
                         android:id="@+id/storage_external_total_size"
                         android:layout_width="wrap_content"

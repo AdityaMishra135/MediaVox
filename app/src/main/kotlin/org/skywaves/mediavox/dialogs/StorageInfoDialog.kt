@@ -55,7 +55,7 @@ class StorageInfoDialog(val activity: BaseSimpleActivity) {
         val freeExternalSizeHolder = binding.storageExternalFreeSize
         val storageExternalProgressView = binding.mainStorageExternalUsageProgressbar
 
-        arrayOf(totalSizeHolder, usedSizeHolder, freeSizeHolder,totalExternalSizeHolder,usedExternalSizeHolder,freeExternalSizeHolder).forEach {
+        arrayOf(totalSizeHolder, usedSizeHolder, freeSizeHolder,totalExternalSizeHolder,usedExternalSizeHolder,freeExternalSizeHolder,binding.storageAnalydeText).forEach {
             it.setTextColor(activity.getProperTextColor())
         }
 
