@@ -63,6 +63,6 @@ class SplashActivity : BaseSimpleActivity() {
         mHandler.postDelayed({
         startActivity(Intent(this, MainActivity::class.java))
         finish()
-        }, 220)
+        }, 480)
     }
 }
