@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import org.skywaves.mediavox.core.R
+import org.skywaves.mediavox.core.activities.BaseSimpleActivity
 import org.skywaves.mediavox.core.extensions.baseConfig
 import org.skywaves.mediavox.core.extensions.isUsingSystemDarkTheme
 import org.skywaves.mediavox.core.extensions.viewBinding
+import org.skywaves.mediavox.core.helpers.APP_LAUNCHER_NAME
 import org.skywaves.mediavox.core.helpers.ensureBackgroundThread
 import org.skywaves.mediavox.databinding.ActivitySplashBinding
 import org.skywaves.mediavox.extensions.config
@@ -17,9 +19,10 @@ import org.skywaves.mediavox.extensions.getFavoriteFromPath
 import org.skywaves.mediavox.extensions.mediaDB
 import org.skywaves.mediavox.models.Favorite
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseSimpleActivity() {
     private val binding by viewBinding(ActivitySplashBinding::inflate)
     private var mHandler = Handler()
+    override fun getAppLauncherName() = intent.getStringExtra(APP_LAUNCHER_NAME) ?: ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +63,6 @@ class SplashActivity : AppCompatActivity() {
         mHandler.postDelayed({
         startActivity(Intent(this, MainActivity::class.java))
         finish()
-        }, 120)
+        }, 220)
     }
 }
