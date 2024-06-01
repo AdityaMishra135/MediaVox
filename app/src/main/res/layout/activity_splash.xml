@@ -1,221 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:cpb="http://schemas.android.com/tools"
     android:id="@+id/directories_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="118dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp">
-        <TextView
-            android:id="@+id/app_name_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="@dimen/extra_big_text_size"
-            android:textStyle="bold"
-            android:fontFamily="@font/extra"
-            android:layout_marginTop="18dp"
-            android:layout_alignParentStart="true"/>
+<ImageView
+    android:id="@+id/app_icon"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@mipmap/ic_launcher_foreground"
+    android:layout_centerInParent="true"/>
 
-        <ImageView
-            android:id="@+id/more_featuresShow"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_feature_show"
-            android:layout_toStartOf="@id/handle_media_filter"
-            android:layout_marginEnd="11dp"
-            android:layout_marginTop="18dp" />
-        <ImageView
-            android:id="@+id/more_featuresHide"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_features"
-            android:layout_toStartOf="@id/handle_media_filter"
-            android:layout_marginEnd="11dp"
-            android:layout_marginTop="18dp"
-            android:visibility="gone"/>
-
-        <org.skywaves.mediavox.core.views.customTriStateSwitch.RMTristateSwitch
-            android:id="@+id/handle_media_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:forceAspectRatio="false"
-            app:state="left"
-            app:enabled="true"
-            app:switchDesign="slim"
-            app:switchBkgLeftColor="@color/md_cyan_200"
-            app:switchBkgMiddleColor="@color/dark_grey"
-            app:switchBkgRightColor="@color/md_blue_200"
-            app:switchToggleLeftColor="@color/md_cyan_400"
-            app:switchToggleLeftImage="@drawable/ic_audio"
-            app:switchToggleMiddleColor="@color/dark_grey"
-            app:switchToggleMiddleImage="@drawable/ic_filter_vector"
-            app:switchToggleRightColor="@color/md_blue_400"
-            app:switchToggleRightImage="@drawable/ic_video"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="18dp" />
-
-        <RelativeLayout
-            android:id="@+id/more_features_holder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/app_name_home"
-            android:layout_margin="10dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:id="@+id/favorite_info_holder"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="5dp"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginEnd="18dp"
-                android:background="@drawable/ic_duration_bg">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/ic_fav"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/favorites"
-                    android:textSize="@dimen/small_text_size"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/recycle_info_holder"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="5dp"
-                android:layout_marginStart="7dp"
-                android:layout_marginEnd="18dp"
-                android:layout_centerInParent="true"
-                android:layout_toEndOf="@id/favorite_info_holder"
-                android:background="@drawable/ic_duration_bg">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/ic_info_vector"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/storage_analyse"
-                    android:textSize="@dimen/small_text_size"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/storage_info_holder"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="5dp"
-                android:layout_marginStart="7dp"
-                android:layout_toEndOf="@id/recycle_info_holder"
-                android:layout_marginEnd="7dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/ic_duration_bg">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/ic_info_vector"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/storage_analyse"
-                    android:textSize="@dimen/small_text_size"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-    <org.skywaves.mediavox.core.views.MySearchMenu
-        android:id="@+id/main_menu"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="58dp" />
+        android:text="@string/app_name"
+        android:layout_below="@+id/app_icon"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:fontFamily="@font/extra"
+        android:textSize="20sp"/>
 
-    <RelativeLayout
-        android:id="@+id/directories_holder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="56dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <org.skywaves.mediavox.core.views.MyTextView
-            android:id="@+id/directories_switch_searching"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:padding="@dimen/activity_margin"
-            android:text="@string/switch_to_file_search"
-            android:visibility="gone" />
-
-        <org.skywaves.mediavox.core.views.MyTextView
-            android:id="@+id/directories_empty_placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/directories_switch_searching"
-            android:alpha="0.8"
-            android:gravity="center_horizontal"
-            android:paddingStart="@dimen/activity_margin"
-            android:paddingTop="@dimen/activity_margin"
-            android:paddingEnd="@dimen/activity_margin"
-            android:text="@string/no_media_with_filters"
-            android:textSize="@dimen/bigger_text_size"
-            android:textStyle="italic"
-            android:visibility="gone" />
-
-        <org.skywaves.mediavox.core.views.MyTextView
-            android:id="@+id/directories_empty_placeholder_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/directories_empty_placeholder"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/ripple_all_corners"
-            android:padding="@dimen/activity_margin"
-            android:text="@string/change_filters_underlined"
-            android:textSize="@dimen/bigger_text_size"
-            android:visibility="gone" />
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/directories_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/directories_switch_searching">
-
-            <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
-                android:id="@+id/directories_fastscroller"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:supportSwipeToRefresh="true">
-
-                <org.skywaves.mediavox.core.views.MyRecyclerView
-                    android:id="@+id/directories_grid"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layoutAnimation="@anim/layout_animation"
-                    android:scrollbars="none"
-                    app:layoutManager="org.skywaves.mediavox.core.views.MyGridLayoutManager"
-                    app:spanCount="@integer/directory_columns_vertical_scroll" />
-
-            </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </RelativeLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

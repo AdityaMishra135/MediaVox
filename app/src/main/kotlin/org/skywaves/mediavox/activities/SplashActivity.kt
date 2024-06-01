@@ -3,6 +3,7 @@ package org.skywaves.mediavox.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import org.skywaves.mediavox.core.R
 import org.skywaves.mediavox.core.extensions.baseConfig
@@ -18,6 +19,7 @@ import org.skywaves.mediavox.models.Favorite
 
 class SplashActivity : AppCompatActivity() {
     private val binding by viewBinding(ActivitySplashBinding::inflate)
+    private var mHandler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +57,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun launchActivity() {
-
+        mHandler.postDelayed({
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+        }, 120)
     }
 }
