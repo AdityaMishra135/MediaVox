@@ -10,6 +10,7 @@ import org.skywaves.mediavox.databinding.DirectoryItemListBinding
 interface DirectoryItemBinding {
     val root: ViewGroup
     val dirThumbnail: MySquareImageView
+    val dirThumbnail2: ImageView
     val dirPath: TextView
     val dirCheck: ImageView
     val dirHolder: ViewGroup
@@ -26,6 +27,7 @@ interface DirectoryItemBinding {
 class ListDirectoryItemBinding(val binding: DirectoryItemListBinding) : DirectoryItemBinding {
     override val root: ViewGroup = binding.root
     override val dirThumbnail: MySquareImageView = binding.dirThumbnail
+    override val dirThumbnail2: ImageView = binding.dirThumb2
     override val dirPath: TextView = binding.dirPath
     override val dirCheck: ImageView = binding.dirCheck
     override val dirHolder: ViewGroup = binding.dirHolder
@@ -44,6 +46,7 @@ fun DirectoryItemListBinding.toItemBinding() = ListDirectoryItemBinding(this)
 class GridDirectoryItemRoundedCornersBinding(val binding: DirectoryItemGridRoundedCornersBinding) : DirectoryItemBinding {
     override val root: ViewGroup = binding.root
     override val dirThumbnail: MySquareImageView = binding.dirThumbnail
+    override val dirThumbnail2: ImageView = binding.dirThumb2
     override val dirPath: TextView = binding.dirPath
     override val dirCheck: ImageView = binding.dirCheck
     override val dirHolder: ViewGroup = binding.dirHolder

@@ -218,4 +218,15 @@
             </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>
+
+    <org.skywaves.mediavox.core.views.MyFloatingActionButton
+        android:id="@+id/last_played"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_play_vector"
+        android:layout_gravity="end|bottom"
+        android:elevation="@dimen/activity_margin"
+        android:layout_margin="21dp"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:maxImageSize="52dp"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

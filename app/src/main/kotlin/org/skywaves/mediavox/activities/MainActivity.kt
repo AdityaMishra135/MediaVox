@@ -1,5 +1,6 @@
 package org.skywaves.mediavox.activities
 
+import OnSwipeTouchListener
 import android.app.Activity
 import android.content.ClipData
 import android.content.Intent
@@ -10,6 +11,9 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio
 import android.provider.MediaStore.Video
+import android.view.MotionEvent
+import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
@@ -88,6 +92,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private var mStoredTextColor = 0
     private var mStoredPrimaryColor = 0
     private var mStoredStyleString = ""
+    private var mStoredLastPlayed = ""
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -164,26 +169,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 finish()
             }
         }
-        binding.appNameHome.setTextColor(getProperBackgroundColor().getContrastColor())
-        setupFilterFunction(binding)
-        binding.moreFeaturesShow.setOnClickListener {
-            val view = binding.mainMenu.layoutParams as ViewGroup.MarginLayoutParams
-            view.setMargins(0, dpFromPx(116), 0, 0)
-            it.beGone()
-            binding.moreFeaturesHide.beVisible()
-            binding.moreFeaturesHolder.beVisible()
-        }
-
-        binding.moreFeaturesHide.setOnClickListener {
-                val view = binding.mainMenu.layoutParams as ViewGroup.MarginLayoutParams
-                view.setMargins(0, dpFromPx(58), 0, 0)
-                it.beGone()
-                binding.moreFeaturesShow.beVisible()
-                binding.moreFeaturesHolder.beGone()
-        }
-        binding.storageInfoHolder.setOnClickListener {
-            StorageInfoDialog(this)
-        }
+        handleLogics(binding)
 }
 
 
@@ -215,11 +201,16 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         config.isThirdPartyIntent = false
         mDateFormat = config.dateFormat
         mTimeFormat = getTimeFormat()
+        handleLogics(binding)
 
         refreshMenuItems()
 
         if (mStoredCropThumbnails != config.cropThumbnails) {
             getRecyclerAdapter()?.updateCropThumbnails(config.cropThumbnails)
+        }
+
+        if (mStoredLastPlayed != config.lastPlayed) {
+            getRecyclerAdapter()?.updateLastPlayed(config.lastPlayed)
         }
 
 
@@ -279,6 +270,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         binding.directoriesRefreshLayout.isRefreshing = false
         mIsGettingDirs = false
         storeStateVariables()
+        handleLogics(binding)
         mLastMediaHandler.removeCallbacksAndMessages(null)
     }
 
@@ -315,6 +307,42 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         }
     }
 
+
+    private fun handleLogics(binding: ActivityMainBinding){
+        binding.appNameHome.setTextColor(getProperBackgroundColor().getContrastColor())
+        setupFilterFunction(binding)
+        binding.moreFeaturesShow.setOnClickListener {
+            val view = binding.mainMenu.layoutParams as ViewGroup.MarginLayoutParams
+            view.setMargins(0, dpFromPx(116), 0, 0)
+            it.beGone()
+            binding.moreFeaturesHide.beVisible()
+            binding.moreFeaturesHolder.beVisible()
+        }
+
+        binding.moreFeaturesHide.setOnClickListener {
+            val view = binding.mainMenu.layoutParams as ViewGroup.MarginLayoutParams
+            view.setMargins(0, dpFromPx(58), 0, 0)
+            it.beGone()
+            binding.moreFeaturesShow.beVisible()
+            binding.moreFeaturesHolder.beGone()
+        }
+        binding.storageInfoHolder.setOnClickListener {
+            StorageInfoDialog(this)
+        }
+
+        binding.lastPlayed.beVisibleIf(config.lastPlayed != "")
+        binding.lastPlayed.setMaxImageSize(82)
+        if (config.lastPlayedType == "Audio") binding.lastPlayed.setImageResource(R.drawable.ic_audio) else binding.lastPlayed.setImageResource(R.drawable.ic_video)
+        binding.lastPlayed.setOnClickListener {
+            Intent(this, ViewPagerActivity::class.java).apply {
+                putExtra(PATH, config.lastPlayed)
+                putExtra(SHOW_FAVORITES, config.lastPlayed == FAVORITES)
+                putExtra(SHOW_RECYCLE_BIN, config.lastPlayed == RECYCLE_BIN)
+                putExtra(IS_FROM_GALLERY, true)
+                startActivity(this)
+            }
+        }
+    }
 
 
     override fun onBackPressed() {
@@ -446,6 +474,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         mStoredPrimaryColor = getProperPrimaryColor()
         config.apply {
             mStoredCropThumbnails = cropThumbnails
+            mStoredLastPlayed = lastPlayed
             mStoredStyleString = "$showFolderMediaCount$limitFolderTitle$showDirSize"
         }
     }

@@ -11,7 +11,6 @@ import android.view.Menu
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -54,6 +53,7 @@ class DirectoryAdapter(
     private val isListViewType = config.viewTypeFolders == VIEW_TYPE_LIST
     private var pinnedFolders = config.pinnedFolders
     private var cropThumbnails = config.cropThumbnails
+    private var lastPlayed = config.lastPlayed
     private var groupDirectSubfolders = config.groupDirectSubfolders
     private var currentDirectoriesHash = dirs.hashCode()
     private var lockedFolderPaths = ArrayList<String>()
@@ -749,10 +749,16 @@ class DirectoryAdapter(
         }
     }
 
+
     fun updateCropThumbnails(cropThumbnails: Boolean) {
         this.cropThumbnails = cropThumbnails
         notifyDataSetChanged()
     }
+    fun updateLastPlayed(lastPlayed: String) {
+        this.lastPlayed = lastPlayed
+        notifyDataSetChanged()
+    }
+
 
     private fun setupView(view: View, directory: Directory, holder: ViewHolder) {
         val isSelected = selectedKeys.contains(directory.path.hashCode())
@@ -815,11 +821,23 @@ class DirectoryAdapter(
                     nameCount += " [${directory.subfoldersCount}]"
                 }
             }
+            if (config.lastPlayed.getParentPath() == directory.path){
+                dirName.setTextColor(properPrimaryColor)
+                dirPath.setTextColor(properPrimaryColor)
+                dirThumbnail2.applyColorFilter(properPrimaryColor.adjustAlpha(1f))
+                dirSize.setBackgroundColor(properPrimaryColor.adjustAlpha(.8f))
+                photoCnt.setBackgroundColor(properPrimaryColor.adjustAlpha(.8f))
+            } else {
+                dirPath.setTextColor(textColor)
+                dirName.setTextColor(textColor)
+                dirThumbnail2.applyColorFilter(textColor.adjustAlpha(0.35f))
+                dirSize.setBackgroundColor(textColor.adjustAlpha(.35f))
+                photoCnt.setBackgroundColor(textColor.adjustAlpha(.35f))
+            }
+
 
             dirName.text = nameCount
-            dirName.setTextColor(textColor)
             dirLocation.applyColorFilter(textColor)
-            dirPath?.setTextColor(textColor)
             dirSize.beVisibleIf(config.showDirSize)
             dirSize.text = directory.size.formatSize()
 
@@ -842,6 +860,7 @@ class DirectoryAdapter(
             }
         }
     }
+
 
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {

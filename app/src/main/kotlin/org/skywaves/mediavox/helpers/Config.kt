@@ -217,6 +217,14 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getString(DEFAULT_FOLDER, "")!!
         set(defaultFolder) = prefs.edit().putString(DEFAULT_FOLDER, defaultFolder).apply()
 
+    var lastPlayed: String
+        get() = prefs.getString(LAST_PLAYED, "")!!
+        set(lastPlayed) = prefs.edit().putString(LAST_PLAYED, lastPlayed).apply()
+
+    var lastPlayedType: String
+        get() = prefs.getString(LAST_PLAYED_TYPE, "")!!
+        set(lastPlayedType) = prefs.edit().putString(LAST_PLAYED_TYPE, lastPlayedType).apply()
+
     var allowInstantChange: Boolean
         get() = prefs.getBoolean(ALLOW_INSTANT_CHANGE, false)
         set(allowInstantChange) = prefs.edit().putBoolean(ALLOW_INSTANT_CHANGE, allowInstantChange).apply()

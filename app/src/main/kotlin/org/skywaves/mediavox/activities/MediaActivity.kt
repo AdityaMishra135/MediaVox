@@ -61,6 +61,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
 
     private var mStoredCropThumbnails = true
     private var mStoredShowFileTypes = true
+    private var mStoredLastPlayed = ""
     private var mStoredShowFileDir = true
     private var mStoredShowFileSize = true
     private var mStoredTextColor = 0
@@ -124,6 +125,10 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
 
         if (mStoredShowFileTypes != config.showThumbnailFileTypes) {
             getMediaAdapter()?.updateShowFileTypes(config.showThumbnailFileTypes)
+        }
+
+        if (mStoredLastPlayed == config.lastPlayed) {
+            getMediaAdapter()?.updateLastPlayed(config.lastPlayed)
         }
 
         if (mStoredShowFileDir != config.showThumbnailFileDir) {
@@ -318,6 +323,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
         config.apply {
             mStoredCropThumbnails = cropThumbnails
             mStoredShowFileTypes = showThumbnailFileTypes
+            mStoredLastPlayed = lastPlayed
             mStoredShowFileDir = showThumbnailFileDir
             mStoredShowFileSize = showMediumSize
             mShowAll = showAll && mPath != RECYCLE_BIN
@@ -792,6 +798,8 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                 }
             }
         }
+        config.lastPlayed = path
+
     }
 
     private fun gotMedia(media: ArrayList<ThumbnailItem>, isFromCache: Boolean) {

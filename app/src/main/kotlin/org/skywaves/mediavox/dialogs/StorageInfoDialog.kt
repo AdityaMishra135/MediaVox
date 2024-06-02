@@ -2,6 +2,7 @@ package org.skywaves.mediavox.dialogs
 
 import android.app.Activity
 import android.app.usage.StorageStatsManager
+import android.content.Context
 import android.content.Context.STORAGE_SERVICE
 import android.os.Build
 import android.os.storage.StorageManager
@@ -16,9 +17,9 @@ import org.skywaves.mediavox.core.extensions.getProperTextColor
 import org.skywaves.mediavox.core.extensions.getStringValue
 import org.skywaves.mediavox.core.extensions.queryCursor
 import org.skywaves.mediavox.core.extensions.setupDialogStuff
+import org.skywaves.mediavox.core.helpers.isNougatPlus
 import org.skywaves.mediavox.core.helpers.isOreoPlus
 import org.skywaves.mediavox.databinding.DialogStorageInfoBinding
-import org.skywaves.mediavox.extensions.getAllVolumeNames
 import org.skywaves.mediavox.helpers.AUDIO
 import org.skywaves.mediavox.helpers.PRIMARY_VOLUME_NAME
 import org.skywaves.mediavox.helpers.VIDEOS
@@ -129,7 +130,7 @@ class StorageInfoDialog(val activity: BaseSimpleActivity) {
         arrayOf(totalVideosSizeHolder, totalAudiosSizeHolder, totalOthersSizeHolder,totalExternalVideosSizeHolder,totalExternalAudiosSizeHolder,totalExternalOthersSizeHolder).forEach {
             it.setTextColor(activity.getProperTextColor())
         }
-        val volumeNames = activity.getAllVolumeNames()
+        val volumeNames = getAllVolumeNames()
         volumeNames.forEach { volumeName ->
             if (volumeName == PRIMARY_VOLUME_NAME) {
                 storageProgressView.text = "Internal"
@@ -191,5 +192,18 @@ class StorageInfoDialog(val activity: BaseSimpleActivity) {
         return mimeTypeSizes
     }
 
-
+    fun getAllVolumeNames(): List<String> {
+        val volumeNames = mutableListOf(PRIMARY_VOLUME_NAME)
+        if (isNougatPlus()) {
+            val storageManager = activity.applicationContext.getSystemService(STORAGE_SERVICE) as StorageManager
+            activity.getExternalFilesDirs(null)
+                .mapNotNull { storageManager.getStorageVolume(it) }
+                .filterNot { it.isPrimary }
+                .mapNotNull { it.uuid?.lowercase(Locale.US) }
+                .forEach {
+                    volumeNames.add(it)
+                }
+        }
+        return volumeNames
+    }
 }

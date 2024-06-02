@@ -57,6 +57,7 @@ class MediaAdapter(
 
     private var cropThumbnails = config.cropThumbnails
     private var showFileTypes = config.showThumbnailFileTypes
+    private var lastPlayed = config.lastPlayed
     private var showFileDir = config.showThumbnailFileDir
     private var showFileSize = config.showMediumSize
 
@@ -498,6 +499,11 @@ class MediaAdapter(
         notifyDataSetChanged()
     }
 
+    fun updateLastPlayed(lastPlayed: String) {
+        this.lastPlayed = lastPlayed
+        notifyDataSetChanged()
+    }
+
     fun updateShowFileDir(showFileDir: Boolean) {
         this.showFileDir = showFileDir
         notifyDataSetChanged()
@@ -517,15 +523,17 @@ class MediaAdapter(
     private fun setupThumbnail(view: View, medium: Medium) {
         val isSelected = selectedKeys.contains(medium.path.hashCode())
         bindItem(view, medium).apply {
-
             favorite.beVisibleIf(medium.isFavorite)
 
             playPortraitOutline?.beVisibleIf((medium.isVideo() || medium.isAudio()) && showFileTypes)
             if (medium.isAudio()) {
+                config.lastPlayedType = "Audio"
                 playPortraitOutline?.setImageResource(R.drawable.ic_music)
             } else {
+                config.lastPlayedType = "Video"
                 playPortraitOutline?.setImageResource(R.drawable.ic_video)
             }
+
 
             mediumDir.beVisibleIf(showFileDir)
             mediumName.text = medium.name
@@ -583,6 +591,17 @@ class MediaAdapter(
             mediumDir.setTextColor(textColor)
             playPortraitOutline?.applyColorFilter(textColor)
 
+            if (lastPlayed == medium.path){
+                mediumName.setTextColor(properPrimaryColor)
+                mediumDir.setTextColor(properPrimaryColor)
+                playPortraitOutline?.applyColorFilter(properPrimaryColor.adjustAlpha(.6f))
+                mediumSize.setBackgroundColor(properPrimaryColor.adjustAlpha(.6f))
+            } else{
+                mediumName.setTextColor(textColor)
+                mediumDir.setTextColor(textColor)
+                playPortraitOutline?.applyColorFilter(textColor.adjustAlpha(.6f))
+                mediumSize.setBackgroundColor(textColor.adjustAlpha(.6f))
+            }
         }
     }
 
