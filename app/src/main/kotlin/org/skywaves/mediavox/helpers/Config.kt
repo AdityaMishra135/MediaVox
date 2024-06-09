@@ -21,7 +21,7 @@ class Config(context: Context) : BaseConfig(context) {
         set(order) = prefs.edit().putInt(DIRECTORY_SORT_ORDER, order).apply()
 
     var showDirSize: Boolean
-        get() = prefs.getBoolean(SHOW_DIR_SIZE, false)
+        get() = prefs.getBoolean(SHOW_DIR_SIZE, true)
         set(showDirSize) = prefs.edit().putBoolean(SHOW_DIR_SIZE, showDirSize).apply()
 
     fun saveFolderGrouping(path: String, value: Int) {

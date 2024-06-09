@@ -104,7 +104,6 @@ class DirectoryAdapter(
             findItem(R.id.cab_move_to_bottom).isVisible = isDragAndDropping
 
             findItem(R.id.cab_rename).isVisible = !selectedPaths.contains(FAVORITES) && !selectedPaths.contains(RECYCLE_BIN)
-            findItem(R.id.cab_change_cover_image).isVisible = isOneItemSelected
 
             findItem(R.id.cab_lock).isVisible = selectedPaths.any { !config.isFolderProtected(it) }
             findItem(R.id.cab_unlock).isVisible = selectedPaths.any { config.isFolderProtected(it) }
@@ -144,8 +143,6 @@ class DirectoryAdapter(
             R.id.cab_select_all -> selectAll()
             R.id.cab_create_shortcut -> tryCreateShortcut()
             R.id.cab_delete -> askConfirmDelete()
-            R.id.cab_select_photo -> tryChangeAlbumCover(false)
-            R.id.cab_use_default -> tryChangeAlbumCover(true)
         }
     }
 
@@ -678,48 +675,7 @@ class DirectoryAdapter(
         }
     }
 
-    private fun tryChangeAlbumCover(useDefault: Boolean) {
-        activity.handleLockedFolderOpening(getFirstSelectedItemPath() ?: "") { success ->
-            if (success) {
-                changeAlbumCover(useDefault)
-            }
-        }
-    }
 
-    private fun changeAlbumCover(useDefault: Boolean) {
-        if (selectedKeys.size != 1)
-            return
-
-        val path = getFirstSelectedItemPath() ?: return
-
-        if (useDefault) {
-            val albumCovers = getAlbumCoversWithout(path)
-            storeCovers(albumCovers)
-        } else {
-            pickMediumFrom(path, path)
-        }
-    }
-
-    private fun pickMediumFrom(targetFolder: String, path: String) {
-        PickMediumDialog(activity, path) {
-            if (File(it).isDirectory) {
-                pickMediumFrom(targetFolder, it)
-            } else {
-                val albumCovers = getAlbumCoversWithout(path)
-                val cover = AlbumCover(targetFolder, it)
-                albumCovers.add(cover)
-                storeCovers(albumCovers)
-            }
-        }
-    }
-
-    private fun getAlbumCoversWithout(path: String) = config.parseAlbumCovers().filterNot { it.path == path } as ArrayList
-
-    private fun storeCovers(albumCovers: ArrayList<AlbumCover>) {
-        config.albumCovers = Gson().toJson(albumCovers)
-        finishActMode()
-        listener?.refreshItems()
-    }
 
     private fun getSelectedItems() = selectedKeys.mapNotNull { getItemWithKey(it) } as ArrayList<Directory>
 
