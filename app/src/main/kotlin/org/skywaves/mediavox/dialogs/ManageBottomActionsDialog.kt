@@ -20,9 +20,6 @@ class ManageBottomActionsDialog(val activity: BaseSimpleActivity, val callback: 
             manageBottomActionsChangeOrientation.isChecked = actions and BOTTOM_ACTION_CHANGE_ORIENTATION != 0
             manageBottomActionsSlideshow.isChecked = actions and BOTTOM_ACTION_SLIDESHOW != 0
             manageBottomActionsToggleVisibility.isChecked = actions and BOTTOM_ACTION_TOGGLE_VISIBILITY != 0
-            manageBottomActionsRename.isChecked = actions and BOTTOM_ACTION_RENAME != 0
-            manageBottomActionsCopy.isChecked = actions and BOTTOM_ACTION_COPY != 0
-            manageBottomActionsMove.isChecked = actions and BOTTOM_ACTION_MOVE != 0
         }
 
         activity.getAlertDialogBuilder()
@@ -50,12 +47,6 @@ class ManageBottomActionsDialog(val activity: BaseSimpleActivity, val callback: 
                 result += BOTTOM_ACTION_SLIDESHOW
             if (manageBottomActionsToggleVisibility.isChecked)
                 result += BOTTOM_ACTION_TOGGLE_VISIBILITY
-            if (manageBottomActionsRename.isChecked)
-                result += BOTTOM_ACTION_RENAME
-            if (manageBottomActionsCopy.isChecked)
-                result += BOTTOM_ACTION_COPY
-            if (manageBottomActionsMove.isChecked)
-                result += BOTTOM_ACTION_MOVE
         }
 
         activity.config.visibleBottomActions = result

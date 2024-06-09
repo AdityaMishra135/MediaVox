@@ -159,9 +159,6 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
                 findItem(R.id.menu_properties).isVisible = visibleBottomActions and BOTTOM_ACTION_PROPERTIES == 0
                 findItem(R.id.menu_delete).isVisible = visibleBottomActions and BOTTOM_ACTION_DELETE == 0
                 findItem(R.id.menu_share).isVisible = visibleBottomActions and BOTTOM_ACTION_SHARE == 0
-                findItem(R.id.menu_rename).isVisible = visibleBottomActions and BOTTOM_ACTION_RENAME == 0 && !currentMedium.getIsInRecycleBin()
-                findItem(R.id.menu_copy_to).isVisible = visibleBottomActions and BOTTOM_ACTION_COPY == 0
-                findItem(R.id.menu_move_to).isVisible = visibleBottomActions and BOTTOM_ACTION_MOVE == 0
                 findItem(R.id.menu_hide).isVisible =
                     (!isRPlus() || isExternalStorageManager()) && !currentMedium.isHidden() && visibleBottomActions and BOTTOM_ACTION_TOGGLE_VISIBILITY == 0 && !currentMedium.getIsInRecycleBin()
 
@@ -175,7 +172,6 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
                     currentMedium.isFavorite && visibleBottomActions and BOTTOM_ACTION_TOGGLE_FAVORITE == 0 && !currentMedium.getIsInRecycleBin()
 
                 findItem(R.id.menu_restore_file).isVisible = currentMedium.path.startsWith(recycleBinPath)
-                findItem(R.id.menu_create_shortcut).isVisible = isOreoPlus()
                 findItem(R.id.menu_change_orientation).isVisible = visibleBottomActions and BOTTOM_ACTION_CHANGE_ORIENTATION == 0
                 findItem(R.id.menu_change_orientation).icon = resources.getDrawable(getChangeOrientationIcon())
             }
@@ -202,14 +198,11 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
 
             when (menuItem.itemId) {
                 R.id.menu_slideshow -> initSlideshow()
-                R.id.menu_copy_to -> checkMediaManagementAndCopy(true)
-                R.id.menu_move_to -> moveFileTo()
                 R.id.menu_open_with -> openPath(getCurrentPath(), true)
                 R.id.menu_hide -> toggleFileVisibility(true)
                 R.id.menu_unhide -> toggleFileVisibility(false)
                 R.id.menu_share -> shareMediumPath(getCurrentPath())
                 R.id.menu_delete -> checkDeleteConfirmation()
-                R.id.menu_rename -> checkMediaManagementAndRename()
                 R.id.menu_properties -> showProperties()
                 R.id.menu_add_to_favorites -> toggleFavorite()
                 R.id.menu_remove_from_favorites -> toggleFavorite()
@@ -217,7 +210,6 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
                 R.id.menu_force_portrait -> toggleOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 R.id.menu_force_landscape -> toggleOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
                 R.id.menu_default_orientation -> toggleOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                R.id.menu_create_shortcut -> createShortcut()
                 R.id.menu_settings -> launchSettings()
                 else -> return@setOnMenuItemClickListener false
             }
@@ -576,55 +568,6 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
         }
     }
 
-    private fun moveFileTo() {
-        handleDeletePasswordProtection {
-            checkMediaManagementAndCopy(false)
-        }
-    }
-
-    private fun checkMediaManagementAndCopy(isCopyOperation: Boolean) {
-        handleMediaManagementPrompt {
-            copyMoveTo(isCopyOperation)
-        }
-    }
-
-    private fun copyMoveTo(isCopyOperation: Boolean) {
-        val currPath = getCurrentPath()
-        if (!isCopyOperation && currPath.startsWith(recycleBinPath)) {
-            toast(org.skywaves.mediavox.core.R.string.moving_recycle_bin_items_disabled, Toast.LENGTH_LONG)
-            return
-        }
-
-        val fileDirItems = arrayListOf(FileDirItem(currPath, currPath.getFilenameFromPath()))
-        tryCopyMoveFilesTo(fileDirItems, isCopyOperation) {
-            val newPath = "$it/${currPath.getFilenameFromPath()}"
-            rescanPaths(arrayListOf(newPath)) {
-                fixDateTaken(arrayListOf(newPath), false)
-            }
-
-            config.tempFolderPath = ""
-            if (!isCopyOperation) {
-                refreshViewPager()
-                updateFavoritePaths(fileDirItems, it)
-            }
-        }
-    }
-
-    private fun toggleFileVisibility(hide: Boolean, callback: (() -> Unit)? = null) {
-        toggleFileVisibility(getCurrentPath(), hide) {
-            val newFileName = it.getFilenameFromPath()
-            binding.mediumViewerToolbar.title = newFileName
-
-            getCurrentMedium()!!.apply {
-                name = newFileName
-                path = it
-                getCurrentMedia()[mPos] = this
-            }
-
-            refreshMenuItems()
-            callback?.invoke()
-        }
-    }
 
     private fun toggleOrientation(orientation: Int) {
         requestedOrientation = orientation
@@ -641,37 +584,6 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
             }
         } else {
             org.skywaves.mediavox.core.R.drawable.ic_orientation_auto_vector
-        }
-    }
-
-    private fun createShortcut() {
-        if (!isOreoPlus()) {
-            return
-        }
-
-        val manager = getSystemService(ShortcutManager::class.java)
-        if (manager.isRequestPinShortcutSupported) {
-            val medium = getCurrentMedium() ?: return
-            val path = medium.path
-            val drawable = resources.getDrawable(R.drawable.shortcut_image).mutate()
-            getShortcutImage(path, drawable) {
-                val intent = Intent(this, ViewPagerActivity::class.java).apply {
-                    putExtra(PATH, path)
-                    putExtra(SHOW_ALL, config.showAll)
-                    putExtra(SHOW_FAVORITES, path == FAVORITES)
-                    putExtra(SHOW_RECYCLE_BIN, path == RECYCLE_BIN)
-                    action = Intent.ACTION_VIEW
-                    flags = flags or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-
-                val shortcut = ShortcutInfo.Builder(this, path)
-                    .setShortLabel(medium.name)
-                    .setIcon(Icon.createWithBitmap(drawable.convertToBitmap()))
-                    .setIntent(intent)
-                    .build()
-
-                manager.requestPinShortcut(shortcut, null)
-            }
         }
     }
 
@@ -780,23 +692,6 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
             }
         }
 
-        binding.bottomActions.bottomRename.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_RENAME != 0 && currentMedium?.getIsInRecycleBin() == false)
-        binding.bottomActions.bottomRename.setOnLongClickListener { toast(org.skywaves.mediavox.core.R.string.rename); true }
-        binding.bottomActions.bottomRename.setOnClickListener {
-            checkMediaManagementAndRename()
-        }
-
-        binding.bottomActions.bottomCopy.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_COPY != 0)
-        binding.bottomActions.bottomCopy.setOnLongClickListener { toast(org.skywaves.mediavox.core.R.string.copy); true }
-        binding.bottomActions.bottomCopy.setOnClickListener {
-            checkMediaManagementAndCopy(true)
-        }
-
-        binding.bottomActions.bottomMove.beVisibleIf(visibleBottomActions and BOTTOM_ACTION_MOVE != 0)
-        binding.bottomActions.bottomMove.setOnLongClickListener { toast(org.skywaves.mediavox.core.R.string.move); true }
-        binding.bottomActions.bottomMove.setOnClickListener {
-            moveFileTo()
-        }
     }
 
     private fun updateBottomActionIcons(medium: Medium?) {
@@ -831,6 +726,23 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
             }
         }
     }
+
+    private fun toggleFileVisibility(hide: Boolean, callback: (() -> Unit)? = null) {
+        toggleFileVisibility(getCurrentPath(), hide) {
+            val newFileName = it.getFilenameFromPath()
+            binding.mediumViewerToolbar.title = newFileName
+
+            getCurrentMedium()!!.apply {
+                name = newFileName
+                path = it
+                getCurrentMedia()[mPos] = this
+            }
+
+            refreshMenuItems()
+            callback?.invoke()
+        }
+    }
+
 
     private fun restoreFile() {
         restoreRecycleBinPath(getCurrentPath()) {
@@ -966,33 +878,6 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
         }
     }
 
-    private fun checkMediaManagementAndRename() {
-        handleMediaManagementPrompt {
-            renameFile()
-        }
-    }
-
-    private fun renameFile() {
-        val oldPath = getCurrentPath()
-
-        val isSDOrOtgRootFolder = isAStorageRootFolder(oldPath.getParentPath()) && !oldPath.startsWith(internalStoragePath)
-        if (isRPlus() && isSDOrOtgRootFolder && !isExternalStorageManager()) {
-            toast(org.skywaves.mediavox.core.R.string.rename_in_sd_card_system_restriction, Toast.LENGTH_LONG)
-            return
-        }
-
-        RenameItemDialog(this, oldPath) {
-            getCurrentMedia().getOrNull(mPos)?.apply {
-                path = it
-                name = it.getFilenameFromPath()
-            }
-
-            ensureBackgroundThread {
-                updateDBMediaPath(oldPath, it)
-            }
-            updateActionbarTitle()
-        }
-    }
 
     private fun refreshViewPager(refetchPosition: Boolean = false) {
         val isRandomSorting = config.getFolderSorting(mDirectory) and SORT_BY_RANDOM != 0

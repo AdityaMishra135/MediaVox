@@ -334,10 +334,7 @@ open class PhotoVideoActivity : SimpleActivity(), ViewPagerFragment.FragmentList
             binding.bottomActions.bottomProperties,
             binding.bottomActions.bottomChangeOrientation,
             binding.bottomActions.bottomSlideshow,
-            binding.bottomActions.bottomToggleFileVisibility,
-            binding.bottomActions.bottomRename,
-            binding.bottomActions.bottomCopy,
-            binding.bottomActions.bottomMove,
+            binding.bottomActions.bottomToggleFileVisibility
         ).forEach {
             it.beGone()
         }

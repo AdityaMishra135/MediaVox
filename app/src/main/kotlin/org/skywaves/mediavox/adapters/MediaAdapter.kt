@@ -542,6 +542,7 @@ class MediaAdapter(
             mediumDir.ellipsize = TextUtils.TruncateAt.END
             mediumSize.beVisibleIf(showFileSize)
             mediumSize.text = medium.size.formatSize()
+            mediumResolution.text = getAudioBitrate(activity.contentResolver,medium.path,medium.type)
 
             val showVideoDuration = medium.isVideo() || medium.isAudio()
             if (showVideoDuration) {

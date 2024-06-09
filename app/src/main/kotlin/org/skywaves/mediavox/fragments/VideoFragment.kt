@@ -45,7 +45,6 @@ class VideoFragment : ViewPagerFragment(), TextureView.SurfaceTextureListener, S
 
     private var mIsFullscreen = false
     private var mWasFragmentInit = false
-    private var mIsPanorama = false
     private var mIsFragmentVisible = false
     private var mIsDragged = false
     private var mWasVideoStarted = false
@@ -89,7 +88,6 @@ class VideoFragment : ViewPagerFragment(), TextureView.SurfaceTextureListener, S
         mMedium = arguments.getSerializable(MEDIUM) as Medium
         mConfig = context.config
         binding = PagerVideoItemBinding.inflate(inflater, container, false).apply {
-            panoramaOutline.setOnClickListener { openPanorama() }
             bottomVideoTimeHolder.videoCurrTime.setOnClickListener { skip(false) }
             bottomVideoTimeHolder.videoDuration.setOnClickListener { skip(true) }
             videoHolder.setOnClickListener { toggleFullscreen() }
@@ -184,17 +182,7 @@ class VideoFragment : ViewPagerFragment(), TextureView.SurfaceTextureListener, S
             }
         }
 
-        if (mIsPanorama) {
-            binding.apply {
-                panoramaOutline.beVisible()
-                videoPlayOutline.beGone()
-                mVolumeSideScroll.beGone()
-                mBrightnessSideScroll.beGone()
-                Glide.with(context).load(mMedium.path).into(videoPreview)
-            }
-        }
 
-        if (!mIsPanorama) {
             if (savedInstanceState != null) {
                 mCurrTime = savedInstanceState.getInt(PROGRESS)
             }
@@ -229,7 +217,6 @@ class VideoFragment : ViewPagerFragment(), TextureView.SurfaceTextureListener, S
                     }
                 }
             }
-        }
 
         setupVideoDuration()
         if (mStoredRememberLastVideoPosition) {
@@ -244,11 +231,11 @@ class VideoFragment : ViewPagerFragment(), TextureView.SurfaceTextureListener, S
         mConfig = requireContext().config      // make sure we get a new config, in case the user changed something in the app settings
         requireActivity().updateTextColors(binding.videoHolder)
         val allowVideoGestures = mConfig.allowVideoGestures
-        mTextureView.beGoneIf(mConfig.openVideosOnSeparateScreen || mIsPanorama)
+        mTextureView.beGoneIf(mConfig.openVideosOnSeparateScreen)
         binding.videoSurfaceFrame.beGoneIf(mTextureView.isGone())
 
-        mVolumeSideScroll.beVisibleIf(allowVideoGestures && !mIsPanorama)
-        mBrightnessSideScroll.beVisibleIf(allowVideoGestures && !mIsPanorama)
+        mVolumeSideScroll.beVisibleIf(allowVideoGestures)
+        mBrightnessSideScroll.beVisibleIf(allowVideoGestures)
 
         checkExtendedDetails()
         initTimeHolder()
@@ -347,7 +334,7 @@ class VideoFragment : ViewPagerFragment(), TextureView.SurfaceTextureListener, S
     }
 
     private fun initExoPlayer() {
-        if (activity == null || mConfig.openVideosOnSeparateScreen || mIsPanorama || mExoPlayer != null) {
+        if (activity == null || mConfig.openVideosOnSeparateScreen || mExoPlayer != null) {
             return
         }
 
@@ -493,22 +480,6 @@ class VideoFragment : ViewPagerFragment(), TextureView.SurfaceTextureListener, S
         mTimeHolder.beInvisibleIf(mIsFullscreen)
     }
 
-    private fun checkIfPanorama() {
-        try {
-            val fis = FileInputStream(File(mMedium.path))
-            fis.use {
-                requireContext().parseFileChannel(mMedium.path, it.channel, 0, 0, 0) {
-                    mIsPanorama = true
-                }
-            }
-        } catch (ignored: Exception) {
-        } catch (ignored: OutOfMemoryError) {
-        }
-    }
-
-    private fun openPanorama() {
-        TODO("Panorama is not yet implemented.")
-    }
 
     override fun fullscreenToggled(isFullscreen: Boolean) {
         mIsFullscreen = isFullscreen
@@ -552,9 +523,7 @@ class VideoFragment : ViewPagerFragment(), TextureView.SurfaceTextureListener, S
     }
 
     private fun skip(forward: Boolean) {
-        if (mIsPanorama) {
-            return
-        } else if (mExoPlayer == null) {
+      if (mExoPlayer == null) {
             playVideo()
             return
         }
@@ -604,11 +573,6 @@ class VideoFragment : ViewPagerFragment(), TextureView.SurfaceTextureListener, S
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar) {
-        if (mIsPanorama) {
-            openPanorama()
-            return
-        }
-
         if (mExoPlayer == null) {
             return
         }

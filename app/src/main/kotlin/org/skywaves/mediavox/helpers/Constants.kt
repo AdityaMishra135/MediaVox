@@ -100,7 +100,6 @@ const val LAST_EXPORTED_FAVORITES_FOLDER = "last_exported_favorites_folder"
 // slideshow
 const val SLIDESHOW_INTERVAL = "slideshow_interval"
 const val SLIDESHOW_INCLUDE_VIDEOS = "slideshow_include_videos"
-const val SLIDESHOW_INCLUDE_GIFS = "slideshow_include_gifs"
 const val SLIDESHOW_RANDOM_ORDER = "slideshow_random_order"
 const val SLIDESHOW_MOVE_BACKWARDS = "slideshow_move_backwards"
 const val SLIDESHOW_ANIMATION = "slideshow_animation"
@@ -197,16 +196,12 @@ const val GROUP_SHOW_FILE_COUNT = 2048
 
 // bottom actions
 const val BOTTOM_ACTION_TOGGLE_FAVORITE = 1
-const val BOTTOM_ACTION_EDIT = 2
 const val BOTTOM_ACTION_SHARE = 4
 const val BOTTOM_ACTION_DELETE = 8
 const val BOTTOM_ACTION_PROPERTIES = 32
 const val BOTTOM_ACTION_CHANGE_ORIENTATION = 64
 const val BOTTOM_ACTION_SLIDESHOW = 128
 const val BOTTOM_ACTION_TOGGLE_VISIBILITY = 512
-const val BOTTOM_ACTION_RENAME = 1024
-const val BOTTOM_ACTION_COPY = 4096
-const val BOTTOM_ACTION_MOVE = 8192
 
 const val DEFAULT_BOTTOM_ACTIONS = BOTTOM_ACTION_TOGGLE_FAVORITE  or BOTTOM_ACTION_SHARE or BOTTOM_ACTION_DELETE
 

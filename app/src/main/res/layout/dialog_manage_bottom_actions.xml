@@ -70,29 +70,5 @@
             android:paddingBottom="@dimen/activity_margin"
             android:text="@string/toggle_file_visibility" />
 
-        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
-            android:id="@+id/manage_bottom_actions_rename"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/activity_margin"
-            android:paddingBottom="@dimen/activity_margin"
-            android:text="@string/rename" />
-
-        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
-            android:id="@+id/manage_bottom_actions_copy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/activity_margin"
-            android:paddingBottom="@dimen/activity_margin"
-            android:text="@string/copy" />
-
-        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
-            android:id="@+id/manage_bottom_actions_move"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/activity_margin"
-            android:paddingBottom="@dimen/activity_margin"
-            android:text="@string/move" />
-
     </LinearLayout>
 </ScrollView>

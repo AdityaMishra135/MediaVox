@@ -5,7 +5,7 @@ import androidx.viewpager.widget.ViewPager
 
 class FadePageTransformer : ViewPager.PageTransformer {
     override fun transformPage(view: View, position: Float) {
-        view.translationX = view.width * -position
+        view.translationY = view.height * -position
 
         view.alpha = if (position <= -1f || position >= 1f) {
             0f

@@ -155,6 +155,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             config.sorting = config.sorting or SORT_USE_NUMERIC_VALUE
         }
 
+
         updateWidgets()
         registerFileUpdateListener()
 
@@ -208,7 +209,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         if (mStoredCropThumbnails != config.cropThumbnails) {
             getRecyclerAdapter()?.updateCropThumbnails(config.cropThumbnails)
         }
-
         if (mStoredLastPlayed != config.lastPlayed) {
             getRecyclerAdapter()?.updateLastPlayed(config.lastPlayed)
         }
@@ -1540,6 +1540,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     override fun refreshItems() {
         getDirectories()
     }
+
 
     override fun recheckPinnedFolders() {
         ensureBackgroundThread {

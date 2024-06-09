@@ -49,10 +49,6 @@ class SlideshowDialog(val activity: BaseSimpleActivity, val callback: () -> Unit
                 includeVideos.toggle()
             }
 
-            includeGifsHolder.setOnClickListener {
-                intervalValue.clearFocus()
-                includeGifs.toggle()
-            }
 
             randomOrderHolder.setOnClickListener {
                 intervalValue.clearFocus()
@@ -92,7 +88,6 @@ class SlideshowDialog(val activity: BaseSimpleActivity, val callback: () -> Unit
             intervalValue.setText(config.slideshowInterval.toString())
             animationValue.text = getAnimationText()
             includeVideos.isChecked = config.slideshowIncludeVideos
-            includeGifs.isChecked = config.slideshowIncludeGIFs
             randomOrder.isChecked = config.slideshowRandomOrder
             moveBackwards.isChecked = config.slideshowMoveBackwards
             loopSlideshow.isChecked = config.loopSlideshow
@@ -108,7 +103,6 @@ class SlideshowDialog(val activity: BaseSimpleActivity, val callback: () -> Unit
             slideshowAnimation = getAnimationValue(binding.animationValue.value)
             slideshowInterval = interval.toInt()
             slideshowIncludeVideos = binding.includeVideos.isChecked
-            slideshowIncludeGIFs = binding.includeGifs.isChecked
             slideshowRandomOrder = binding.randomOrder.isChecked
             slideshowMoveBackwards = binding.moveBackwards.isChecked
             loopSlideshow = binding.loopSlideshow.isChecked

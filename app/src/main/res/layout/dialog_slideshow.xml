@@ -97,28 +97,11 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/include_gifs_holder"
-            style="@style/SettingsHolderCheckboxStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/include_videos_holder"
-            android:background="?attr/selectableItemBackground">
-
-            <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
-                android:id="@+id/include_gifs"
-                style="@style/SettingsCheckboxStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/include_gifs" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/random_order_holder"
             style="@style/SettingsHolderCheckboxStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/include_gifs_holder"
+            android:layout_below="@+id/include_videos_holder"
             android:background="?attr/selectableItemBackground">
 
             <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
