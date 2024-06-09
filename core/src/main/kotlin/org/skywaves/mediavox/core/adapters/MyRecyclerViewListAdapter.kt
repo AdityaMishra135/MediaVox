@@ -63,6 +63,8 @@ abstract class MyRecyclerViewListAdapter<T>(
 
     init {
         actModeCallback = object : MyActionModeCallback() {
+            private var savedStatusBarColor = activity.getProperStatusBarColor()
+
             override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
                 actionItemPressed(item.itemId)
                 return true
@@ -90,8 +92,14 @@ abstract class MyRecyclerViewListAdapter<T>(
                 val bgColor = if (baseConfig.isUsingSystemTheme) {
                     ResourcesCompat.getColor(resources, R.color.you_contextual_status_bar_color, activity.theme)
                 } else {
-                    Color.BLACK
+                    resources.getColor(R.color.dark_grey, activity.theme)
                 }
+                savedStatusBarColor = activity.window.statusBarColor
+                activity.animateStatusBarColor(
+                    colorTo = bgColor,
+                    colorFrom = savedStatusBarColor,
+                    duration = 385L
+                )
 
                 actBarTextView!!.setTextColor(bgColor.getContrastColor())
                 activity.updateMenuItemColors(menu, baseColor = bgColor)
@@ -119,6 +127,12 @@ abstract class MyRecyclerViewListAdapter<T>(
                         toggleItemSelection(false, position, false)
                     }
                 }
+                activity.animateStatusBarColor(
+                    colorTo = savedStatusBarColor,
+                    colorFrom = activity.window.statusBarColor,
+                    duration = 385L
+                )
+
                 updateTitle()
                 selectedKeys.clear()
                 actBarTextView?.text = ""

@@ -1,6 +1,7 @@
 package org.skywaves.mediavox.core.activities
 
 import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -33,6 +34,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.animation.doOnEnd
 import androidx.core.app.ActivityCompat
 import androidx.core.util.Pair
 import androidx.core.view.ScrollingView
@@ -178,6 +180,18 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+    fun animateStatusBarColor(colorTo: Int, colorFrom: Int = window.statusBarColor, duration: Long = 385L) {
+        with(ObjectAnimator.ofInt(colorFrom, colorTo)) {
+            setEvaluator(ArgbEvaluator())
+            setDuration(duration)
+            addUpdateListener {
+                window.statusBarColor = it.animatedValue.toInt()
+            }
+
+            doOnEnd { updateStatusbarColor(window.statusBarColor) }
+            start()
+        }
+    }
     fun updateActionbarColor(color: Int = getProperStatusBarColor()) {
         updateStatusbarColor(color)
         setTaskDescription(ActivityManager.TaskDescription(null, null, color))

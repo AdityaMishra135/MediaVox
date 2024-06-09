@@ -54,6 +54,8 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
 
     init {
         actModeCallback = object : MyActionModeCallback() {
+            private var savedStatusBarColor = activity.getProperStatusBarColor()
+
             override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
                 actionItemPressed(item.itemId)
                 return true
@@ -82,8 +84,15 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
                 val bgColor = if (baseConfig.isUsingSystemTheme) {
                     resources.getColor(R.color.you_contextual_status_bar_color, activity.theme)
                 } else {
-                    Color.BLACK
+                    resources.getColor(R.color.dark_grey, activity.theme)
                 }
+
+                savedStatusBarColor = activity.window.statusBarColor
+                activity.animateStatusBarColor(
+                    colorTo = bgColor,
+                    colorFrom = savedStatusBarColor,
+                    duration = 385L
+                )
 
                 actBarTextView!!.setTextColor(bgColor.getContrastColor())
                 activity.updateMenuItemColors(menu, baseColor = bgColor)
@@ -111,6 +120,12 @@ abstract class MyRecyclerViewAdapter(val activity: BaseSimpleActivity, val recyc
                         toggleItemSelection(false, position, false)
                     }
                 }
+                activity.animateStatusBarColor(
+                    colorTo = savedStatusBarColor,
+                    colorFrom = activity.window.statusBarColor,
+                    duration = 385L
+                )
+
                 updateTitle()
                 selectedKeys.clear()
                 actBarTextView?.text = ""
