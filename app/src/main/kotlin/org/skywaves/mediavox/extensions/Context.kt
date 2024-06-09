@@ -3,6 +3,7 @@ package org.skywaves.mediavox.extensions
 import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
@@ -12,9 +13,9 @@ import android.graphics.Bitmap
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Process
-import android.os.storage.StorageManager
 import android.provider.MediaStore
 import android.provider.MediaStore.Files
+import android.util.Size
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DecodeFormat
@@ -29,7 +30,6 @@ import com.bumptech.glide.signature.ObjectKey
 import org.skywaves.mediavox.R
 import org.skywaves.mediavox.asynctasks.GetMediaAsynctask
 import org.skywaves.mediavox.core.extensions.doesThisOrParentHaveNoMedia
-import org.skywaves.mediavox.core.extensions.formatSizeThousand
 import org.skywaves.mediavox.core.extensions.getDocumentFile
 import org.skywaves.mediavox.core.extensions.getDoesFilePathExist
 import org.skywaves.mediavox.core.extensions.getDuration
@@ -37,7 +37,6 @@ import org.skywaves.mediavox.core.extensions.getFilenameFromPath
 import org.skywaves.mediavox.core.extensions.getLongValue
 import org.skywaves.mediavox.core.extensions.getOTGPublicPath
 import org.skywaves.mediavox.core.extensions.getParentPath
-import org.skywaves.mediavox.core.extensions.getProperTextColor
 import org.skywaves.mediavox.core.extensions.getStringValue
 import org.skywaves.mediavox.core.extensions.humanizePath
 import org.skywaves.mediavox.core.extensions.internalStoragePath
@@ -46,7 +45,6 @@ import org.skywaves.mediavox.core.extensions.isPathOnOTG
 import org.skywaves.mediavox.core.extensions.isPathOnSD
 import org.skywaves.mediavox.core.extensions.normalizeString
 import org.skywaves.mediavox.core.extensions.otgPath
-import org.skywaves.mediavox.core.extensions.queryCursor
 import org.skywaves.mediavox.core.extensions.recycleBinPath
 import org.skywaves.mediavox.core.extensions.sdCardPath
 import org.skywaves.mediavox.core.extensions.toast
@@ -63,25 +61,21 @@ import org.skywaves.mediavox.core.helpers.SORT_BY_SIZE
 import org.skywaves.mediavox.core.helpers.SORT_DESCENDING
 import org.skywaves.mediavox.core.helpers.SORT_USE_NUMERIC_VALUE
 import org.skywaves.mediavox.core.helpers.ensureBackgroundThread
-import org.skywaves.mediavox.core.helpers.isNougatPlus
-import org.skywaves.mediavox.core.helpers.isOreoPlus
 import org.skywaves.mediavox.core.helpers.sumByLong
 import org.skywaves.mediavox.core.views.MySquareImageView
 import org.skywaves.mediavox.databases.GalleryDatabase
-import org.skywaves.mediavox.databinding.ActivityMainBinding
-import org.skywaves.mediavox.helpers.AUDIO
 import org.skywaves.mediavox.helpers.Config
 import org.skywaves.mediavox.helpers.GROUP_BY_DATE_TAKEN_DAILY
 import org.skywaves.mediavox.helpers.GROUP_BY_DATE_TAKEN_MONTHLY
 import org.skywaves.mediavox.helpers.GROUP_BY_LAST_MODIFIED_DAILY
 import org.skywaves.mediavox.helpers.GROUP_BY_LAST_MODIFIED_MONTHLY
+import org.skywaves.mediavox.helpers.GetAudioCoverImageTask
 import org.skywaves.mediavox.helpers.IsoTypeReader
 import org.skywaves.mediavox.helpers.LOCATION_INTERNAL
 import org.skywaves.mediavox.helpers.LOCATION_OTG
 import org.skywaves.mediavox.helpers.LOCATION_SD
 import org.skywaves.mediavox.helpers.MediaFetcher
 import org.skywaves.mediavox.helpers.MyWidgetProvider
-import org.skywaves.mediavox.helpers.PRIMARY_VOLUME_NAME
 import org.skywaves.mediavox.helpers.RECYCLE_BIN
 import org.skywaves.mediavox.helpers.ROUNDED_CORNERS_NONE
 import org.skywaves.mediavox.helpers.ROUNDED_CORNERS_SMALL
@@ -89,8 +83,6 @@ import org.skywaves.mediavox.helpers.SHOW_ALL
 import org.skywaves.mediavox.helpers.THUMBNAIL_FADE_DURATION_MS
 import org.skywaves.mediavox.helpers.TYPE_AUDIOS
 import org.skywaves.mediavox.helpers.TYPE_VIDEOS
-import org.skywaves.mediavox.helpers.VIDEOS
-import org.skywaves.mediavox.helpers.extraAudioMimeTypes
 import org.skywaves.mediavox.interfaces.DateTakensDao
 import org.skywaves.mediavox.interfaces.DirectoryDao
 import org.skywaves.mediavox.interfaces.FavoritesDao
@@ -108,7 +100,6 @@ import java.nio.channels.FileChannel
 import java.util.Locale
 import kotlin.collections.set
 import kotlin.math.max
-import kotlin.math.roundToInt
 
 
 val Context.audioManager get() = getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -1141,5 +1132,63 @@ fun Context.getFileDateTaken(path: String): Long {
     return 0L
 }
 
+fun  getAudioBitrate(contentResolver: ContentResolver, audioUri: String, type: Int): String {
+    var bitrate = "Unknown"
+    if (type == TYPE_AUDIOS){
+    val projection = arrayOf(MediaStore.Audio.Media.BITRATE)
+    contentResolver.query(
+        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+        projection,
+        MediaStore.Audio.Media.DATA + "=?",
+        arrayOf(audioUri),
+        null
+    )?.use { cursor ->
+        if (cursor.moveToFirst()) {
+            val bitrateValue = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.BITRATE))
+            bitrate = "${bitrateValue / 1000}kb/s"
+        }
+    }
+    } else {
+        bitrate = getVideoResolution(contentResolver,audioUri)
+    }
+    return bitrate
+
+}
+fun getVideoResolution(contentResolver: ContentResolver, videoUri: String): String {
+    val resolution = getVideoSize(contentResolver, videoUri)
+    return when {
+        resolution == null -> "Unknown"
+        resolution.width <= 426 && resolution.height <= 240 -> "240p"
+        resolution.width <= 640 && resolution.height <= 360 -> "360p"
+        resolution.width <= 854 && resolution.height <= 480 -> "480p"
+        resolution.width <= 1280 && resolution.height <= 720 -> "720p"
+        resolution.width <= 1920 && resolution.height <= 1080 -> "1080p"
+        resolution.width <= 2560 && resolution.height <= 1440 -> "1440p"
+        resolution.width <= 3840 && resolution.height <= 2160 -> "2160p"
+        else -> "4K"
+    }
+}
+
+fun getVideoSize(contentResolver: ContentResolver, videoUri: String): Size? {
+    val projection = arrayOf(
+        MediaStore.Video.Media.WIDTH,
+        MediaStore.Video.Media.HEIGHT
+    )
+    var size: Size? = null
+    contentResolver.query(
+        MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+        projection,
+        MediaStore.Video.Media.DATA + "=?",
+        arrayOf(videoUri),
+        null
+    )?.use { cursor ->
+        if (cursor.moveToFirst()) {
+            val width = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.WIDTH))
+            val height = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.HEIGHT))
+            size = Size(width, height)
+        }
+    }
+    return size
+}
 
 
