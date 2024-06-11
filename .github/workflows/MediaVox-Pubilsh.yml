@@ -65,6 +65,7 @@ jobs:
           if [ ${{ steps.retrieve_previous_version.outputs.previous_version }} != ${{ steps.get_current_version.outputs.current_version }} ]; then
             echo "Version code changed from ${{ steps.retrieve_previous_version.outputs.previous_version }} to ${{ steps.get_current_version.outputs.current_version }}"
             echo "VERSION_CODE_CHANGED=true" >> $GITHUB_ENV
+            echo steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED
           else
             echo "Version code remains ${{ steps.get_current_version.outputs.current_version }}"
             echo "VERSION_CODE_CHANGED=false" >> $GITHUB_ENV
