@@ -57,6 +57,8 @@ jobs:
         run: |
           previous_version=${{ steps.retrieve_previous_version.outputs.previous_version }}
           current_version=${{ steps.get_current_version.outputs.current_version }}
+          echo "Previous Version: $previous_version"
+          echo "Current Version: $current_version"
           if [ "$previous_version" != "$current_version" ]; then
             echo "Version code changed from $previous_version to $current_version"
             echo "VERSION_CODE_CHANGED=true" >> $GITHUB_ENV
