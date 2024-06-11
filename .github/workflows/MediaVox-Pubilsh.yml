@@ -54,20 +54,20 @@ jobs:
             echo "::set-output name=current_version::"2" "
            
       - name: Determine if Version Code Changed
-        id: check_version_code_changed
-        run: |
-         set -x  # Enable debugging output
-         previous_version=$(awk -F "=" '/^app-version-versionCode/ {print $2}' gradle.properties)
-         current_version=$(awk -F "=" '/^app-version-versionCode/ {print $2}' gradle.properties)
-         echo "Previous Version: $previous_version"
-         echo "Current Version: $current_version"
-          if [ "$previous_version" != "$current_version" ]; then
-             echo "Version code changed from $previous_version to $current_version"
-             echo "VERSION_CODE_CHANGED=true" >> $GITHUB_ENV
-          else
-            echo "Version code remains $current_version"
-            echo "VERSION_CODE_CHANGED=false" >> $GITHUB_ENV
-         fi
+  id: check_version_code_changed
+  run: |
+     set -x  # Enable debugging output
+     previous_version=$(awk -F "=" '/versionCode/ {print $2}' app/build.gradle)
+     current_version=$(awk -F "=" '/versionCode/ {print $2}' app/build.gradle)
+     echo "Previous Version: $previous_version"
+     echo "Current Version: $current_version"
+     if [ "$previous_version" != "$current_version" ]; then
+        echo "Version code changed from $previous_version to $current_version"
+        echo "VERSION_CODE_CHANGED=true" >> $GITHUB_ENV
+     else
+        echo "Version code remains $current_version"
+        echo "VERSION_CODE_CHANGED=false" >> $GITHUB_ENV
+     fi
 
 
       - name: Rescue Build
