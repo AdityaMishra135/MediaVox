@@ -27,9 +27,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew assembleDebug
-
       - name: Retrieve Previous Version Code
         id: retrieve_previous_version
         run: echo "::set-output name=previous_version::$(cat previous_version.txt || echo 0)"
@@ -54,12 +51,12 @@ jobs:
       - name: Rescue Build
         if: steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED == 'true'
         run: |
+          ./gradlew assembleDebug
           echo "APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')" >> $GITHUB_ENV
           export APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')
           echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
 
       - name: Upload Build App
-        if: steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.APK_FILE_NAME }}
@@ -80,8 +77,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v1.${{ github.run_number }}
-          release_name: ${{ github.event.repository.name }} v1.${{ github.run_number }}
+          tag_name: v${{ steps.get_current_version.outputs.current_version }}
+          release_name: ${{ github.event.repository.name }} v${{ steps.get_current_version.outputs.current_version }}
           body: |
             ${{ steps.Changelog.outputs.changelog }}
           draft: false
