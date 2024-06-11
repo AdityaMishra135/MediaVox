@@ -36,45 +36,46 @@ jobs:
           else
             echo "::set-output name=libs_versions_path::"
           fi
-
       - name: Retrieve Previous Version Code
         id: retrieve_previous_version
         run: |
           if [ -n "${{ steps.find_libs_versions.outputs.libs_versions_path }}" ]; then
-            previous_version=$(awk -F "=" '/app-version-previousCode/ {print $2}' "${{ steps.find_libs_versions.outputs.libs_versions_path }}")
+            previous_version=$(awk -F "=" '/^app-version-versionCode/ {print $2}' "${{ steps.find_libs_versions.outputs.libs_versions_path }}")
             echo "::set-output name=previous_version::$previous_version"
           else
             echo "No libs.versions.toml found"
             echo "::set-output name=previous_version::0"  # Default to 0 if file not found
           fi
           
-      - name: Get Current Version Code 
+      - name: Get Current Version Code app-version-previousCode
         id: get_current_version
         run: |
-            echo "::set-output name=current_version::"2" "
-           
+          if [ -n "${{ steps.find_libs_versions.outputs.libs_versions_path }}" ]; then
+            current_version=$(awk -F "=" '/app-version-versionCode/ {print $2}' "${{ steps.find_libs_versions.outputs.libs_versions_path }}")
+            echo "::set-output name=current_version::$current_version"
+          else
+            echo "No libs.versions.toml found"
+            echo "::set-output name=current_version::0"  # Default to 0 if file not found
+          fi
       - name: Determine if Version Code Changed
         id: check_version_code_changed
         run: |
-           previous_version=$(awk -F "=" '/versionCode/ {print $2}' app/build.gradle)
-           current_version=$(awk -F "=" '/versionCode/ {print $2}' app/build.gradle)
-           echo "Previous Version: $previous_version"
-           echo "Current Version: $current_version"
-           if [ "$previous_version" != "$current_version" ]; then
-             echo "Version code changed from $previous_version to $current_version"
-             echo "VERSION_CODE_CHANGED=true" >> $GITHUB_ENV
-           else
-             echo "Version code remains $current_version"
-             echo "VERSION_CODE_CHANGED=false" >> $GITHUB_ENV
-           fi
-
+          echo "Previous Version: $previous_version"
+          echo "Current Version: $current_version"
+          if [ ${{ steps.retrieve_previous_version.outputs.previous_version }} != ${{ steps.get_current_version.outputs.current_version }} ]; then
+            echo "Version code changed from $previous_version to $current_version"
+            echo "VERSION_CODE_CHANGED=false" >> $GITHUB_ENV
+          else
+            echo "Version code remains $current_version"
+            echo "VERSION_CODE_CHANGED=true" >> $GITHUB_ENV
+          fi
+          
       - name: Rescue Build
         run: |
           ./gradlew assembleDebug
           echo "APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')" >> $GITHUB_ENV
           export APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')
           echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
-
       - name: Upload Build App
         uses: actions/upload-artifact@v4
         with:
