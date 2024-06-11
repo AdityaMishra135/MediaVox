@@ -81,25 +81,23 @@ jobs:
       - name: Generate Release Build
         id: create_release
         uses: actions/create-release@latest
-        if: ${{ steps.retrieve_previous_version.outputs.previous_version }} != ${{ steps.get_current_version.outputs.current_version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.get_current_version.outputs.current_version }}
-          release_name: ${{ github.event.repository.name }} v${{ steps.get_current_version.outputs.current_version }}
-          body: |
+         tag_name: v1.${{ github.run_number }}
+         release_name: ${{ github.event.repository.name }} v1.${{ github.run_number }}
+         body: |
             ${{ steps.Changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
+         draft: false
+         prerelease: false
           
       - name: Upload Release APK
         id: upload_release_asset
         uses: actions/upload-release-asset@latest
-        if: ${{ steps.retrieve_previous_version.outputs.previous_version }} != ${{ steps.get_current_version.outputs.current_version }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.APK_FILE }}
-          asset_name:  ${{ env.APK_FILE_NAME }}.apk
-          asset_content_type: application/zip
+         upload_url: ${{ steps.create_release.outputs.upload_url }}
+         asset_path: ${{ env.APK_FILE }}
+         asset_name:  ${{ env.APK_FILE_NAME }}.apk
+         asset_content_type: application/zip
