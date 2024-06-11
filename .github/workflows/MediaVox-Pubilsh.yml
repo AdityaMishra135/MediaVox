@@ -49,7 +49,6 @@ jobs:
           fi
 
       - name: Rescue Build
-        if: steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED == 'true'
         run: |
           ./gradlew assembleDebug
           echo "APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')" >> $GITHUB_ENV
