@@ -51,13 +51,9 @@ jobs:
       - name: Get Current Version Code 
         id: get_current_version
         run: |
-          if [ -n "${{ steps.find_libs_versions.outputs.libs_versions_path }}" ]; then
-            current_version=$(awk -F "=" '/app-version-versionCode/ {print $1}' "${{ steps.find_libs_versions.outputs.libs_versions_path }}")
-            echo "::set-output name=current_version::$current_version"
-          else
-            echo "No libs.versions.toml found"
-            echo "::set-output name=current_version::0"  # Default to 0 if file not found
-          fi
+       
+            echo "::set-output name=current_version::"2""
+            fi
 
       - name: Determine if Version Code Changed
         id: check_version_code_changed
