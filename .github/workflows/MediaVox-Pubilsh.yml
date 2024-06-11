@@ -65,10 +65,10 @@ jobs:
           if [ ${{ steps.retrieve_previous_version.outputs.previous_version }} != ${{ steps.get_current_version.outputs.current_version }} ]; then
             echo "Version code changed from ${{ steps.retrieve_previous_version.outputs.previous_version }} to ${{ steps.get_current_version.outputs.current_version }}"
             echo "VERSION_CODE_CHANGED=true" >> $GITHUB_ENV
-            echo steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED
+            echo "::set-output name=VERSION_CODE_CHANGED::true"
           else
             echo "Version code remains ${{ steps.get_current_version.outputs.current_version }}"
-            echo "VERSION_CODE_CHANGED=false" >> $GITHUB_ENV
+            echo "::set-output name=VERSION_CODE_CHANGED::false"
           fi
           
       - name: Rescue Build
@@ -77,6 +77,7 @@ jobs:
           echo "APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')" >> $GITHUB_ENV
           export APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')
           echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
+          echo "steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED"
       - name: Upload Build App
         uses: actions/upload-artifact@v4
         with:
