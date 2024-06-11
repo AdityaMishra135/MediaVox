@@ -68,7 +68,7 @@ okio = "3.0.0"
 picasso = "2.71828"
 #versioning
 app-version-appId = "org.skywaves.mediavox"
-app-version-versionCode = "1"
+app-version-versionCode = "2"
 app-version-previousCode = "0"
 app-version-versionName = "1.0.0"
 [libraries]
