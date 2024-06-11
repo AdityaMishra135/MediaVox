@@ -51,10 +51,8 @@ jobs:
       - name: Get Current Version Code 
         id: get_current_version
         run: |
-       
             echo "::set-output name=current_version::"2""
-            fi
-
+           
       - name: Determine if Version Code Changed
         id: check_version_code_changed
         run: |
