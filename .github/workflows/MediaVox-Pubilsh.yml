@@ -60,14 +60,14 @@ jobs:
       - name: Determine if Version Code Changed
         id: check_version_code_changed
         run: |
-          echo "Previous Version: $previous_version"
-          echo "Current Version: $current_version"
+          echo "Previous Version: ${{ steps.retrieve_previous_version.outputs.previous_version }}"
+          echo "Current Version: ${{ steps.get_current_version.outputs.current_version }}"
           if [ ${{ steps.retrieve_previous_version.outputs.previous_version }} != ${{ steps.get_current_version.outputs.current_version }} ]; then
-            echo "Version code changed from $previous_version to $current_version"
-            echo "VERSION_CODE_CHANGED=false" >> $GITHUB_ENV
-          else
-            echo "Version code remains $current_version"
+            echo "Version code changed from ${{ steps.retrieve_previous_version.outputs.previous_version }} to ${{ steps.get_current_version.outputs.current_version }}"
             echo "VERSION_CODE_CHANGED=true" >> $GITHUB_ENV
+          else
+            echo "Version code remains ${{ steps.get_current_version.outputs.current_version }}"
+            echo "VERSION_CODE_CHANGED=false" >> $GITHUB_ENV
           fi
           
       - name: Rescue Build
