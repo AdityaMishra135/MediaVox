@@ -29,7 +29,9 @@ jobs:
 
       - name: Retrieve Previous Version Code
         id: retrieve_previous_version
-        run: echo "::set-output name=previous_version::$(cat previous_version.txt || echo 0)"
+        run: |
+          previous_version=$(awk -F "=" '/^app-version-versionCode/ {print $2}' MediaVox/gradle/libs.versions.toml)
+          echo "::set-output name=previous_version::$previous_version"
 
       - name: Get Current Version Code
         id: get_current_version
@@ -47,7 +49,7 @@ jobs:
             echo "Version code remains $current_version"
             echo "VERSION_CODE_CHANGED=false" >> $GITHUB_ENV
           fi
-
+          
       - name: Rescue Build
         run: |
           ./gradlew assembleDebug
