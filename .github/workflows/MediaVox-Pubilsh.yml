@@ -84,8 +84,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-         tag_name: v${{ steps.get_current_version.outputs.current_version }}
-         release_name: ${{ github.event.repository.name }} v${{ steps.get_current_version.outputs.current_version }}
+         tag_name: v1.${{ steps.get_current_version.outputs.current_version }}
+         release_name: ${{ github.event.repository.name }} v1.${{ steps.get_current_version.outputs.current_version }}
          body: |
             ${{ steps.Changelog.outputs.changelog }}
          draft: false
