@@ -69,6 +69,7 @@ picasso = "2.71828"
 #versioning
 app-version-appId = "org.skywaves.mediavox"
 app-version-versionCode = "1"
+app-version-previousCode = "1"
 app-version-versionName = "1.0.0"
 [libraries]
 #Android X
