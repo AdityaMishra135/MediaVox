@@ -2,9 +2,8 @@ name: MediaVox Release CI
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches:
+      - MediaVox
 
 jobs:
   build:
@@ -16,58 +15,90 @@ jobs:
       repository-projects: write
       
     steps:
-    - uses: actions/checkout@v4
-    - name: set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
+      - uses: actions/checkout@v4
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew assembleDebug
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
 
-    - name: Rescue Build
-      run: |
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew assembleDebug
+
+      - name: Retrieve Previous Version Code
+        id: retrieve_previous_version
+        run: echo "::set-output name=previous_version::$(cat previous_version.txt || echo 0)"
+
+      - name: Get Current Version Code
+        id: get_current_version
+        run: echo "::set-output name=current_version::$(./gradlew printVersionCode --quiet)"
+
+      - name: Determine if Version Code Changed
+        id: check_version_code_changed
+        run: |
+          previous_version=${{ steps.retrieve_previous_version.outputs.previous_version }}
+          current_version=${{ steps.get_current_version.outputs.current_version }}
+          if [ "$previous_version" != "$current_version" ]; then
+            echo "Version code changed from $previous_version to $current_version"
+            echo "VERSION_CODE_CHANGED=true" >> $GITHUB_ENV
+          else
+            echo "Version code remains $current_version"
+            echo "VERSION_CODE_CHANGED=false" >> $GITHUB_ENV
+          fi
+
+      - name: Rescue Build
+        if: steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED == 'true'
+        run: |
           echo "APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')" >> $GITHUB_ENV
           export APK_FILE=$(find app/build/outputs/apk/debug -name '*.apk')
           echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
 
-    - name: Upload Build App
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.APK_FILE_NAME }}
-        path: ${{ env.APK_FILE }}
-        compression-level: 9
+      - name: Upload Build App
+        if: steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APK_FILE_NAME }}
+          path: ${{ env.APK_FILE }}
+          compression-level: 9
           
-    - name: Update changelogs
-      uses: Bullrich/generate-release-changelog@master
-      id: Changelog
-      env:
+      - name: Update changelogs
+        uses: Bullrich/generate-release-changelog@master
+        id: Changelog
+        if: steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED == 'true'
+        env:
           REPO: ${{ github.repository }}
           
-    - name: Generate Release Build
-      id: create_release
-      uses: actions/create-release@latest
-      env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-         tag_name: v1.${{ github.run_number }}
-         release_name: ${{ github.event.repository.name }} v1.${{ github.run_number }}
-         body: |
+      - name: Generate Release Build
+        id: create_release
+        uses: actions/create-release@latest
+        if: steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.${{ github.run_number }}
+          release_name: ${{ github.event.repository.name }} v1.${{ github.run_number }}
+          body: |
             ${{ steps.Changelog.outputs.changelog }}
-         draft: false
-         prerelease: false
+          draft: false
+          prerelease: false
           
-    - name: Upload Release APK
-      id: upload_release_asset
-      uses: actions/upload-release-asset@latest
-      env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-         upload_url: ${{ steps.create_release.outputs.upload_url }}
-         asset_path: ${{ env.APK_FILE }}
-         asset_name:  ${{ env.APK_FILE_NAME }}.apk
-         asset_content_type: application/zip
+      - name: Upload Release APK
+        id: upload_release_asset
+        uses: actions/upload-release-asset@latest
+        if: steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.APK_FILE }}
+          asset_name:  ${{ env.APK_FILE_NAME }}.apk
+          asset_content_type: application/zip
+          
+      - name: Store Current Version Code
+        run: echo "${{ steps.get_current_version.outputs.current_version }}" > previous_version.txt
+        if: steps.check_version_code_changed.outputs.VERSION_CODE_CHANGED == 'true'
