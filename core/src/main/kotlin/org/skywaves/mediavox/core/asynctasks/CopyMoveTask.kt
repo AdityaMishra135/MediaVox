@@ -3,12 +3,16 @@ package org.skywaves.mediavox.core.asynctasks
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ContentValues
+import android.content.Context
 import android.os.AsyncTask
 import android.os.Handler
 import android.provider.MediaStore
+import android.view.LayoutInflater
+import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.util.Pair
 import androidx.documentfile.provider.DocumentFile
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.skywaves.mediavox.core.R
 import org.skywaves.mediavox.core.activities.BaseSimpleActivity
 import org.skywaves.mediavox.core.extensions.*
@@ -47,10 +51,39 @@ class CopyMoveTask(
     private var mIsTaskOver = false
     private var mProgressHandler = Handler()
 
+
+    private var bottomSheetDialog: BottomSheetDialog? = null
+    private var textFromTo: TextView? = null
+    private var textFileCount: TextView? = null
+    private var textProgress: TextView? = null
+    private var textTotalSize: TextView? = null
+    private var textCurrentFileSize: TextView? = null
+
     init {
         mListener = WeakReference(listener)
         mNotificationBuilder = NotificationCompat.Builder(activity)
     }
+
+
+    override fun onPreExecute() {
+        // Initialize and show bottom sheet dialog
+        val context: Context = activity.applicationContext
+        val view = LayoutInflater.from(context).inflate(R.layout.copy_move_dialog, null)
+
+        textFromTo = view.findViewById(R.id.textFromTo)
+        textFileCount = view.findViewById(R.id.textFileCount)
+        textProgress = view.findViewById(R.id.textProgress)
+        textTotalSize = view.findViewById(R.id.textTotalSize)
+        textCurrentFileSize = view.findViewById(R.id.textCurrentFileSize)
+
+        bottomSheetDialog = BottomSheetDialog(context)
+        bottomSheetDialog?.setContentView(view)
+        bottomSheetDialog?.show()
+
+        // Update initial details
+        updateDetails()
+    }
+
 
     override fun doInBackground(vararg params: Pair<ArrayList<FileDirItem>, String>): Boolean {
         if (params.isEmpty()) {
@@ -105,10 +138,17 @@ class CopyMoveTask(
         return true
     }
 
+    override fun onProgressUpdate(vararg values: Void) {
+        // Update progress details in bottom sheet
+        updateDetails()
+    }
+
     override fun onPostExecute(success: Boolean) {
         if (activity.isFinishing || activity.isDestroyed) {
             return
         }
+        bottomSheetDialog?.dismiss()
+        bottomSheetDialog = null
 
         deleteProtectedFiles()
         mProgressHandler.removeCallbacksAndMessages(null)
@@ -137,6 +177,15 @@ class CopyMoveTask(
         mNotificationBuilder.setContentTitle(title)
             .setSmallIcon(R.drawable.ic_copy_vector)
             .setChannelId(channelId)
+    }
+
+    private fun updateDetails() {
+        // Update bottom sheet dialog with current details
+        textFromTo?.text = "From: ... to: ..." // Update with actual paths
+        textFileCount?.text = "Files: $mFileCountToCopy / ${mFiles.size}"
+        textProgress?.text = "Progress: ${mTransferredFiles.size} / $mFileCountToCopy"
+        textTotalSize?.text = "Total Size: ${mMaxSize} KB" // Update with actual sizes
+        textCurrentFileSize?.text = "Current File Size: ${mCurrentProgress / 1000} KB" // Update with current file size
     }
 
     private fun updateProgress() {
