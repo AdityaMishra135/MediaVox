@@ -900,6 +900,20 @@
                     android:text="@string/import_settings" />
 
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/settings_HOLDER_"
+                style="@style/SettingsHolderTextViewOneLinerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <org.skywaves.mediavox.core.views.MyTextView
+                    android:id="@+id/settings_"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/import_settings" />
+
+            </RelativeLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

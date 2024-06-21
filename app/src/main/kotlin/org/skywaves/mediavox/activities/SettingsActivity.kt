@@ -13,6 +13,7 @@ import org.skywaves.mediavox.core.extensions.*
 import org.skywaves.mediavox.core.helpers.*
 import org.skywaves.mediavox.core.models.RadioItem
 import org.skywaves.mediavox.R
+import org.skywaves.mediavox.core.activities.CustomizationActivity
 import org.skywaves.mediavox.databinding.ActivitySettingsBinding
 import org.skywaves.mediavox.dialogs.*
 import org.skywaves.mediavox.extensions.*
@@ -41,6 +42,12 @@ class SettingsActivity : SimpleActivity() {
 
         updateMaterialActivityViews(binding.settingsCoordinator, binding.settingsHolder, useTransparentNavigation = true, useTopSearchMenu = false)
         setupMaterialScrollListener(binding.settingsNestedScrollview, binding.settingsToolbar)
+        binding.settings.setOnClickListener {
+            Intent(applicationContext, CustomSettingsActivity::class.java).apply {
+                putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
+                startActivity(this)
+            }
+        }
     }
 
     override fun onResume() {
@@ -110,7 +117,8 @@ class SettingsActivity : SimpleActivity() {
             binding.settingsFileOperationsLabel,
             binding.settingsBottomActionsLabel,
             binding.settingsRecycleBinLabel,
-            binding.settingsMigratingLabel
+            binding.settingsMigratingLabel,
+            binding.settings
         ).forEach {
             it.setTextColor(getProperPrimaryColor())
         }

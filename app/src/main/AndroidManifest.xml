@@ -138,6 +138,18 @@
             android:exported="true"
             android:label="@string/settings"
             android:parentActivityName=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.CustomSettingsActivity"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/settings"
+            android:parentActivityName=".activities.MainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
