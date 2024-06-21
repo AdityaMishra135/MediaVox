@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -55,6 +56,20 @@ public class SettingsCategoryItemView extends RelativeLayout {
         if (typedArray.hasValue(R.styleable.SettingsCategoryItemView_settingItemIcon)) {
             mIcon = view.findViewById(R.id.settings_list_item_icon);
             mIcon.setImageDrawable(typedArray.getDrawable(R.styleable.SettingsCategoryItemView_settingItemIcon));
+
+            int iconColor = typedArray.getColor(R.styleable.SettingsCategoryItemView_settingItemIconColor, 0);
+
+            boolean isColoredIcon = typedArray.getBoolean(R.styleable.SettingsCategoryItemView_settingItemColoredIcon, false);
+            int iconBackgroundColor = isColoredIcon ? iconColor : 0;
+
+            if (isColoredIcon) {
+                    iconColor = context.getResources().getColor(org.skywaves.mediavox.core.R.color.color_primary_dark);
+                    iconBackgroundColor = mixColors(iconBackgroundColor, Color.WHITE, 0.4f);
+            }
+
+
+            mIcon.setBackgroundTintList(ColorStateList.valueOf(iconBackgroundColor));
+            mIcon.setImageTintList(ColorStateList.valueOf(iconColor));
         }
 
         mTitle.setText(typedArray.getText(R.styleable.SettingsCategoryItemView_settingItemTitle));
@@ -70,4 +85,15 @@ public class SettingsCategoryItemView extends RelativeLayout {
         if (null != mIcon) mIcon.setEnabled(enabled);
         super.setEnabled(enabled);
     }
+
+
+    @ColorInt
+    public static int mixColors(@ColorInt int color1, @ColorInt int color2, float ratio) {
+        float inverseRatio = 1f - ratio;
+        float r = Color.red(color1) * ratio + Color.red(color2) * inverseRatio;
+        float g = Color.green(color1) * ratio + Color.green(color2) * inverseRatio;
+        float b = Color.blue(color1) * ratio + Color.blue(color2) * inverseRatio;
+        return Color.rgb((int) r, (int) g, (int) b);
+    }
+
 }
