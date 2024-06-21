@@ -15,10 +15,7 @@
             android:id="@+id/settings_toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:layout_scrollFlags="scroll|enterAlways|snapMargins"
-            app:toolbarAccentTitle="true"
-            app:toolbarNavigationIcon="@drawable/ic_keyboard_backspace"
-            tools:toolbarTitle="@string/settings" />
+            app:layout_scrollFlags="scroll|enterAlways|snapMargins" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
