@@ -1,46 +1,68 @@
 package org.skywaves.mediavox.activities
 
-import PersonalizeFragment
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentManager
 import org.skywaves.mediavox.R
 import org.skywaves.mediavox.core.extensions.viewBinding
-import org.skywaves.mediavox.core.helpers.NavigationIcon
 import org.skywaves.mediavox.databinding.ActivityCustomSettingsBinding
-import org.skywaves.mediavox.fragments.settings.ThemeFragment
+import org.skywaves.mediavox.fragments.settings.SettingsMainFragment
+import org.skywaves.mediavox.fragments.settings.base.SettingsBaseFragment
+import org.skywaves.mediavox.fragments.settings.base.SettingsFragmentsListener
 
-class CustomSettingsActivity : SimpleActivity() {
+
+class CustomSettingsActivity : SimpleActivity(), SettingsFragmentsListener {
 
     private val binding by viewBinding(ActivityCustomSettingsBinding::inflate)
-
+    private var mPulseToolbar: Toolbar? = null
+    private var mFragmentManager: FragmentManager? = null
+    private val mRestartDialog: AlertDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        updateMaterialActivityViews(binding.customSettingsCoordinator, binding.customSettingHolder, useTransparentNavigation = true, useTopSearchMenu = false)
-        setupMaterialScrollListener(binding.customSettingsNestedScrollview, binding.customSettingsToolbar)
+        mFragmentManager = supportFragmentManager
+        mPulseToolbar = binding.settingsToolbar
+        setToolbarTitle(org.skywaves.mediavox.core.R.string.settings)
+        mPulseToolbar!!.setNavigationOnClickListener { v -> onBackPressed() }
 
-        // Handle clicks on sections
-        binding.sectionTheme.setOnClickListener {
-            loadFragment(ThemeFragment())
+        if (null == savedInstanceState) {
+            //Set up the main fragment when activity is first created
+            mFragmentManager!!.beginTransaction()
+                .replace(R.id.settings_content_container, SettingsMainFragment.getInstance(), SettingsMainFragment.TAG)
+                .commit()
         }
 
-        binding.sectionPersonalize.setOnClickListener {
-            loadFragment(PersonalizeFragment())
+    }
+
+    override fun changeFragment(fragment: SettingsBaseFragment?) {
+        mFragmentManager!!.beginTransaction()
+            .replace(R.id.settings_content_container, fragment!!, fragment.getFragmentTag())
+            .addToBackStack(null)
+            .commit();
+    }
+
+    override fun setToolbarTitle(titleId: Int) {
+        mPulseToolbar!!.setTitle(getString(titleId));
+    }
+
+    override fun requiresActivityRestart() {
+        recreate();
+    }
+
+    override fun requiresApplicationRestart(shouldStopPlayback: Boolean) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onBackPressed() {
+        if (mFragmentManager!!.backStackEntryCount == 0) {
+            super.onBackPressed()
+        } else {
+            mPulseToolbar!!.title = getString(org.skywaves.mediavox.core.R.string.settings)
+            mFragmentManager!!.popBackStack()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setupToolbar(binding.customSettingsToolbar, NavigationIcon.Arrow)
-    }
-
-    private fun loadFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null) // Optional: Add to back stack for fragment navigation
-            .commit()
     }
 
 }

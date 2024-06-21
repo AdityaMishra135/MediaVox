@@ -1,0 +1,35 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/settings_list_item_icon"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/plain_circle"
+        android:padding="14dp"
+        tools:ignore="contentDescription"
+        tools:src="@tools:sample/avatars" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/settings_list_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/settings_list_item_icon"
+        android:textAppearance="@style/Appearance.Text.Body1"
+        tools:text="@tools:sample/full_names" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/settings_list_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settings_list_item_title"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@id/settings_list_item_icon"
+        android:maxLines="4"
+        android:textAppearance="@style/Appearance.Text.Body2"
+        android:textColor="?android:attr/textColorSecondary"
+        tools:text="@tools:sample/lorem/random" />
+</merge>

@@ -8,4 +8,30 @@
     </style>
 
     <style name="FullScreenTheme" parent="FullScreenTheme.Base" />
+
+    <style name="Appearance.Text.Body1" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.03125</item>
+    </style>
+
+    <style name="Appearance.Text.Body2" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.0178571429</item>
+    </style>
+
+
+    <declare-styleable name="SettingsCategoryItemView">
+        <attr name="settingItemIcon" format="reference" />
+        <attr name="settingItemIconColor" format="reference" />
+        <attr name="settingItemBackgroundAlpha" format="float" />
+        <attr name="settingItemTitle" format="string" />
+        <attr name="settingItemText" format="string" />
+        <attr name="android:textAppearance" />
+        <attr name="android:textStyle" />
+        <attr name="settingItemColoredIcon" format="boolean" />
+    </declare-styleable>
 </resources>

@@ -2,93 +2,35 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/custom_settings_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/custom_settings_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/color_primary"
-        app:title="@string/settings"
-        app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/custom_settings_nested_scrollview"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:fillViewport="true"
-        android:scrollbars="none">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
+        app:liftOnScroll="true">
 
-        <!-- activity_settings.xml -->
-        <RelativeLayout
-            android:id="@+id/custom_setting_holder"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/settings_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="56dp"
+            app:layout_scrollFlags="scroll|enterAlways|snapMargins"
+            app:toolbarAccentTitle="true"
+            app:toolbarNavigationIcon="@drawable/ic_keyboard_backspace"
+            tools:toolbarTitle="@string/settings" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <!-- Theme Section -->
-            <LinearLayout
-                android:id="@+id/sectionTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="16dp">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/baseline_brush_24"
-                    android:contentDescription="@string/hide_folder_description"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/theme"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:layout_marginStart="16dp"/>
-
-            </LinearLayout>
-
-            <!-- Personalize Section -->
-            <LinearLayout
-                android:id="@+id/sectionPersonalize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="16dp"
-                android:layout_below="@id/sectionTheme">
-
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/ic_person_vector"
-                    android:contentDescription="@string/exclude_folder_description"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/call_person"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:layout_marginStart="16dp"/>
-
-            </LinearLayout>
-
-            <!-- Add more sections as needed -->
-
-            <!-- Fragment container -->
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/sectionPersonalize" />
-
-        </RelativeLayout>
-
+        <FrameLayout
+            android:id="@+id/settings_content_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
