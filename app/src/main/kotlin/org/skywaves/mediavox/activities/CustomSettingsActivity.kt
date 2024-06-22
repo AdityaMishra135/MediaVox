@@ -29,7 +29,7 @@ class CustomSettingsActivity : SimpleActivity(), SettingsFragmentsListener {
         setToolbarTitle(org.skywaves.mediavox.core.R.string.settings)
         mPulseToolbar!!.setNavigationOnClickListener { v -> onBackPressed() }
 
-        updateMaterialActivityViews(binding.customSetting, binding.customHolder, useTransparentNavigation = true, useTopSearchMenu = false)
+        updateMaterialActivityViews(null, null, useTransparentNavigation = true, useTopSearchMenu = false)
 
         if (null == savedInstanceState) {
             //Set up the main fragment when activity is first created

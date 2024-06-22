@@ -11,6 +11,8 @@ import android.widget.RelativeLayout
 import androidx.annotation.ColorInt
 import com.google.android.material.textview.MaterialTextView
 import org.skywaves.mediavox.R
+import org.skywaves.mediavox.core.extensions.adjustAlpha
+import org.skywaves.mediavox.core.extensions.getProperTextColor
 
 class SettingsCategoryItemView @JvmOverloads constructor(
     context: Context,
@@ -37,6 +39,8 @@ class SettingsCategoryItemView @JvmOverloads constructor(
         val view = inflate(context, R.layout.settings_category_list_item, this)
         mTitle = view.findViewById(R.id.settings_list_item_title)
         mText = view.findViewById(R.id.settings_list_item_text)
+        mTitle.setTextColor(context.getProperTextColor())
+        mTitle.setTextColor(context.getProperTextColor().adjustAlpha(.7f))
 
 
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SettingsCategoryItemView)
