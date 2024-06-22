@@ -40,7 +40,7 @@ class SettingsCategoryItemView @JvmOverloads constructor(
         mTitle = view.findViewById(R.id.settings_list_item_title)
         mText = view.findViewById(R.id.settings_list_item_text)
         mTitle.setTextColor(context.getProperTextColor())
-        mTitle.setTextColor(context.getProperTextColor().adjustAlpha(.7f))
+        mTitle.setTextColor(context.getProperTextColor().adjustAlpha(.5f))
 
 
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SettingsCategoryItemView)

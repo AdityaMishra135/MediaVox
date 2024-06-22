@@ -29,7 +29,6 @@ class CustomSettingsActivity : SimpleActivity(), SettingsFragmentsListener {
         setToolbarTitle(org.skywaves.mediavox.core.R.string.settings)
         mPulseToolbar!!.setNavigationOnClickListener { v -> onBackPressed() }
 
-        updateMaterialActivityViews(null, null, useTransparentNavigation = true, useTopSearchMenu = false)
 
         if (null == savedInstanceState) {
             //Set up the main fragment when activity is first created
@@ -43,6 +42,7 @@ class CustomSettingsActivity : SimpleActivity(), SettingsFragmentsListener {
     override fun changeFragment(fragment: SettingsBaseFragment?) {
         mFragmentManager!!.beginTransaction()
             .replace(R.id.settings_content_container, fragment!!, fragment.getFragmentTag())
+            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
             .addToBackStack(null)
             .commit();
     }
