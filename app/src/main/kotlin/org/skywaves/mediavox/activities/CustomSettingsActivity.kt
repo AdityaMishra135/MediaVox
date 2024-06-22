@@ -30,7 +30,6 @@ class CustomSettingsActivity : SimpleActivity(), SettingsFragmentsListener {
         mPulseToolbar!!.setNavigationOnClickListener { v -> onBackPressed() }
 
         updateMaterialActivityViews(binding.customSetting, binding.customHolder, useTransparentNavigation = true, useTopSearchMenu = false)
-        setupMaterialScrollListener(binding.customHolder, mPulseToolbar!!)
 
         if (null == savedInstanceState) {
             //Set up the main fragment when activity is first created

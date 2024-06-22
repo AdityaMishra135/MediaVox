@@ -1,101 +1,102 @@
-package org.skywaves.mediavox.views;
+package org.skywaves.mediavox.views
 
-import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.Typeface
+import android.util.AttributeSet
+import android.util.TypedValue
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import androidx.annotation.ColorInt
+import com.google.android.material.textview.MaterialTextView
+import org.skywaves.mediavox.R
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+class SettingsCategoryItemView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : RelativeLayout(context, attrs, defStyleAttr) {
+    private val mTitle: MaterialTextView
+    private val mText: MaterialTextView
+    private var mIcon: ImageView? = null
 
-import com.google.android.material.textview.MaterialTextView;
+    init {
+        val paddingDef = DimensionsUtil.getDimensionPixelSize(context, 12f)
+        setPadding(
+            DimensionsUtil.getDimensionPixelSize(context, 8f),
+            paddingDef,
+            paddingDef,
+            paddingDef
+        )
 
-import org.skywaves.mediavox.R;
+        val outValue = TypedValue()
+        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
+        setBackgroundResource(outValue.resourceId)
 
-public class SettingsCategoryItemView extends RelativeLayout {
-
-    private final MaterialTextView mTitle;
-    private final MaterialTextView mText;
-    private ImageView mIcon;
-
-    public SettingsCategoryItemView(@NonNull Context context) {
-        this(context, null, 0);
-    }
-
-    public SettingsCategoryItemView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public SettingsCategoryItemView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
-        final int paddingDef = DimensionsUtil.getDimensionPixelSize(context, 12);
-        setPadding(DimensionsUtil.getDimensionPixelSize(context, 8), paddingDef, paddingDef, paddingDef);
-
-        TypedValue outValue = new TypedValue();
-        context.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-        setBackgroundResource(outValue.resourceId);
-
-        View view = View.inflate(context, R.layout.settings_category_list_item, this);
-        mTitle = view.findViewById(R.id.settings_list_item_title);
-        mText = view.findViewById(R.id.settings_list_item_text);
+        val view = inflate(context, R.layout.settings_category_list_item, this)
+        mTitle = view.findViewById(R.id.settings_list_item_title)
+        mText = view.findViewById(R.id.settings_list_item_text)
 
 
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SettingsCategoryItemView)
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SettingsCategoryItemView);
-
-        if (mTitle.getTypeface() != null && typedArray.hasValue(R.styleable.SettingsCategoryItemView_android_textStyle)) {
-            mTitle.setTypeface(mTitle.getTypeface(), typedArray.getInteger(R.styleable.SettingsCategoryItemView_android_textStyle, Typeface.BOLD));
+        if (mTitle.typeface != null && typedArray.hasValue(R.styleable.SettingsCategoryItemView_android_textStyle)) {
+            mTitle.setTypeface(
+                mTitle.typeface,
+                typedArray.getInteger(
+                    R.styleable.SettingsCategoryItemView_android_textStyle,
+                    Typeface.BOLD
+                )
+            )
         }
 
         if (typedArray.hasValue(R.styleable.SettingsCategoryItemView_settingItemIcon)) {
-            mIcon = view.findViewById(R.id.settings_list_item_icon);
-            mIcon.setImageDrawable(typedArray.getDrawable(R.styleable.SettingsCategoryItemView_settingItemIcon));
+            mIcon = view.findViewById(R.id.settings_list_item_icon)
+            mIcon?.setImageDrawable(typedArray.getDrawable(R.styleable.SettingsCategoryItemView_settingItemIcon))
 
-            int iconColor = typedArray.getColor(R.styleable.SettingsCategoryItemView_settingItemIconColor, 0);
+            var iconColor =
+                typedArray.getColor(R.styleable.SettingsCategoryItemView_settingItemIconColor, 0)
 
-            boolean isColoredIcon = typedArray.getBoolean(R.styleable.SettingsCategoryItemView_settingItemColoredIcon, false);
-            int iconBackgroundColor = isColoredIcon ? iconColor : 0;
+            val isColoredIcon = typedArray.getBoolean(
+                R.styleable.SettingsCategoryItemView_settingItemColoredIcon,
+                false
+            )
+            var iconBackgroundColor = if (isColoredIcon) iconColor else 0
 
             if (isColoredIcon) {
-                    iconColor = context.getResources().getColor(org.skywaves.mediavox.core.R.color.color_primary_dark);
-                    iconBackgroundColor = mixColors(iconBackgroundColor, Color.WHITE, 0.4f);
+                iconColor =
+                    context.resources.getColor(org.skywaves.mediavox.core.R.color.color_primary_dark)
+                iconBackgroundColor = mixColors(iconBackgroundColor, Color.WHITE, 0.4f)
             }
 
 
-            mIcon.setBackgroundTintList(ColorStateList.valueOf(iconBackgroundColor));
-            mIcon.setImageTintList(ColorStateList.valueOf(iconColor));
+            mIcon?.backgroundTintList = ColorStateList.valueOf(iconBackgroundColor)
+            mIcon!!.imageTintList = ColorStateList.valueOf(iconColor)
         }
 
-        mTitle.setText(typedArray.getText(R.styleable.SettingsCategoryItemView_settingItemTitle));
-        mText.setText(typedArray.getText(R.styleable.SettingsCategoryItemView_settingItemText));
+        mTitle.text = typedArray.getText(R.styleable.SettingsCategoryItemView_settingItemTitle)
+        mText.text = typedArray.getText(R.styleable.SettingsCategoryItemView_settingItemText)
 
-        typedArray.recycle();
+        typedArray.recycle()
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        mTitle.setEnabled(enabled);
-        mText.setEnabled(enabled);
-        if (null != mIcon) mIcon.setEnabled(enabled);
-        super.setEnabled(enabled);
+    override fun setEnabled(enabled: Boolean) {
+        mTitle.isEnabled = enabled
+        mText.isEnabled = enabled
+        if (null != mIcon) mIcon!!.isEnabled = enabled
+        super.setEnabled(enabled)
     }
 
 
-    @ColorInt
-    public static int mixColors(@ColorInt int color1, @ColorInt int color2, float ratio) {
-        float inverseRatio = 1f - ratio;
-        float r = Color.red(color1) * ratio + Color.red(color2) * inverseRatio;
-        float g = Color.green(color1) * ratio + Color.green(color2) * inverseRatio;
-        float b = Color.blue(color1) * ratio + Color.blue(color2) * inverseRatio;
-        return Color.rgb((int) r, (int) g, (int) b);
+    companion object {
+        @ColorInt
+        fun mixColors(@ColorInt color1: Int, @ColorInt color2: Int, ratio: Float): Int {
+            val inverseRatio = 1f - ratio
+            val r = Color.red(color1) * ratio + Color.red(color2) * inverseRatio
+            val g = Color.green(color1) * ratio + Color.green(color2) * inverseRatio
+            val b = Color.blue(color1) * ratio + Color.blue(color2) * inverseRatio
+            return Color.rgb(r.toInt(), g.toInt(), b.toInt())
+        }
     }
-
 }
