@@ -1,45 +1,37 @@
-package org.skywaves.mediavox.fragments.settings;
+package org.skywaves.mediavox.fragments.settings
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import org.skywaves.mediavox.R
+import org.skywaves.mediavox.fragments.settings.base.SettingsBaseFragment
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import org.skywaves.mediavox.R;
-import org.skywaves.mediavox.fragments.settings.base.SettingsBaseFragment;
-
-public class SettingsThemeFragment extends SettingsBaseFragment {
-
-    public static final String TAG = SettingsThemeFragment.class.getSimpleName();
-
-    @NonNull
-    public static SettingsThemeFragment getInstance() {
-        return new SettingsThemeFragment();
+class SettingsThemeFragment : SettingsBaseFragment() {
+    override fun getFragmentTag(): String {
+        return TAG
     }
 
-    @Override
-    public String getFragmentTag() {
-        return TAG;
+    override fun getToolbarTitleForFragment(): Int {
+        return org.skywaves.mediavox.core.R.string.theme
     }
 
-    @Override
-    public int getToolbarTitleForFragment() {
-        return org.skywaves.mediavox.core.R.string.theme;
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_settings_theme, container, false)
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_settings_theme, container, false);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    companion object {
+        val TAG: String = SettingsThemeFragment::class.java.simpleName
 
-
+        val instance: SettingsThemeFragment
+            get() = SettingsThemeFragment()
     }
 }

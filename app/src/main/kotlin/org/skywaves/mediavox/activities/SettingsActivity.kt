@@ -13,7 +13,6 @@ import org.skywaves.mediavox.core.extensions.*
 import org.skywaves.mediavox.core.helpers.*
 import org.skywaves.mediavox.core.models.RadioItem
 import org.skywaves.mediavox.R
-import org.skywaves.mediavox.core.activities.CustomizationActivity
 import org.skywaves.mediavox.databinding.ActivitySettingsBinding
 import org.skywaves.mediavox.dialogs.*
 import org.skywaves.mediavox.extensions.*
@@ -140,7 +139,7 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupCustomizeColors() {
         binding.settingsColorCustomizationHolder.setOnClickListener {
-            startCustomizationActivity()
+            //startCustomizationActivity()
         }
     }
 

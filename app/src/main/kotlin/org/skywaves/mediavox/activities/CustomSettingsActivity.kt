@@ -41,8 +41,8 @@ class CustomSettingsActivity : SimpleActivity(), SettingsFragmentsListener {
 
     override fun changeFragment(fragment: SettingsBaseFragment?) {
         mFragmentManager!!.beginTransaction()
-            .replace(R.id.settings_content_container, fragment!!, fragment.getFragmentTag())
             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+            .replace(R.id.settings_content_container, fragment!!, fragment.getFragmentTag())
             .addToBackStack(null)
             .commit();
     }

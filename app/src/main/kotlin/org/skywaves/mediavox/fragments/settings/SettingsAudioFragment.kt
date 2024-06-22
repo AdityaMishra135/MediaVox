@@ -1,46 +1,37 @@
-package org.skywaves.mediavox.fragments.settings;
+package org.skywaves.mediavox.fragments.settings
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import org.skywaves.mediavox.R
+import org.skywaves.mediavox.fragments.settings.base.SettingsBaseFragment
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import org.skywaves.mediavox.R;
-import org.skywaves.mediavox.fragments.settings.base.SettingsBaseFragment;
-
-
-public class SettingsAudioFragment extends SettingsBaseFragment {
-
-    public static final String TAG = SettingsAudioFragment.class.getSimpleName();
-
-    @NonNull
-    public static SettingsAudioFragment getInstance() {
-        return new SettingsAudioFragment();
+class SettingsAudioFragment : SettingsBaseFragment() {
+    override fun getFragmentTag(): String {
+        return TAG
     }
 
-    @Override
-    public String getFragmentTag() {
-        return TAG;
+    override fun getToolbarTitleForFragment(): Int {
+        return R.string.audios
     }
 
-    @Override
-    public int getToolbarTitleForFragment() {
-        return R.string.audios;
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_settings_audio, container, false)
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_settings_audio, container, false);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    companion object {
+        val TAG: String = SettingsAudioFragment::class.java.simpleName
 
+        val instance: SettingsAudioFragment
+            get() = SettingsAudioFragment()
     }
 }

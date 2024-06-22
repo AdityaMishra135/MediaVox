@@ -12,7 +12,6 @@
         android:textStyle="bold"
         app:settingItemColoredIcon="true"
         app:settingItemIcon="@drawable/ic_settings_cog_vector"
-        app:settingItemIconColor="@color/md_teal_100"
         app:settingItemText="@string/developer_description"
         app:settingItemTitle="@string/general_settings" />
 
@@ -23,7 +22,6 @@
         android:textStyle="bold"
         app:settingItemColoredIcon="true"
         app:settingItemIcon="@drawable/ic_settings_cog_vector"
-        app:settingItemIconColor="@color/md_teal_100"
         app:settingItemText="@string/developer_description"
         app:settingItemTitle="@string/theme" />
 
@@ -34,7 +32,6 @@
         android:textStyle="bold"
         app:settingItemColoredIcon="true"
         app:settingItemIcon="@drawable/ic_settings_cog_vector"
-        app:settingItemIconColor="@color/md_teal_100"
         app:settingItemText="@string/developer_description"
         app:settingItemTitle="@string/title" />
 
@@ -45,7 +42,6 @@
         android:textStyle="bold"
         app:settingItemColoredIcon="true"
         app:settingItemIcon="@drawable/ic_audio"
-        app:settingItemIconColor="@color/md_deep_orange_500"
         app:settingItemText="@string/developer_description"
         app:settingItemTitle="@string/audio" />
 
@@ -67,7 +63,6 @@
         android:textStyle="bold"
         app:settingItemColoredIcon="true"
         app:settingItemIcon="@drawable/ic_settings_cog_vector"
-        app:settingItemIconColor="@color/md_teal_100"
         app:settingItemText="@string/developer_description"
         app:settingItemTitle="@string/support" />
 
@@ -78,7 +73,6 @@
         android:textStyle="bold"
         app:settingItemColoredIcon="true"
         app:settingItemIcon="@drawable/ic_settings_cog_vector"
-        app:settingItemIconColor="@color/md_teal_100"
         app:settingItemText="@string/developer_description"
         app:settingItemTitle="@string/about" />
 </LinearLayout>

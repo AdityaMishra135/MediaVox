@@ -12,6 +12,7 @@ import androidx.annotation.ColorInt
 import com.google.android.material.textview.MaterialTextView
 import org.skywaves.mediavox.R
 import org.skywaves.mediavox.core.extensions.adjustAlpha
+import org.skywaves.mediavox.core.extensions.getProperPrimaryColor
 import org.skywaves.mediavox.core.extensions.getProperTextColor
 
 class SettingsCategoryItemView @JvmOverloads constructor(
@@ -40,7 +41,7 @@ class SettingsCategoryItemView @JvmOverloads constructor(
         mTitle = view.findViewById(R.id.settings_list_item_title)
         mText = view.findViewById(R.id.settings_list_item_text)
         mTitle.setTextColor(context.getProperTextColor())
-        mTitle.setTextColor(context.getProperTextColor().adjustAlpha(.5f))
+        mText.setTextColor(context.getProperTextColor().adjustAlpha(.6f))
 
 
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SettingsCategoryItemView)
@@ -60,13 +61,13 @@ class SettingsCategoryItemView @JvmOverloads constructor(
             mIcon?.setImageDrawable(typedArray.getDrawable(R.styleable.SettingsCategoryItemView_settingItemIcon))
 
             var iconColor =
-                typedArray.getColor(R.styleable.SettingsCategoryItemView_settingItemIconColor, 0)
+                typedArray.getColor(R.styleable.SettingsCategoryItemView_settingItemIconColor, context.getProperPrimaryColor())
 
             val isColoredIcon = typedArray.getBoolean(
                 R.styleable.SettingsCategoryItemView_settingItemColoredIcon,
                 false
             )
-            var iconBackgroundColor = if (isColoredIcon) iconColor else 0
+            var iconBackgroundColor = if (isColoredIcon) iconColor else context.getProperPrimaryColor()
 
             if (isColoredIcon) {
                 iconColor =
