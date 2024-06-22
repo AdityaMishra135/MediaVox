@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentManager
 import org.skywaves.mediavox.R
 import org.skywaves.mediavox.core.extensions.viewBinding
+import org.skywaves.mediavox.core.helpers.NavigationIcon
 import org.skywaves.mediavox.databinding.ActivityCustomSettingsBinding
 import org.skywaves.mediavox.fragments.settings.SettingsMainFragment
 import org.skywaves.mediavox.fragments.settings.base.SettingsBaseFragment
@@ -27,6 +28,9 @@ class CustomSettingsActivity : SimpleActivity(), SettingsFragmentsListener {
         mPulseToolbar = binding.settingsToolbar
         setToolbarTitle(org.skywaves.mediavox.core.R.string.settings)
         mPulseToolbar!!.setNavigationOnClickListener { v -> onBackPressed() }
+
+        updateMaterialActivityViews(binding.customSetting, binding.customHolder, useTransparentNavigation = true, useTopSearchMenu = false)
+        setupMaterialScrollListener(binding.customHolder, mPulseToolbar!!)
 
         if (null == savedInstanceState) {
             //Set up the main fragment when activity is first created
@@ -63,6 +67,11 @@ class CustomSettingsActivity : SimpleActivity(), SettingsFragmentsListener {
             mPulseToolbar!!.title = getString(org.skywaves.mediavox.core.R.string.settings)
             mFragmentManager!!.popBackStack()
         }
+    }
+
+    override fun onResume() {
+        setupToolbar(mPulseToolbar!!, NavigationIcon.Arrow)
+        super.onResume()
     }
 
 }
