@@ -49,7 +49,7 @@ class SettingsCategoryItemView @JvmOverloads constructor(
                 mTitle.typeface,
                 typedArray.getInteger(
                     R.styleable.SettingsCategoryItemView_android_textStyle,
-                    Typeface.BOLD
+                    Typeface.NORMAL
                 )
             )
         }
