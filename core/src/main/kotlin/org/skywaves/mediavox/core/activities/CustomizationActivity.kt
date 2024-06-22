@@ -53,7 +53,6 @@ class CustomizationActivity : BaseSimpleActivity() {
 
         setupThemes()
 
-
         val textColor = if (baseConfig.isUsingSystemTheme) {
             getProperTextColor()
         } else {

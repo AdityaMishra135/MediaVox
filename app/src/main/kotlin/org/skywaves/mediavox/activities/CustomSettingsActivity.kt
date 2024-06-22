@@ -33,7 +33,7 @@ class CustomSettingsActivity : SimpleActivity(), SettingsFragmentsListener {
         if (null == savedInstanceState) {
             //Set up the main fragment when activity is first created
             mFragmentManager!!.beginTransaction()
-                .replace(R.id.settings_content_container, SettingsMainFragment.getInstance(), SettingsMainFragment.TAG)
+                .replace(R.id.settings_content_container, SettingsMainFragment.instance, SettingsMainFragment.TAG)
                 .commit()
         }
 

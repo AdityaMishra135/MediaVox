@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.skywaves.mediavox.R
+import org.skywaves.mediavox.databinding.FragmentSettingsThemeBinding
 import org.skywaves.mediavox.fragments.settings.base.SettingsBaseFragment
 
 class SettingsThemeFragment : SettingsBaseFragment() {
+    private var _binding: FragmentSettingsThemeBinding? = null
+    private val binding get() = _binding!!
     override fun getFragmentTag(): String {
         return TAG
     }
@@ -21,12 +24,15 @@ class SettingsThemeFragment : SettingsBaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_settings_theme, container, false)
+        _binding = FragmentSettingsThemeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
+
+
 
     companion object {
         val TAG: String = SettingsThemeFragment::class.java.simpleName
