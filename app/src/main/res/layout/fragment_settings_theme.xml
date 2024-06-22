@@ -4,21 +4,10 @@
     android:id="@+id/customization_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-  <com.google.android.material.appbar.MaterialToolbar
-      android:id="@+id/customization_toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
-      android:background="@color/color_primary"
-      app:menu="@menu/menu_customization"
-      app:title="@string/customize_colors"
-      app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
-
   <androidx.core.widget.NestedScrollView
       android:id="@+id/customization_nested_scrollview"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_marginTop="?attr/actionBarSize"
       android:fillViewport="true"
       android:scrollbars="none">
 
