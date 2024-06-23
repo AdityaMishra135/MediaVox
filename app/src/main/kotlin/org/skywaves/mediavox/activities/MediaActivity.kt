@@ -59,7 +59,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
     private var mCurrAsyncTask: GetMediaAsynctask? = null
     private var mZoomListener: MyRecyclerView.MyZoomListener? = null
 
-    private var mStoredCropThumbnails = true
     private var mStoredShowFileTypes = true
     private var mStoredLastPlayed = ""
     private var mStoredShowFileDir = true
@@ -118,10 +117,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
     override fun onResume() {
         super.onResume()
         updateMenuColors()
-
-        if (mStoredCropThumbnails != config.cropThumbnails) {
-            getMediaAdapter()?.updateCropThumbnails(config.cropThumbnails)
-        }
 
         if (mStoredShowFileTypes != config.showThumbnailFileTypes) {
             getMediaAdapter()?.updateShowFileTypes(config.showThumbnailFileTypes)
@@ -321,7 +316,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
         mStoredTextColor = getProperTextColor()
         mStoredPrimaryColor = getProperPrimaryColor()
         config.apply {
-            mStoredCropThumbnails = cropThumbnails
             mStoredShowFileTypes = showThumbnailFileTypes
             mStoredLastPlayed = lastPlayed
             mStoredShowFileDir = showThumbnailFileDir

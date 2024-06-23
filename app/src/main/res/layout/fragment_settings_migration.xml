@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/settings_export_favorites_holder"
+        style="@style/SettingsHolderTextViewOneLinerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_export_favorites"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/export_favorite_paths" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_import_favorites_holder"
+        style="@style/SettingsHolderTextViewOneLinerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_import_favorites"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/import_favorite_paths" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_export_holder"
+        style="@style/SettingsHolderTextViewOneLinerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_export"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/export_settings" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_import_holder"
+        style="@style/SettingsHolderTextViewOneLinerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_import"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/import_settings" />
+
+    </RelativeLayout>
+
+</LinearLayout>

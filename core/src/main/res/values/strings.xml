@@ -733,13 +733,14 @@
     <!-- Setting sections -->
     <string name="visibility">Visibility</string>
     <string name="security">Security</string>
+    <string name="media_operations">Media Operation</string>
     <string name="scrolling">Scrolling</string>
     <string name="file_operations">File operations</string>
     <string name="recycle_bin">Recycle Bin</string>
     <string name="saving_label">Saving</string>
     <string name="startup">Startup</string>
     <string name="text">Text</string>
-    <string name="migrating">Migrating</string>
+    <string name="migrating">Migration</string>
     <string name="quality">Quality</string>
     <string name="main_screen">Main screen</string>
     <string name="thumbnails">Thumbnails</string>
@@ -891,6 +892,7 @@
 
     <!-- About -->
     <string name="about">About</string>
+    <string name="ui_configuration">UI Configuration</string>
     <string name="website">Website</string>
     <string name="website_label">For the source codes visit</string>
     <string name="email_label">Send your feedback or suggestions to</string>

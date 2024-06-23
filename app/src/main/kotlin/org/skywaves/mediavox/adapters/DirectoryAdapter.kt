@@ -52,7 +52,6 @@ class DirectoryAdapter(
     private val config = activity.config
     private val isListViewType = config.viewTypeFolders == VIEW_TYPE_LIST
     private var pinnedFolders = config.pinnedFolders
-    private var cropThumbnails = config.cropThumbnails
     private var lastPlayed = config.lastPlayed
     private var groupDirectSubfolders = config.groupDirectSubfolders
     private var currentDirectoriesHash = dirs.hashCode()
@@ -705,11 +704,6 @@ class DirectoryAdapter(
         }
     }
 
-
-    fun updateCropThumbnails(cropThumbnails: Boolean) {
-        this.cropThumbnails = cropThumbnails
-        notifyDataSetChanged()
-    }
     fun updateLastPlayed(lastPlayed: String) {
         this.lastPlayed = lastPlayed
         notifyDataSetChanged()
@@ -751,7 +745,6 @@ class DirectoryAdapter(
                     thumbnailType,
                     directory.tmb,
                     dirThumbnail,
-                    cropThumbnails,
                     roundedCorners,
                     directory.getKey()
                 )

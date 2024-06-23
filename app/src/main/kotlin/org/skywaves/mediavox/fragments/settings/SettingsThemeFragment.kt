@@ -5,8 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import org.skywaves.mediavox.R
-import org.skywaves.mediavox.activities.CustomSettingsActivity
+import org.skywaves.mediavox.activities.SettingsActivity
 import org.skywaves.mediavox.core.activities.BaseSimpleActivity
 import org.skywaves.mediavox.core.dialogs.ColorPickerDialog
 import org.skywaves.mediavox.core.dialogs.ConfirmationAdvancedDialog
@@ -15,6 +14,7 @@ import org.skywaves.mediavox.core.dialogs.RadioGroupDialog
 import org.skywaves.mediavox.core.extensions.baseConfig
 import org.skywaves.mediavox.core.extensions.beVisibleIf
 import org.skywaves.mediavox.core.extensions.getColoredMaterialStatusBarColor
+import org.skywaves.mediavox.core.extensions.getProperPrimaryColor
 import org.skywaves.mediavox.core.extensions.getProperTextColor
 import org.skywaves.mediavox.core.extensions.getThemeId
 import org.skywaves.mediavox.core.extensions.isUsingSystemDarkTheme
@@ -109,24 +109,24 @@ class SettingsThemeFragment : SettingsBaseFragment() {
         context!!.setTheme(requireActivity().getThemeId(getCurrentPrimaryColor()))
 
         if (!context!!.baseConfig.isUsingSystemTheme) {
-            (requireActivity() as CustomSettingsActivity).updateBackgroundColor(getCurrentBackgroundColor())
-            (requireActivity() as CustomSettingsActivity).updateActionbarColor(getCurrentStatusBarColor())
+            (requireActivity() as SettingsActivity).updateBackgroundColor(getCurrentBackgroundColor())
+            (requireActivity() as SettingsActivity).updateActionbarColor(getCurrentStatusBarColor())
         }
 
         curPrimaryLineColorPicker?.getSpecificColor()?.apply {
-            (requireActivity() as CustomSettingsActivity).updateActionbarColor(this)
+            (requireActivity() as SettingsActivity).updateActionbarColor(this)
             context!!.setTheme(requireActivity().getThemeId(this))
         }
 
-        (requireActivity() as CustomSettingsActivity).setupToolbar((requireActivity() as CustomSettingsActivity).binding.settingsToolbar, NavigationIcon.Arrow, requireActivity().getColoredMaterialStatusBarColor())
+        (requireActivity() as SettingsActivity).setupToolbar2((requireActivity() as SettingsActivity).binding.settingsToolbar, NavigationIcon.Arrow, requireActivity().getColoredMaterialStatusBarColor())
     }
 
     private fun refreshMenuItems() {
-        (requireActivity() as CustomSettingsActivity).binding.settingsToolbar.menu.findItem(org.skywaves.mediavox.core.R.id.save).isVisible = hasUnsavedChanges
+        (requireActivity() as SettingsActivity).binding.settingsToolbar.menu.findItem(org.skywaves.mediavox.core.R.id.save).isVisible = hasUnsavedChanges
     }
 
     private fun setupOptionsMenu() {
-        (requireActivity() as CustomSettingsActivity).binding.settingsToolbar.setOnMenuItemClickListener { menuItem ->
+        (requireActivity() as SettingsActivity).binding.settingsToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 org.skywaves.mediavox.core.R.id.save -> {
                     saveChanges(true)
@@ -142,7 +142,7 @@ class SettingsThemeFragment : SettingsBaseFragment() {
         if (hasUnsavedChanges && System.currentTimeMillis() - lastSavePromptTS > SAVE_DISCARD_PROMPT_INTERVAL) {
             promptSaveDiscard()
         } else {
-            (requireActivity() as CustomSettingsActivity).supportFragmentManager.popBackStack()
+            (requireActivity() as SettingsActivity).supportFragmentManager.popBackStack()
         }
     }
 
@@ -227,8 +227,8 @@ class SettingsThemeFragment : SettingsBaseFragment() {
                 requireActivity().toast(org.skywaves.mediavox.core.R.string.changing_color_description)
             }
 
-            (requireActivity() as CustomSettingsActivity).updateMenuItemColors((requireActivity() as CustomSettingsActivity).binding.settingsToolbar.menu, getCurrentStatusBarColor())
-            (requireActivity() as CustomSettingsActivity).setupToolbar((requireActivity() as CustomSettingsActivity).binding.settingsToolbar, NavigationIcon.Cross, getCurrentStatusBarColor())
+            (requireActivity() as SettingsActivity).updateMenuItemColors((requireActivity() as SettingsActivity).binding.settingsToolbar.menu, getCurrentStatusBarColor())
+            (requireActivity() as SettingsActivity).setupToolbar2((requireActivity() as SettingsActivity).binding.settingsToolbar, NavigationIcon.Cross, getCurrentStatusBarColor())
         }
     }
 
@@ -244,8 +244,8 @@ class SettingsThemeFragment : SettingsBaseFragment() {
                     curPrimaryColor = context!!.baseConfig.customPrimaryColor
                     curAccentColor = context!!.baseConfig.customAccentColor
                     context!!.setTheme(requireActivity().getThemeId(curPrimaryColor))
-                    (requireActivity() as CustomSettingsActivity).updateMenuItemColors((requireActivity() as CustomSettingsActivity).binding.settingsToolbar.menu, curPrimaryColor)
-                    (requireActivity() as CustomSettingsActivity).setupToolbar((requireActivity() as CustomSettingsActivity).binding.settingsToolbar, NavigationIcon.Cross, curPrimaryColor)
+                    (requireActivity() as SettingsActivity).updateMenuItemColors((requireActivity() as SettingsActivity).binding.settingsToolbar.menu, curPrimaryColor)
+                    (requireActivity() as SettingsActivity).setupToolbar2((requireActivity() as SettingsActivity).binding.settingsToolbar, NavigationIcon.Cross, curPrimaryColor)
                     setupColorsPickers()
                 } else {
                     context!!.baseConfig.customPrimaryColor = curPrimaryColor
@@ -265,16 +265,16 @@ class SettingsThemeFragment : SettingsBaseFragment() {
 
                 context!!.setTheme(requireActivity().getThemeId(getCurrentPrimaryColor()))
                 colorChanged()
-                (requireActivity() as CustomSettingsActivity).updateMenuItemColors((requireActivity() as CustomSettingsActivity).binding.settingsToolbar.menu, getCurrentStatusBarColor())
-                (requireActivity() as CustomSettingsActivity).setupToolbar((requireActivity() as CustomSettingsActivity).binding.settingsToolbar, NavigationIcon.Cross, getCurrentStatusBarColor())
+                (requireActivity() as SettingsActivity).updateMenuItemColors((requireActivity() as SettingsActivity).binding.settingsToolbar.menu, getCurrentStatusBarColor())
+                (requireActivity() as SettingsActivity).setupToolbar2((requireActivity() as SettingsActivity).binding.settingsToolbar, NavigationIcon.Cross, getCurrentStatusBarColor())
             }
         }
 
         hasUnsavedChanges = true
         refreshMenuItems()
         updateLabelColors(getCurrentTextColor())
-        (requireActivity() as CustomSettingsActivity).updateBackgroundColor(getCurrentBackgroundColor())
-        (requireActivity() as CustomSettingsActivity).updateActionbarColor(getCurrentStatusBarColor())
+        (requireActivity() as SettingsActivity).updateBackgroundColor(getCurrentBackgroundColor())
+        (requireActivity() as SettingsActivity).updateActionbarColor(getCurrentStatusBarColor())
         updateAutoThemeFields()
         handleAccentColorLayout()
     }
@@ -343,7 +343,7 @@ class SettingsThemeFragment : SettingsBaseFragment() {
                 saveChanges(true)
             } else {
                 resetColors()
-                (requireActivity() as CustomSettingsActivity).supportFragmentManager.popBackStack()
+                (requireActivity() as SettingsActivity).supportFragmentManager.popBackStack()
             }
         }
     }
@@ -362,7 +362,7 @@ class SettingsThemeFragment : SettingsBaseFragment() {
 
         hasUnsavedChanges = false
         if (finishAfterSave) {
-            (requireActivity() as CustomSettingsActivity).supportFragmentManager.popBackStack()
+            (requireActivity() as SettingsActivity).supportFragmentManager.popBackStack()
         } else {
             refreshMenuItems()
         }
@@ -372,8 +372,10 @@ class SettingsThemeFragment : SettingsBaseFragment() {
         hasUnsavedChanges = false
         initColorVariables()
         setupColorsPickers()
-        (requireActivity() as CustomSettingsActivity).updateBackgroundColor()
-        (requireActivity() as CustomSettingsActivity). updateActionbarColor()
+        (requireActivity() as SettingsActivity).updateBackgroundColor()
+        val view = (requireActivity() as SettingsActivity).binding
+        (requireActivity() as SettingsActivity).setupToolbar2(view.settingsToolbar,NavigationIcon.Arrow,
+            context!!.getProperPrimaryColor())
         refreshMenuItems()
         updateLabelColors(getCurrentTextColor())
     }
@@ -417,12 +419,12 @@ class SettingsThemeFragment : SettingsBaseFragment() {
 
     private fun setCurrentBackgroundColor(color: Int) {
         curBackgroundColor = color
-        (requireActivity() as CustomSettingsActivity).updateBackgroundColor(color)
+        (requireActivity() as SettingsActivity).updateBackgroundColor(color)
     }
 
     private fun setCurrentPrimaryColor(color: Int) {
         curPrimaryColor = color
-        (requireActivity() as CustomSettingsActivity).updateActionbarColor(color)
+        (requireActivity() as SettingsActivity).updateActionbarColor(color)
     }
 
 
@@ -470,7 +472,7 @@ class SettingsThemeFragment : SettingsBaseFragment() {
             requireActivity().finish()
             return
         }
-        val view =(requireActivity() as CustomSettingsActivity).binding.settingsToolbar
+        val view =(requireActivity() as SettingsActivity).binding.settingsToolbar
         curPrimaryLineColorPicker = LineColorPickerDialog(requireActivity() as BaseSimpleActivity, curPrimaryColor, true, toolbar = view) { wasPositivePressed, color ->
             curPrimaryLineColorPicker = null
             if (wasPositivePressed) {
@@ -480,14 +482,14 @@ class SettingsThemeFragment : SettingsBaseFragment() {
                     updateColorTheme(getUpdatedTheme())
                     context!!.setTheme(requireActivity().getThemeId(color))
                 }
-                (requireActivity() as CustomSettingsActivity).updateMenuItemColors((requireActivity() as CustomSettingsActivity).binding.settingsToolbar.menu, color)
-                (requireActivity() as CustomSettingsActivity).setupToolbar((requireActivity() as CustomSettingsActivity).binding.settingsToolbar, NavigationIcon.Cross, color)
+                (requireActivity() as SettingsActivity).updateMenuItemColors((requireActivity() as SettingsActivity).binding.settingsToolbar.menu, color)
+                (requireActivity() as SettingsActivity).setupToolbar2((requireActivity() as SettingsActivity).binding.settingsToolbar, NavigationIcon.Cross, color)
             } else {
-                (requireActivity() as CustomSettingsActivity).updateActionbarColor(curPrimaryColor)
+                (requireActivity() as SettingsActivity).updateActionbarColor(curPrimaryColor)
                 context!!.setTheme(requireActivity().getThemeId(curPrimaryColor))
-                (requireActivity() as CustomSettingsActivity).updateMenuItemColors((requireActivity() as CustomSettingsActivity).binding.settingsToolbar.menu, curPrimaryColor)
-                (requireActivity() as CustomSettingsActivity).setupToolbar((requireActivity() as CustomSettingsActivity).binding.settingsToolbar, NavigationIcon.Cross, curPrimaryColor)
-                (requireActivity() as CustomSettingsActivity).updateTopBarColors((requireActivity() as CustomSettingsActivity).binding.settingsToolbar, curPrimaryColor)
+                (requireActivity() as SettingsActivity).updateMenuItemColors((requireActivity() as SettingsActivity).binding.settingsToolbar.menu, curPrimaryColor)
+                (requireActivity() as SettingsActivity).setupToolbar2((requireActivity() as SettingsActivity).binding.settingsToolbar, NavigationIcon.Cross, curPrimaryColor)
+                (requireActivity() as SettingsActivity).updateTopBarColors((requireActivity() as SettingsActivity).binding.settingsToolbar, curPrimaryColor)
             }
         }
     }
@@ -500,7 +502,7 @@ class SettingsThemeFragment : SettingsBaseFragment() {
                     colorChanged()
 
                     if (isCurrentWhiteTheme() || isCurrentBlackAndWhiteTheme()) {
-                        (requireActivity() as CustomSettingsActivity).updateActionbarColor(getCurrentStatusBarColor())
+                        (requireActivity() as SettingsActivity).updateActionbarColor(getCurrentStatusBarColor())
                     }
                 }
             }

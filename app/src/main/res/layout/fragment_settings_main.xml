@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="8dp"
     android:orientation="vertical">
 
     <org.skywaves.mediavox.views.SettingsCategoryItemView
@@ -26,6 +27,17 @@
         app:settingItemTitle="@string/theme" />
 
     <org.skywaves.mediavox.views.SettingsCategoryItemView
+        android:id="@+id/uiCOnfigurationSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        app:settingItemColoredIcon="true"
+        app:settingItemIcon="@drawable/ic_settings_cog_vector"
+        app:settingItemText="@string/developer_description"
+        app:settingItemTitle="@string/ui_configuration" />
+
+
+    <org.skywaves.mediavox.views.SettingsCategoryItemView
         android:id="@+id/nowPlayingSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +45,7 @@
         app:settingItemColoredIcon="true"
         app:settingItemIcon="@drawable/ic_settings_cog_vector"
         app:settingItemText="@string/developer_description"
-        app:settingItemTitle="@string/title" />
+        app:settingItemTitle="@string/media_indexer" />
 
     <org.skywaves.mediavox.views.SettingsCategoryItemView
         android:id="@+id/audioSettings"
@@ -43,7 +55,7 @@
         app:settingItemColoredIcon="true"
         app:settingItemIcon="@drawable/ic_audio"
         app:settingItemText="@string/developer_description"
-        app:settingItemTitle="@string/audio" />
+        app:settingItemTitle="@string/media_configuration" />
 
     <org.skywaves.mediavox.views.SettingsCategoryItemView
         android:id="@+id/contributorsSettings"
@@ -54,7 +66,7 @@
         app:settingItemIcon="@drawable/ic_settings_cog_vector"
         app:settingItemIconColor="@color/md_teal_100"
         app:settingItemText="@string/developer_description"
-        app:settingItemTitle="@string/contributors" />
+        app:settingItemTitle="@string/media_operations" />
 
     <org.skywaves.mediavox.views.SettingsCategoryItemView
         android:id="@+id/donationSettings"
@@ -64,7 +76,17 @@
         app:settingItemColoredIcon="true"
         app:settingItemIcon="@drawable/ic_settings_cog_vector"
         app:settingItemText="@string/developer_description"
-        app:settingItemTitle="@string/support" />
+        app:settingItemTitle="@string/security" />
+
+    <org.skywaves.mediavox.views.SettingsCategoryItemView
+        android:id="@+id/migrationSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        app:settingItemColoredIcon="true"
+        app:settingItemIcon="@drawable/ic_settings_cog_vector"
+        app:settingItemText="@string/developer_description"
+        app:settingItemTitle="@string/migrating" />
 
     <org.skywaves.mediavox.views.SettingsCategoryItemView
         android:id="@+id/aboutSettings"

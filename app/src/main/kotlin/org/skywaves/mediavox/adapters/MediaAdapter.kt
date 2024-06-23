@@ -55,7 +55,6 @@ class MediaAdapter(
     private var currentMediaHash = media.hashCode()
     private val hasOTGConnected = activity.hasOTGConnected()
 
-    private var cropThumbnails = config.cropThumbnails
     private var showFileTypes = config.showThumbnailFileTypes
     private var lastPlayed = config.lastPlayed
     private var showFileDir = config.showThumbnailFileDir
@@ -489,11 +488,6 @@ class MediaAdapter(
     }
 
 
-    fun updateCropThumbnails(cropThumbnails: Boolean) {
-        this.cropThumbnails = cropThumbnails
-        notifyDataSetChanged()
-    }
-
     fun updateShowFileTypes(showFileTypes: Boolean) {
         this.showFileTypes = showFileTypes
         notifyDataSetChanged()
@@ -573,7 +567,7 @@ class MediaAdapter(
 
             if (loadImageInstantly) {
                 activity.loadImage(
-                    medium.type, path, mediumThumbnail,  cropThumbnails, roundedCorners, medium.getKey(), rotatedImagePaths
+                    medium.type, path, mediumThumbnail, roundedCorners, medium.getKey(), rotatedImagePaths
                 )
             } else {
                 mediumThumbnail.setImageDrawable(null)
@@ -581,7 +575,7 @@ class MediaAdapter(
                     val isVisible = visibleItemPaths.contains(medium.path)
                     if (isVisible) {
                         activity.loadImage(
-                            medium.type, path, mediumThumbnail, cropThumbnails, roundedCorners,
+                            medium.type, path, mediumThumbnail, roundedCorners,
                             medium.getKey(), rotatedImagePaths
                         )
                     }

@@ -49,13 +49,7 @@ class MyWidgetProvider : AppWidgetProvider() {
                 val options = RequestOptions()
                     .signature(path.getFileSignature())
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-
-                if (context.config.cropThumbnails) {
-                    options.centerCrop()
-                } else {
-                    options.fitCenter()
-                }
-
+                options.centerCrop()
                 val density = context.resources.displayMetrics.density
                 val appWidgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetIds.first())
                 val width = appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)

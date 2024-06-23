@@ -88,7 +88,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private var mDirsIgnoringSearch = ArrayList<Directory>()
     private val SIZE_DIVIDER = 100000
 
-    private var mStoredCropThumbnails = true
     private var mStoredTextColor = 0
     private var mStoredPrimaryColor = 0
     private var mStoredStyleString = ""
@@ -206,13 +205,9 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
 
         refreshMenuItems()
 
-        if (mStoredCropThumbnails != config.cropThumbnails) {
-            getRecyclerAdapter()?.updateCropThumbnails(config.cropThumbnails)
-        }
         if (mStoredLastPlayed != config.lastPlayed) {
             getRecyclerAdapter()?.updateLastPlayed(config.lastPlayed)
         }
-
 
         if (mStoredTextColor != getProperTextColor()) {
             getRecyclerAdapter()?.updateTextColor(getProperTextColor())
@@ -473,7 +468,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         mStoredTextColor = getProperTextColor()
         mStoredPrimaryColor = getProperPrimaryColor()
         config.apply {
-            mStoredCropThumbnails = cropThumbnails
             mStoredLastPlayed = lastPlayed
             mStoredStyleString = "$showFolderMediaCount$limitFolderTitle$showDirSize"
         }

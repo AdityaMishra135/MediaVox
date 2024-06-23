@@ -390,6 +390,22 @@ abstract class BaseSimpleActivity : AppCompatActivity() {
         }
     }
 
+
+    fun setupToolbar2(
+        toolbar: Toolbar,
+        toolbarNavigationIcon: NavigationIcon = NavigationIcon.None,
+        statusBarColor: Int = getRequiredStatusBarColor(),
+    ) {
+        val contrastColor = statusBarColor.getContrastColor()
+        if (toolbarNavigationIcon != NavigationIcon.None) {
+            val drawableId = if (toolbarNavigationIcon == NavigationIcon.Cross) R.drawable.ic_cross_vector else R.drawable.ic_arrow_left_vector
+            toolbar.navigationIcon = resources.getColoredDrawableWithColor(drawableId, contrastColor)
+            toolbar.setNavigationContentDescription(toolbarNavigationIcon.accessibilityResId)
+        }
+
+        updateTopBarColors(toolbar, statusBarColor)
+    }
+
     fun updateMenuItemColors(menu: Menu?, baseColor: Int = getProperStatusBarColor(), forceWhiteIcons: Boolean = false) {
         if (menu == null) {
             return

@@ -530,15 +530,14 @@ fun Context.loadImage(
     type: Int,
     path: String,
     target: MySquareImageView,
-    cropThumbnails: Boolean,
     roundCorners: Int,
     signature: ObjectKey,
     skipMemoryCacheAtPaths: ArrayList<String>? = null,
 ) {
     if (type == TYPE_AUDIOS) {
-        getAudioAlbumImageContentUri(path,target,cropThumbnails, roundCorners, signature, skipMemoryCacheAtPaths)
+        getAudioAlbumImageContentUri(path,target, roundCorners, signature, skipMemoryCacheAtPaths)
     } else {
-        loadImageBase(path, target, cropThumbnails, roundCorners, signature, skipMemoryCacheAtPaths)
+        loadImageBase(path, target, roundCorners, signature, skipMemoryCacheAtPaths)
     }
 }
 
@@ -547,7 +546,6 @@ fun Context.loadImage(
 fun Context.getAudioAlbumImageContentUri(
     path: String,
     target: MySquareImageView,
-    cropThumbnails: Boolean,
     roundCorners: Int,
     signature: ObjectKey,
     skipMemoryCacheAtPaths: ArrayList<String>? = null,
@@ -630,7 +628,6 @@ fun Context.getPathLocation(path: String): Int {
 fun Context.loadImageBase(
     path: String,
     target: MySquareImageView,
-    cropThumbnails: Boolean,
     roundCorners: Int,
     signature: ObjectKey,
     skipMemoryCacheAtPaths: ArrayList<String>? = null,
@@ -642,20 +639,11 @@ fun Context.loadImageBase(
         .priority(Priority.LOW)
         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
         .format(DecodeFormat.PREFER_ARGB_8888)
-
-    if (cropThumbnails) {
-        options.optionalTransform(CenterCrop())
-    } else {
-        options.optionalTransform(FitCenter())
-    }
-
+    options.optionalTransform(CenterCrop())
     // animation is only supported without rounded corners and the file must be a GIF or WEBP.
     // Glide doesn't support animated AVIF: https://bumptech.github.io/glide/int/avif.html
-
-    options.dontAnimate()
     // don't animate is not enough for webp files, decode as bitmap forces first frame use in animated webps
     options.decode(Bitmap::class.java)
-
 
     if (roundCorners != ROUNDED_CORNERS_NONE) {
         val cornerSize =

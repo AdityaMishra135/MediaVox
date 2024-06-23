@@ -8,9 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
-import org.skywaves.mediavox.activities.CustomSettingsActivity;
 import org.skywaves.mediavox.activities.SettingsActivity;
-
 
 public abstract class SettingsBaseFragment extends Fragment {
 
@@ -19,17 +17,17 @@ public abstract class SettingsBaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mListener = (SettingsFragmentsListener) getActivity();
-        if (mListener instanceof CustomSettingsActivity)
+        if (mListener instanceof SettingsActivity)
             mListener.setToolbarTitle(getToolbarTitleForFragment());
     }
 
     protected void requestActivityRestart() {
-        if (mListener instanceof CustomSettingsActivity)
+        if (mListener instanceof SettingsActivity)
             mListener.requiresActivityRestart();
     }
 
     protected void requiresApplicationRestart(boolean shouldStopPlayback) {
-        if (mListener instanceof CustomSettingsActivity)
+        if (mListener instanceof SettingsActivity)
             mListener.requiresApplicationRestart(shouldStopPlayback);
     }
 

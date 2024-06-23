@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="8dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/settings_autoplay_videos_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_autoplay_videos"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/autoplay_videos" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_remember_last_video_position_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_remember_last_video_position"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/remember_last_video_position" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_loop_videos_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_loop_videos"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/loop_videos" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_open_videos_on_separate_screen_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_open_videos_on_separate_screen"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/open_videos_on_separate_screen" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_allow_video_gestures_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_allow_video_gestures"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/allow_video_gestures" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_max_brightness_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_max_brightness"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/max_brightness" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_black_background_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_black_background"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/black_background_at_fullscreen" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_hide_system_ui_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_hide_system_ui"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hide_system_ui_at_fullscreen" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_allow_instant_change_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_allow_instant_change"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/allow_instant_change" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_allow_photo_gestures_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_allow_photo_gestures"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/allow_photo_gestures" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_allow_down_gesture_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_allow_down_gesture"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/allow_down_gesture" />
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/settings_screen_rotation_holder"
+        style="@style/SettingsHolderTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_screen_rotation_label"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/screen_rotation_by" />
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_screen_rotation"
+            style="@style/SettingsTextValueStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/settings_screen_rotation_label"
+            tools:text="@string/screen_rotation_system_setting" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

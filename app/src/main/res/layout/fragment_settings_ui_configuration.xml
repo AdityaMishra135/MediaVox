@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/settings_file_thumbnail_style_holder"
+        style="@style/SettingsHolderTextViewOneLinerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_file_thumbnail_style_label"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/file_thumbnail_style" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_folder_thumbnail_style_holder"
+        style="@style/SettingsHolderTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_folder_thumbnail_style_label"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/folder_thumbnail_style" />
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_folder_thumbnail_style"
+            style="@style/SettingsTextValueStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/settings_folder_thumbnail_style_label"
+            tools:text="Default" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_show_extended_details_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_show_extended_details"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/show_extended_details" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_hide_extended_details_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_hide_extended_details"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hide_extended_details" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_manage_extended_details_holder"
+        style="@style/SettingsHolderTextViewOneLinerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_manage_extended_details"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/manage_extended_details" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_bottom_actions_checkbox_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_bottom_actions_checkbox"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/show_at_bottom" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_manage_bottom_actions_holder"
+        style="@style/SettingsHolderTextViewOneLinerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_manage_bottom_actions"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/manage_bottom_actions" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/settings_show_recycle_bin_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_show_recycle_bin"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/show_recycle_bin" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_show_recycle_bin_last_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_show_recycle_bin_last"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/show_recycle_bin_last" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

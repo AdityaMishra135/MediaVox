@@ -2,12 +2,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="16dp"
-    android:paddingBottom="0dp">
-
-    <TextView
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="8dp"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/settings_use_english_holder"
+        style="@style/SettingsHolderCheckboxStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="general"/>
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_use_english"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/use_english_language" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_language_holder"
+        style="@style/SettingsHolderTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_language_label"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language" />
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_language"
+            style="@style/SettingsTextValueStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/settings_language_label"
+            tools:text="English" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_show_notch_holder"
+        style="@style/SettingsHolderCheckboxStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
+            android:id="@+id/settings_show_notch"
+            style="@style/SettingsCheckboxStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/show_notch" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/settings_change_date_time_format_holder"
+        style="@style/SettingsHolderTextViewOneLinerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.skywaves.mediavox.core.views.MyTextView
+            android:id="@+id/settings_change_date_time_format"
+            style="@style/SettingsTextLabelStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_date_and_time_format" />
+
+    </RelativeLayout>
 </LinearLayout>

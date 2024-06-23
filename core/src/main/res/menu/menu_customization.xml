@@ -7,4 +7,10 @@
         android:title="@string/save"
         app:showAsAction="always"
         android:visible="false"/>
+    <item
+        android:id="@+id/add_folder"
+        android:icon="@drawable/ic_plus_vector"
+        android:title="@string/add_folder"
+        app:showAsAction="always"
+        android:visible="false"/>
 </menu>
