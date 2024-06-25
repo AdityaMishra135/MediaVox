@@ -124,7 +124,7 @@ class ExcludeFoldersFragment : SettingsBaseFragment(), RefreshRecyclerViewListen
         }
     }
 
-    fun handleBackPressed() {
+    fun handleBackPressed2() {
         if (((requireActivity() as SettingsActivity).supportFragmentManager.findFragmentById(R.id.settings_content_container)) is ExcludeFoldersFragment){
             adeHandler.postDelayed({
                 (requireActivity() as SettingsActivity).binding.settingsToolbar.menu.findItem(R.id.add_folder).isVisible = false

@@ -22,7 +22,6 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -69,7 +68,6 @@ import org.skywaves.mediavox.helpers.GROUP_BY_DATE_TAKEN_DAILY
 import org.skywaves.mediavox.helpers.GROUP_BY_DATE_TAKEN_MONTHLY
 import org.skywaves.mediavox.helpers.GROUP_BY_LAST_MODIFIED_DAILY
 import org.skywaves.mediavox.helpers.GROUP_BY_LAST_MODIFIED_MONTHLY
-import org.skywaves.mediavox.helpers.GetAudioCoverImageTask
 import org.skywaves.mediavox.helpers.IsoTypeReader
 import org.skywaves.mediavox.helpers.LOCATION_INTERNAL
 import org.skywaves.mediavox.helpers.LOCATION_OTG

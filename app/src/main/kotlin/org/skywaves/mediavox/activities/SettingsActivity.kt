@@ -23,7 +23,6 @@ class SettingsActivity : SimpleActivity(), SettingsFragmentsListener {
     val binding by viewBinding(ActivitySettingsBinding::inflate)
     public var mPulseToolbar: Toolbar? = null
     private var mFragmentManager: FragmentManager? = null
-    private val mRestartDialog: AlertDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
@@ -69,14 +68,14 @@ class SettingsActivity : SimpleActivity(), SettingsFragmentsListener {
         if ((supportFragmentManager.findFragmentById(R.id.settings_content_container)) is SettingsThemeFragment){
             (currentFragment as SettingsThemeFragment).handleBackPressed()
         }
-        if ((supportFragmentManager.findFragmentById(R.id.settings_content_container)) is HiddenFoldersFragment){
-            (currentFragment as HiddenFoldersFragment).handleBackPressed()
+        else if ((supportFragmentManager.findFragmentById(R.id.settings_content_container)) is HiddenFoldersFragment){
+            (currentFragment as HiddenFoldersFragment).handleBackPressed3()
         }
-        if ((supportFragmentManager.findFragmentById(R.id.settings_content_container)) is ExcludeFoldersFragment){
-            (currentFragment as ExcludeFoldersFragment).handleBackPressed()
+        else if ((supportFragmentManager.findFragmentById(R.id.settings_content_container)) is ExcludeFoldersFragment){
+            (currentFragment as ExcludeFoldersFragment).handleBackPressed2()
         }
-        if ((supportFragmentManager.findFragmentById(R.id.settings_content_container)) is IncludeFoldersFragment){
-            (currentFragment as IncludeFoldersFragment).handleBackPressed()
+        else if ((supportFragmentManager.findFragmentById(R.id.settings_content_container)) is IncludeFoldersFragment){
+            (currentFragment as IncludeFoldersFragment).handleBackPressed4()
         }
         else if (mFragmentManager!!.backStackEntryCount == 0) {
             super.onBackPressed()

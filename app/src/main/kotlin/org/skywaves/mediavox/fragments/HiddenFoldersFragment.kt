@@ -111,7 +111,7 @@ class HiddenFoldersFragment : SettingsBaseFragment(), RefreshRecyclerViewListene
         }
     }
 
-    fun handleBackPressed() {
+    fun handleBackPressed3() {
         if (((requireActivity() as SettingsActivity).supportFragmentManager.findFragmentById(R.id.settings_content_container)) is HiddenFoldersFragment){
             adeHandler.postDelayed({
                 (requireActivity() as SettingsActivity).binding.settingsToolbar.menu.findItem(R.id.add_folder).isVisible = false

@@ -102,7 +102,7 @@ class IncludeFoldersFragment : SettingsBaseFragment(), RefreshRecyclerViewListen
         }
     }
 
-    fun handleBackPressed() {
+    fun handleBackPressed4() {
         if (((requireActivity() as SettingsActivity).supportFragmentManager.findFragmentById(R.id.settings_content_container)) is IncludeFoldersFragment){
             adeHandler.postDelayed({
                 (requireActivity() as SettingsActivity).binding.settingsToolbar.menu.findItem(R.id.add_folder).isVisible = false
