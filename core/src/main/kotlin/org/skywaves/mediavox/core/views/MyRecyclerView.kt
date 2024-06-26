@@ -13,9 +13,7 @@ import org.skywaves.mediavox.core.interfaces.RecyclerScrollCallback
 // drag selection is based on https://github.com/afollestad/drag-select-recyclerview
 open class MyRecyclerView : RecyclerView {
     private val AUTO_SCROLL_DELAY = 25L
-    private var isZoomEnabled = false
     private var isDragSelectionEnabled = false
-    private var zoomListener: MyZoomListener? = null
     private var dragListener: MyDragListener? = null
     private var autoScrollHandler = Handler()
 
@@ -76,8 +74,6 @@ open class MyRecyclerView : RecyclerView {
             override fun setScaleFactor(value: Float) {
                 currScaleFactor = value
             }
-
-            override fun getZoomListener() = zoomListener
         }
 
         scaleDetector = ScaleGestureDetector(context, GestureListener(gestureListener))
@@ -192,21 +188,12 @@ open class MyRecyclerView : RecyclerView {
             }
         }
 
-        return if (isZoomEnabled) {
-            scaleDetector.onTouchEvent(ev)
-        } else {
-            true
-        }
+        return true
     }
 
     fun setupDragListener(dragListener: MyDragListener?) {
         isDragSelectionEnabled = dragListener != null
         this.dragListener = dragListener
-    }
-
-    fun setupZoomListener(zoomListener: MyZoomListener?) {
-        isZoomEnabled = zoomListener != null
-        this.zoomListener = zoomListener
     }
 
     fun setDragSelectActive(initialSelection: Int) {
@@ -292,10 +279,8 @@ open class MyRecyclerView : RecyclerView {
 
                 val diff = getScaleFactor() - detector.scaleFactor
                 if (diff < ZOOM_IN_THRESHOLD && getScaleFactor() == 1.0f) {
-                    getZoomListener()?.zoomIn()
                     setScaleFactor(detector.scaleFactor)
                 } else if (diff > ZOOM_OUT_THRESHOLD && getScaleFactor() == 1.0f) {
-                    getZoomListener()?.zoomOut()
                     setScaleFactor(detector.scaleFactor)
                 }
             }
@@ -321,8 +306,6 @@ open class MyRecyclerView : RecyclerView {
         fun getScaleFactor(): Float
 
         fun setScaleFactor(value: Float)
-
-        fun getZoomListener(): MyZoomListener?
     }
 
     interface EndlessScrollListener {

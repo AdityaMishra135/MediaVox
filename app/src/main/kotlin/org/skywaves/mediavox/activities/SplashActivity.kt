@@ -5,13 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.alpha
 import org.skywaves.mediavox.core.R
 import org.skywaves.mediavox.core.activities.BaseSimpleActivity
+import org.skywaves.mediavox.core.extensions.adjustAlpha
+import org.skywaves.mediavox.core.extensions.applyColorFilter
 import org.skywaves.mediavox.core.extensions.baseConfig
+import org.skywaves.mediavox.core.extensions.getProperPrimaryColor
+import org.skywaves.mediavox.core.extensions.getProperStatusBarColor
+import org.skywaves.mediavox.core.extensions.getProperTextColor
 import org.skywaves.mediavox.core.extensions.isUsingSystemDarkTheme
 import org.skywaves.mediavox.core.extensions.viewBinding
 import org.skywaves.mediavox.core.helpers.APP_LAUNCHER_NAME
+import org.skywaves.mediavox.core.helpers.LOWER_ALPHA
 import org.skywaves.mediavox.core.helpers.ensureBackgroundThread
+import org.skywaves.mediavox.core.helpers.getProperText
 import org.skywaves.mediavox.databinding.ActivitySplashBinding
 import org.skywaves.mediavox.extensions.config
 import org.skywaves.mediavox.extensions.favoritesDB
@@ -27,6 +35,8 @@ class SplashActivity : BaseSimpleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.splash.setBackgroundColor(getProperStatusBarColor())
+        binding.appName.setTextColor(getProperTextColor())
         baseConfig.apply {
             if (isUsingAutoTheme) {
                 val isUsingSystemDarkTheme = isUsingSystemDarkTheme()

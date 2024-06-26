@@ -82,7 +82,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private var mTimeFormat = ""
     private var mLastMediaHandler = Handler()
     private var mTempShowHiddenHandler = Handler()
-    private var mZoomListener: MyRecyclerView.MyZoomListener? = null
     private var mLastMediaFetcher: MediaFetcher? = null
     private var mDirs = ArrayList<Directory>()
     private var mDirsIgnoringSearch = ArrayList<Directory>()
@@ -812,31 +811,8 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         layoutManager.spanCount = 1
         layoutManager.orientation = RecyclerView.VERTICAL
         binding.directoriesRefreshLayout.layoutParams = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        mZoomListener = null
     }
 
-    private fun initZoomListener() {
-        if (config.viewTypeFolders == VIEW_TYPE_GRID) {
-            val layoutManager = binding.directoriesGrid.layoutManager as MyGridLayoutManager
-            mZoomListener = object : MyRecyclerView.MyZoomListener {
-                override fun zoomIn() {
-                    if (layoutManager.spanCount > 1) {
-                        reduceColumnCount()
-                        getRecyclerAdapter()?.finishActMode()
-                    }
-                }
-
-                override fun zoomOut() {
-                    if (layoutManager.spanCount < MAX_COLUMN_COUNT) {
-                        increaseColumnCount()
-                        getRecyclerAdapter()?.finishActMode()
-                    }
-                }
-            }
-        } else {
-            mZoomListener = null
-        }
-    }
 
     private fun createNewFolder() {
         FilePickerDialog(this, internalStoragePath, false, config.shouldShowHidden, false, true) {
@@ -1306,7 +1282,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
 
         if (currAdapter == null || forceRecreate) {
             mDirsIgnoringSearch = dirs
-            initZoomListener()
             DirectoryAdapter(
                 this,
                 dirsToShow,
@@ -1327,7 +1302,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                     setupAdapter(mDirs, "")
                 }
             }.apply {
-                setupZoomListener(mZoomListener)
                 runOnUiThread {
                     binding.directoriesGrid.adapter = this
                     setupScrollDirection()

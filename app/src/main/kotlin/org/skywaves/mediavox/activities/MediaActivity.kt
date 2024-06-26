@@ -57,7 +57,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
     private var mLastMediaHandler = Handler()
     private var mTempShowHiddenHandler = Handler()
     private var mCurrAsyncTask: GetMediaAsynctask? = null
-    private var mZoomListener: MyRecyclerView.MyZoomListener? = null
 
     private var mStoredShowFileTypes = true
     private var mStoredLastPlayed = ""
@@ -390,7 +389,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
 
         val currAdapter = binding.mediaGrid.adapter
         if (currAdapter == null) {
-            initZoomListener()
             MediaAdapter(
                 this, mMedia.clone() as ArrayList<ThumbnailItem>, this, mIsGetVideoIntent || mIsGetAudioIntent || mIsGetAnyIntent,
                 mAllowPickingMultiple, mPath, binding.mediaGrid
@@ -399,7 +397,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                     itemClicked(it.path)
                 }
             }.apply {
-                setupZoomListener(mZoomListener)
                 binding.mediaGrid.adapter = this
             }
 
@@ -673,7 +670,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
         layoutManager.spanCount = 1
         layoutManager.orientation = RecyclerView.VERTICAL
         binding.mediaRefreshLayout.layoutParams = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        mZoomListener = null
     }
 
     private fun handleGridSpacing(media: ArrayList<ThumbnailItem> = mMedia) {
@@ -695,30 +691,6 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                 }
                 binding.mediaGrid.addItemDecoration(newGridDecoration)
             }
-        }
-    }
-
-    private fun initZoomListener() {
-        val viewType = config.getFolderViewType(if (mShowAll) SHOW_ALL else mPath)
-        if (viewType == VIEW_TYPE_GRID) {
-            val layoutManager = binding.mediaGrid.layoutManager as MyGridLayoutManager
-            mZoomListener = object : MyRecyclerView.MyZoomListener {
-                override fun zoomIn() {
-                    if (layoutManager.spanCount > 1) {
-                        reduceColumnCount()
-                        getMediaAdapter()?.finishActMode()
-                    }
-                }
-
-                override fun zoomOut() {
-                    if (layoutManager.spanCount < MAX_COLUMN_COUNT) {
-                        increaseColumnCount()
-                        getMediaAdapter()?.finishActMode()
-                    }
-                }
-            }
-        } else {
-            mZoomListener = null
         }
     }
 
