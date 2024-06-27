@@ -1,67 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sorting_dialog_scrollview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:id="@+id/sorting_dialog_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_margin"
-        android:paddingTop="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin">
+        android:padding="@dimen/activity_margin">
 
-        <RadioGroup
-            android:id="@+id/sorting_dialog_radio_sorting"
+        <!-- Sorting Chips -->
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupSorting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/medium_margin">
+            android:layout_marginBottom="@dimen/medium_margin"
+            app:singleSelection="true"
+            android:layout_gravity="center"
+            app:chipSpacing="@dimen/normal_margin">
 
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/sorting_dialog_radio_name"
-                android:layout_width="match_parent"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipName"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/name" />
+                app:checkedIcon="@drawable/ic_check_circle_vector"
+                app:checkedIconVisible="false"
+                android:text="@string/name"
+                app:chipCornerRadius="@dimen/medium_margin"/>
 
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/sorting_dialog_radio_path"
-                android:layout_width="match_parent"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPath"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/path" />
+                app:checkedIcon="@drawable/ic_check_circle_vector"
+                app:checkedIconVisible="false"
+                android:text="@string/path"
+                app:chipCornerRadius="@dimen/medium_margin"/>
 
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/sorting_dialog_radio_size"
-                android:layout_width="match_parent"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSize"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/size" />
+                app:checkedIcon="@drawable/ic_check_circle_vector"
+                app:checkedIconVisible="false"
+                android:text="@string/size"
+                app:chipCornerRadius="@dimen/medium_margin"/>
 
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/sorting_dialog_radio_last_modified"
-                android:layout_width="match_parent"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipLastModified"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/last_modified" />
+                app:checkedIcon="@drawable/ic_check_circle_vector"
+                app:checkedIconVisible="false"
+                android:text="@string/last_modified"
+                app:chipCornerRadius="@dimen/medium_margin"/>
 
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/sorting_dialog_radio_date_taken"
-                android:layout_width="match_parent"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipDateTaken"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date_taken" />
+                app:checkedIcon="@drawable/ic_check_circle_vector"
+                app:checkedIconVisible="false"
+                android:text="@string/date_taken"
+                android:textStyle="bold"
+                app:chipCornerRadius="@dimen/medium_margin"/>
 
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/sorting_dialog_radio_random"
-                android:layout_width="match_parent"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipRandom"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/random" />
+                app:checkedIcon="@drawable/ic_check_circle_vector"
+                app:checkedIconVisible="false"
+                android:text="@string/random"
+                app:chipCornerRadius="@dimen/medium_margin"/>
 
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/sorting_dialog_radio_custom"
-                android:layout_width="match_parent"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCustom"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/custom" />
+                app:checkedIcon="@drawable/ic_check_circle_vector"
+                app:checkedIconVisible="false"
+                android:text="@string/custom"
+                app:chipCornerRadius="@dimen/medium_margin"/>
 
-        </RadioGroup>
+        </com.google.android.material.chip.ChipGroup>
 
         <ImageView
             android:id="@+id/sorting_dialog_sorting_divider"
@@ -70,26 +100,39 @@
             android:background="@color/divider_grey"
             android:importantForAccessibility="no" />
 
-        <RadioGroup
-            android:id="@+id/sorting_dialog_radio_order"
+
+        <!-- Order Chips -->
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/buttonToggleGroupOrder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/medium_margin"
-            android:paddingBottom="@dimen/medium_margin">
+            android:paddingBottom="@dimen/medium_margin"
+            app:singleSelection="true"
+            android:layout_marginEnd="@dimen/smaller_margin"
+            android:layout_marginStart="@dimen/smaller_margin"> <!-- Ensure singleSelection is true -->
 
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/sorting_dialog_radio_ascending"
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonAscending"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/ascending" />
+                android:layout_weight="1"
+                android:text="@string/ascending"
+                app:iconGravity="textStart"
+                app:cornerRadius="17dp"/>
 
-            <org.skywaves.mediavox.core.views.MyCompatRadioButton
-                android:id="@+id/sorting_dialog_radio_descending"
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonDescending"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/descending" />
-        </RadioGroup>
+                android:layout_weight="1"
+                android:text="@string/descending"
+                app:iconGravity="textStart"
+                app:cornerRadius="17dp"/>
 
+        </com.google.android.material.button.MaterialButtonToggleGroup>
         <ImageView
             android:id="@+id/sorting_dialog_order_divider"
             android:layout_width="match_parent"
@@ -97,22 +140,25 @@
             android:background="@color/divider_grey"
             android:importantForAccessibility="no" />
 
-        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
-            android:id="@+id/sorting_dialog_numeric_sorting"
-            android:layout_width="match_parent"
+        <!-- Numeric Sorting Checkbox -->
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkBoxNumericSorting"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/min_radio_checkbox_height"
             android:text="@string/sort_numeric_parts" />
 
-        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
-            android:id="@+id/sorting_dialog_use_for_this_folder"
-            android:layout_width="match_parent"
+        <!-- Use for This Folder Checkbox -->
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkBoxUseForThisFolder"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/min_radio_checkbox_height"
             android:text="@string/use_for_this_folder" />
 
-        <org.skywaves.mediavox.core.views.MyTextView
-            android:id="@+id/sorting_dialog_bottom_note"
+        <!-- Bottom Note -->
+        <TextView
+            android:id="@+id/textViewBottomNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/small_margin"
