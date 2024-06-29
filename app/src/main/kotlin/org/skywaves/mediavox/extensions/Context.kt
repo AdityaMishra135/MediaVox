@@ -913,63 +913,6 @@ fun Context.updateWidgets() {
     }
 }
 
-// based on https://github.com/sannies/mp4parser/blob/master/examples/src/main/java/com/google/code/mp4parser/example/PrintStructure.java
-fun Context.parseFileChannel(path: String, fc: FileChannel, level: Int, start: Long, end: Long, callback: () -> Unit) {
-    val FILE_CHANNEL_CONTAINERS = arrayListOf("moov", "trak", "mdia", "minf", "udta", "stbl")
-    try {
-        var iteration = 0
-        var currEnd = end
-        fc.position(start)
-        if (currEnd <= 0) {
-            currEnd = start + fc.size()
-        }
-
-        while (currEnd - fc.position() > 8) {
-            // just a check to avoid deadloop at some videos
-            if (iteration++ > 50) {
-                return
-            }
-
-            val begin = fc.position()
-            val byteBuffer = ByteBuffer.allocate(8)
-            fc.read(byteBuffer)
-            byteBuffer.rewind()
-            val size = IsoTypeReader.readUInt32(byteBuffer)
-            val type = IsoTypeReader.read4cc(byteBuffer)
-            val newEnd = begin + size
-
-            if (type == "uuid") {
-                val fis = FileInputStream(File(path))
-                fis.skip(begin)
-
-                val sb = StringBuilder()
-                val buffer = ByteArray(1024)
-                while (sb.length < size) {
-                    val n = fis.read(buffer)
-                    if (n != -1) {
-                        sb.append(String(buffer, 0, n))
-                    } else {
-                        break
-                    }
-                }
-
-                val xmlString = sb.toString().lowercase(Locale.getDefault())
-                if (xmlString.contains("gspherical:projectiontype>equirectangular") || xmlString.contains("gspherical:projectiontype=\"equirectangular\"")) {
-                    callback.invoke()
-                }
-                return
-            }
-
-            if (FILE_CHANNEL_CONTAINERS.contains(type)) {
-                parseFileChannel(path, fc, level + 1, begin + 8, newEnd, callback)
-            }
-
-            fc.position(newEnd)
-        }
-    } catch (ignored: Exception) {
-    }
-}
-
 fun Context.addPathToDB(path: String) {
     ensureBackgroundThread {
         if (!getDoesFilePathExist(path)) {
@@ -984,9 +927,10 @@ fun Context.addPathToDB(path: String) {
         try {
             val isFavorite = favoritesDB.isFavorite(path)
             val videoDuration = if (type == TYPE_VIDEOS || type == TYPE_AUDIOS) getDuration(path) ?: 0 else 0
+            val resolutionBitrate =  getAudioBitrate(contentResolver,path,type)
             val medium = Medium(
                 null, path.getFilenameFromPath(), path, path.getParentPath(), System.currentTimeMillis(), System.currentTimeMillis(),
-                File(path).length(), type, videoDuration, isFavorite, 0L, 0L
+                File(path).length(), type, videoDuration,resolutionBitrate, isFavorite, 0L, 0L
             )
 
             mediaDB.insert(medium)
@@ -1024,7 +968,7 @@ fun Context.createDirectoryFromMedia(
     }
 
     val isSortingAscending = config.directorySorting.isSortingAscending()
-    val defaultMedium = Medium(0, "", "", "", 0L, 0L, 0L, 0, 0, false, 0L, 0L)
+    val defaultMedium = Medium(0, "", "", "", 0L, 0L, 0L, 0, 0,"" ,false, 0L, 0L)
     val firstItem = curMedia.firstOrNull() ?: defaultMedium
     val lastItem = curMedia.lastOrNull() ?: defaultMedium
     val dirName = checkAppendingHidden(path, hiddenString, includedFolders, noMediaFolders)

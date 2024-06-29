@@ -319,7 +319,7 @@ class ViewPagerActivity : SimpleActivity(), ViewPager.OnPageChangeListener, View
             val filename = mPath.getFilenameFromPath()
             val folder = mPath.getParentPath()
             val type = getTypeFromPath(mPath)
-            val medium = Medium(null, filename, mPath, folder, 0, 0, 0, type, 0, false, 0L, 0L)
+            val medium = Medium(null, filename, mPath, folder, 0, 0, 0, type, 0,"", false, 0L, 0L)
             mMediaFiles.add(medium)
             gotMedia(mMediaFiles as ArrayList<ThumbnailItem>, refetchViewPagerPosition = true)
         }

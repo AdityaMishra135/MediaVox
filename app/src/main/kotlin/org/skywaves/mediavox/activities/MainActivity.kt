@@ -85,7 +85,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private var mLastMediaFetcher: MediaFetcher? = null
     private var mDirs = ArrayList<Directory>()
     private var mDirsIgnoringSearch = ArrayList<Directory>()
-    private val SIZE_DIVIDER = 100000
 
     private var mStoredTextColor = 0
     private var mStoredPrimaryColor = 0

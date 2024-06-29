@@ -32,7 +32,6 @@ import org.skywaves.mediavox.activities.VideoActivity
 import org.skywaves.mediavox.databinding.PagerVideoItemBinding
 import org.skywaves.mediavox.extensions.config
 import org.skywaves.mediavox.extensions.hasNavBar
-import org.skywaves.mediavox.extensions.parseFileChannel
 import org.skywaves.mediavox.helpers.*
 import org.skywaves.mediavox.models.Medium
 import org.skywaves.mediavox.views.MediaSideScroll
