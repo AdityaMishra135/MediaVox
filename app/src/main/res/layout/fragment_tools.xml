@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:cpb="http://schemas.android.com/tools"
+    android:id="@+id/tools_holder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="8dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/back_pressed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_left_vector"
+        android:padding="6dp"
+        android:background="@drawable/ic_selected_bg"
+        android:layout_marginStart="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="5dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/favorite_tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_fav"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/favorites"
+                android:padding="5dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/recycle_bin_tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_trash"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycle_bin"
+                android:padding="5dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/history_tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_history"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/history"
+                android:padding="5dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/tools_items_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/tool_back">
+        <TextView
+            android:id="@+id/storage_analyde_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/storage_analyse"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:textSize="20dp"
+            android:layout_margin="10dp"/>
+
+        <RelativeLayout
+            android:id="@+id/more_features_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/storage_analyde_text"
+            android:visibility="visible">
+            <RelativeLayout
+                android:id="@+id/internal_storage_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
+
+                <LinearLayout
+                    android:id="@+id/storage_infos_holder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:layout_centerVertical="true">
+                    <org.skywaves.mediavox.core.views.CircleProgressBar
+                        android:id="@+id/main_storage_usage_progressbar"
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        cpb:progressColor="#e76130"
+                        cpb:backgroundColor="#e7b330"
+                        cpb:backgroundWidth="5"
+                        app:progressText="Internal"
+                        cpb:roundedCorners="true"
+                        android:layout_marginTop="@dimen/medium_margin"
+                        android:layout_marginBottom="@dimen/medium_margin"
+                        cpb:progressTextColor="#f9916b"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="5dp">
+                        <TextView
+                            android:id="@+id/storage_total_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total: 128GB"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/storage_used_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Used: 98GB"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/storage_free_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Free: 32GB"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/divider_height"
+                    android:layout_height="48dp"
+                    android:background="@color/divider_grey"
+                    android:layout_toEndOf="@id/storage_infos_holder"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="12dp"/>
+
+                <LinearLayout
+                    android:id="@+id/media_storage_info_holder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_toEndOf="@id/storage_infos_holder"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true">
+                    <TextView
+                        android:id="@+id/totol_videos_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Videos: 5GB"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/totol_audios_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Audio: 5GB"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/totol_others_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Others: 5GB"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/external_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_below="@id/internal_storage_holder">
+
+                <LinearLayout
+                    android:id="@+id/storage_external_infos_holder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:layout_centerVertical="true">
+                    <org.skywaves.mediavox.core.views.CircleProgressBar
+                        android:id="@+id/main_storage_external_usage_progressbar"
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        cpb:progressColor="#e76130"
+                        cpb:backgroundColor="#e7b330"
+                        cpb:backgroundWidth="5"
+                        app:progressText="Internal"
+                        cpb:roundedCorners="true"
+                        android:layout_marginTop="@dimen/medium_margin"
+                        android:layout_marginBottom="@dimen/medium_margin"
+                        cpb:progressTextColor="#f9916b"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="5dp">
+                        <TextView
+                            android:id="@+id/storage_external_total_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total: 128GB"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/storage_external_used_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Used: 98GB"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/storage_external_free_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Free: 32GB"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/divider_height"
+                    android:layout_height="48dp"
+                    android:background="@color/divider_grey"
+                    android:layout_toEndOf="@id/storage_external_infos_holder"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="12dp"/>
+
+                <LinearLayout
+                    android:id="@+id/media_storage_external_info_holder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_toEndOf="@id/storage_external_infos_holder"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true">
+                    <TextView
+                        android:id="@+id/totol_external_videos_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Videos: 5GB"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/totol_external_audios_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Audio: 5GB"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/totol_external_others_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Others: 5GB"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>

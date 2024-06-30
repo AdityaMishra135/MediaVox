@@ -18,6 +18,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import org.skywaves.mediavox.BuildConfig
 import org.skywaves.mediavox.R
@@ -41,8 +42,9 @@ import org.skywaves.mediavox.dialogs.ChangeSortingDialog
 import org.skywaves.mediavox.dialogs.ChangeViewTypeDialog
 import org.skywaves.mediavox.dialogs.FilterMediaDialog
 import org.skywaves.mediavox.dialogs.GrantAllFilesDialog
-import org.skywaves.mediavox.dialogs.StorageInfoDialog
 import org.skywaves.mediavox.extensions.*
+import org.skywaves.mediavox.fragments.main.ToolsFragment
+import org.skywaves.mediavox.fragments.settings.SettingsThemeFragment
 import org.skywaves.mediavox.helpers.*
 import org.skywaves.mediavox.interfaces.DirectoryOperationsListener
 import org.skywaves.mediavox.jobs.NewPhotoFetcher
@@ -90,7 +92,9 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private var mStoredPrimaryColor = 0
     private var mStoredStyleString = ""
     private var mStoredLastPlayed = ""
-    private val binding by viewBinding(ActivityMainBinding::inflate)
+    var mFragmentManager: FragmentManager? = null
+    var toolShow = false
+    val binding by viewBinding(ActivityMainBinding::inflate)
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,6 +112,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             checkRecycleBinItems()
             startNewPhotoFetcher()
         }
+        mFragmentManager = supportFragmentManager
 
         mIsPickVideoIntent = isPickVideoIntent(intent)
         mIsPickAudioIntent = isPickAudioIntent(intent)
@@ -200,8 +205,22 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         mDateFormat = config.dateFormat
         mTimeFormat = getTimeFormat()
         handleLogics(binding)
+        if (toolShow) {
+            updateStatusbarColor(getProperPrimaryColor().adjustAlpha(.6f))
+            arrayOf(binding.xyz, binding.mainMenu, binding.mainMenu, binding.directoriesHolder, binding.lastPlayed
+            ).forEach {
+                it.beGone()
+            }
+        } else{
+            updateStatusbarColor(getProperBackgroundColor())
+            arrayOf(binding.xyz, binding.mainMenu, binding.mainMenu, binding.directoriesHolder, binding.lastPlayed
+            ).forEach {
+                it.beVisible()
+            }
+            binding.mainContentContainer.beGone()
+        }
 
-        refreshMenuItems()
+            refreshMenuItems()
 
         if (mStoredLastPlayed != config.lastPlayed) {
             getRecyclerAdapter()?.updateLastPlayed(config.lastPlayed)
@@ -304,24 +323,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
     private fun handleLogics(binding: ActivityMainBinding){
         binding.appNameHome.setTextColor(getProperBackgroundColor().getContrastColor())
         setupFilterFunction(binding)
-        binding.moreFeaturesShow.setOnClickListener {
-            val view = binding.mainMenu.layoutParams as ViewGroup.MarginLayoutParams
-            view.setMargins(0, dpFromPx(116), 0, 0)
-            it.beGone()
-            binding.moreFeaturesHide.beVisible()
-            binding.moreFeaturesHolder.beVisible()
-        }
-
-        binding.moreFeaturesHide.setOnClickListener {
-            val view = binding.mainMenu.layoutParams as ViewGroup.MarginLayoutParams
-            view.setMargins(0, dpFromPx(58), 0, 0)
-            it.beGone()
-            binding.moreFeaturesShow.beVisible()
-            binding.moreFeaturesHolder.beGone()
-        }
-        binding.storageInfoHolder.setOnClickListener {
-            StorageInfoDialog(this)
-        }
 
         binding.lastPlayed.beVisibleIf(config.lastPlayed != "")
         binding.lastPlayed.setMaxImageSize(82)
@@ -335,11 +336,37 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 startActivity(this)
             }
         }
+
+        binding.moreFeaturesShow.setOnClickListener {
+            toolShow = true
+            binding.mainContentContainer.beVisible()
+            updateStatusbarColor(getProperPrimaryColor().adjustAlpha(.6f))
+            arrayOf(
+               binding.xyz,
+               binding.mainMenu,
+               binding.mainMenu,
+               binding.directoriesHolder,
+               binding.lastPlayed
+           ).forEach {
+               it.beGone()
+           }
+            mFragmentManager!!.beginTransaction()
+                .replace(R.id.main_content_container, ToolsFragment.instance!!, ToolsFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+        }
     }
 
 
     override fun onBackPressed() {
-        if (binding.mainMenu.isSearchOpen) {
+        if (toolShow){
+            toolShow = false
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.main_content_container)
+            if ((supportFragmentManager.findFragmentById(R.id.main_content_container)) is ToolsFragment){
+                (currentFragment as ToolsFragment).handleBackPressed()
+            }
+        }
+      else  if (binding.mainMenu.isSearchOpen) {
             binding.mainMenu.closeSearch()
         } else if (config.groupDirectSubfolders) {
             if (mCurrentPathPrefix.isEmpty()) {
@@ -349,7 +376,8 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 mCurrentPathPrefix = mOpenedSubfolders.last()
                 setupAdapter(mDirs)
             }
-        } else {
+        }
+        else {
             super.onBackPressed()
         }
     }
