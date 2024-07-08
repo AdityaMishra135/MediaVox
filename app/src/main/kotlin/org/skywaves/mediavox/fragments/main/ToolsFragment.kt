@@ -33,6 +33,7 @@ import android.app.Activity
 import android.app.usage.StorageStatsManager
 import android.content.Context
 import android.content.Context.STORAGE_SERVICE
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.storage.StorageManager
@@ -49,6 +50,11 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.skywaves.mediavox.activities.MediaActivity
+import org.skywaves.mediavox.core.helpers.FAVORITES
+import org.skywaves.mediavox.extensions.openRecycleBin
+import org.skywaves.mediavox.helpers.DIRECTORY
+import org.skywaves.mediavox.helpers.RECYCLE_BIN
 import java.io.File
 import java.util.Locale
 
@@ -90,6 +96,19 @@ class ToolsFragment : Fragment() {
         binding.mainStorageUsageProgressbar.setProgressColor(requireContext().getProperPrimaryColor())
         binding.mainStorageUsageProgressbar.setBackgroundColor(requireContext().getProperPrimaryColor().adjustAlpha(.5f))
         binding.mainStorageExternalUsageProgressbar.setBackgroundColor(requireContext().getProperPrimaryColor().adjustAlpha(.5f))
+        binding.favoriteTools.setOnClickListener {
+            val intent = Intent(requireContext(), MediaActivity::class.java).apply {
+                putExtra(DIRECTORY, FAVORITES)
+            }
+            requireContext().startActivity(intent)
+
+        }
+        binding.recycleBinTools.setOnClickListener {
+            val intent = Intent(requireContext(), MediaActivity::class.java).apply {
+                putExtra(DIRECTORY, RECYCLE_BIN)
+            }
+            requireContext().startActivity(intent)
+        }
     }
 
     companion object {
@@ -217,11 +236,14 @@ class ToolsFragment : Fragment() {
 
         if (volumeName == PRIMARY_VOLUME_NAME) {
             binding.totolVideosSize.text = "Videos: ${fileSizeVideos.formatSizeThousand()}"
-            binding.totolExternalVideosSize.text = "Videos: ${fileSizeVideos.formatSizeThousand()}"
             binding.totolAudiosSize.text = "Audios: ${fileSizeAudios.formatSizeThousand()}"
-            binding.totolExternalAudiosSize.text = "Audios: ${fileSizeAudios.formatSizeThousand()}"
             if (usedStorageSpace != null) {
                 binding.totolOthersSize.text = "Others: ${(usedStorageSpace - (fileSizeAudios + fileSizeVideos)).formatSizeThousand()}"
+            }
+        } else {
+            binding.totolExternalVideosSize.text = "Videos: ${fileSizeVideos.formatSizeThousand()}"
+            binding.totolExternalAudiosSize.text = "Audios: ${fileSizeAudios.formatSizeThousand()}"
+            if (usedStorageSpace != null) {
                 binding.totolExternalOthersSize.text = "Others: ${(usedStorageSpace - (fileSizeAudios + fileSizeVideos)).formatSizeThousand()}"
             }
         }
