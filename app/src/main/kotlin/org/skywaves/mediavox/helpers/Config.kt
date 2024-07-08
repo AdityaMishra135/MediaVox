@@ -96,9 +96,6 @@ class Config(context: Context) : BaseConfig(context) {
         val currPinnedFolders = HashSet<String>(pinnedFolders)
         currPinnedFolders.addAll(paths)
         pinnedFolders = currPinnedFolders.filter { it.isNotEmpty() }.toHashSet()
-        if (paths.contains(RECYCLE_BIN)) {
-            showRecycleBinLast = false
-        }
     }
 
     fun removePinnedFolders(paths: Set<String>) {
@@ -427,10 +424,6 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getLong(LAST_BIN_CHECK, 0L)
         set(lastBinCheck) = prefs.edit().putLong(LAST_BIN_CHECK, lastBinCheck).apply()
 
-    var showRecycleBinLast: Boolean
-        get() = prefs.getBoolean(SHOW_RECYCLE_BIN_LAST, false)
-        set(showRecycleBinLast) = prefs.edit().putBoolean(SHOW_RECYCLE_BIN_LAST, showRecycleBinLast).apply()
-
     var allowDownGesture: Boolean
         get() = prefs.getBoolean(ALLOW_DOWN_GESTURE, true)
         set(allowDownGesture) = prefs.edit().putBoolean(ALLOW_DOWN_GESTURE, allowDownGesture).apply()
@@ -454,14 +447,6 @@ class Config(context: Context) : BaseConfig(context) {
     var showWidgetFolderName: Boolean
         get() = prefs.getBoolean(SHOW_WIDGET_FOLDER_NAME, true)
         set(showWidgetFolderName) = prefs.edit().putBoolean(SHOW_WIDGET_FOLDER_NAME, showWidgetFolderName).apply()
-
-    var lastEditorDrawColor: Int
-        get() = prefs.getInt(LAST_EDITOR_DRAW_COLOR, primaryColor)
-        set(lastEditorDrawColor) = prefs.edit().putInt(LAST_EDITOR_DRAW_COLOR, lastEditorDrawColor).apply()
-
-    var lastEditorBrushSize: Int
-        get() = prefs.getInt(LAST_EDITOR_BRUSH_SIZE, 50)
-        set(lastEditorBrushSize) = prefs.edit().putInt(LAST_EDITOR_BRUSH_SIZE, lastEditorBrushSize).apply()
 
     var showNotch: Boolean
         get() = prefs.getBoolean(SHOW_NOTCH, true)

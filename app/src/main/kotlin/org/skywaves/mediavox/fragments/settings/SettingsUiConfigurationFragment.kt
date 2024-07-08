@@ -50,7 +50,6 @@ class SettingsUiConfigurationFragment : SettingsBaseFragment() {
         setupManageExtendedDetails()
         setupManageBottomActions()
         setupShowRecycleBin()
-        setupShowRecycleBinLast()
         arrayOf(
             binding.settingsShowRecycleBin,
             binding.settingsHideExtendedDetails,
@@ -172,17 +171,6 @@ class SettingsUiConfigurationFragment : SettingsBaseFragment() {
         }
     }
 
-    private fun setupShowRecycleBinLast() {
-        binding.settingsShowRecycleBinLast.isChecked = requireContext().config.showRecycleBinLast
-        binding.settingsShowRecycleBinLastHolder.beVisibleIf(requireContext().config.useRecycleBin)
-        binding.settingsShowRecycleBinLastHolder.setOnClickListener {
-            binding.settingsShowRecycleBinLast.toggle()
-            requireContext().config.showRecycleBinLast = binding.settingsShowRecycleBinLast.isChecked
-            if (requireContext().config.showRecycleBinLast) {
-                requireContext().config.removePinnedFolders(setOf(RECYCLE_BIN))
-            }
-        }
-    }
 
     private fun updateRecycleBinButtons() {
         binding.settingsShowRecycleBinLastHolder.beVisibleIf(requireContext().config.useRecycleBin && requireContext().config.showRecycleBinAtFolders)

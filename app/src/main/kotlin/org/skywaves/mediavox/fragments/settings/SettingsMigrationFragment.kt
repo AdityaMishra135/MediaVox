@@ -94,7 +94,6 @@ import org.skywaves.mediavox.helpers.SHOW_HIDDEN_MEDIA
 import org.skywaves.mediavox.helpers.SHOW_MEDIUM_FILE_SIZE
 import org.skywaves.mediavox.helpers.SHOW_NOTCH
 import org.skywaves.mediavox.helpers.SHOW_RECYCLE_BIN_AT_FOLDERS
-import org.skywaves.mediavox.helpers.SHOW_RECYCLE_BIN_LAST
 import org.skywaves.mediavox.helpers.SHOW_THUMBNAIL_FILE_DIR
 import org.skywaves.mediavox.helpers.SHOW_THUMBNAIL_FILE_TYPES
 import org.skywaves.mediavox.helpers.SHOW_WIDGET_FOLDER_NAME
@@ -332,7 +331,6 @@ class SettingsMigrationFragment : SettingsBaseFragment() {
                 put(VISIBLE_BOTTOM_ACTIONS, requireContext().config.visibleBottomActions)
                 put(USE_RECYCLE_BIN, requireContext().config.useRecycleBin)
                 put(SHOW_RECYCLE_BIN_AT_FOLDERS, requireContext().config.showRecycleBinAtFolders)
-                put(SHOW_RECYCLE_BIN_LAST, requireContext().config.showRecycleBinLast)
                 put(SORT_ORDER, requireContext().config.sorting)
                 put(DIRECTORY_SORT_ORDER, requireContext().config.directorySorting)
                 put(GROUP_BY, requireContext().config.groupBy)
@@ -457,7 +455,6 @@ class SettingsMigrationFragment : SettingsBaseFragment() {
                 VISIBLE_BOTTOM_ACTIONS -> requireContext().config.visibleBottomActions = value.toInt()
                 USE_RECYCLE_BIN -> requireContext().config.useRecycleBin = value.toBoolean()
                 SHOW_RECYCLE_BIN_AT_FOLDERS -> requireContext().config.showRecycleBinAtFolders = value.toBoolean()
-                SHOW_RECYCLE_BIN_LAST -> requireContext().config.showRecycleBinLast = value.toBoolean()
                 SORT_ORDER -> requireContext().config.sorting = value.toInt()
                 DIRECTORY_SORT_ORDER -> requireContext().config.directorySorting = value.toInt()
                 GROUP_BY -> requireContext().config.groupBy = value.toInt()

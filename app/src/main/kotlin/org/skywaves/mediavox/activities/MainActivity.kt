@@ -1018,7 +1018,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         val lastModifieds = mLastMediaFetcher!!.getLastModifieds()
         val dateTakens = mLastMediaFetcher!!.getDateTakens()
 
-        if (config.showRecycleBinAtFolders && !config.showRecycleBinLast && !dirs.map { it.path }.contains(RECYCLE_BIN)) {
+        if (config.showRecycleBinAtFolders && !dirs.map { it.path }.contains(RECYCLE_BIN)) {
             try {
                 if (mediaDB.getDeletedMediaCount() > 0) {
                     val recycleBin = Directory().apply {
