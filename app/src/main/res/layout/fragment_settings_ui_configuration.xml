@@ -136,20 +136,5 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/settings_show_recycle_bin_last_holder"
-        style="@style/SettingsHolderCheckboxStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <org.skywaves.mediavox.core.views.MyAppCompatCheckbox
-            android:id="@+id/settings_show_recycle_bin_last"
-            style="@style/SettingsCheckboxStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/show_recycle_bin_last" />
-
-    </RelativeLayout>
-
 
 </LinearLayout>

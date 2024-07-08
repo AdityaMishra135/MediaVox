@@ -589,7 +589,7 @@ class MediaActivity : SimpleActivity(), MediaOperationsListener {
                 }
             }
 
-            if (mPath == RECYCLE_BIN) {
+            if (mPath == RECYCLE_BIN && mPath == FAVORITES) {
                 binding.mediaEmptyTextPlaceholder.setText(org.skywaves.mediavox.core.R.string.no_items_found)
                 binding.mediaEmptyTextPlaceholder.beVisible()
                 binding.mediaEmptyTextPlaceholder2.beGone()

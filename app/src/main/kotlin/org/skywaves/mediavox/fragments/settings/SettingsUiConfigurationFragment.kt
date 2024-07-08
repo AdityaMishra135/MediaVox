@@ -53,7 +53,6 @@ class SettingsUiConfigurationFragment : SettingsBaseFragment() {
         arrayOf(
             binding.settingsShowRecycleBin,
             binding.settingsHideExtendedDetails,
-            binding.settingsShowRecycleBinLast,
             binding.settingsShowExtendedDetails,
             binding.settingsBottomActionsCheckbox,
         ).forEach {
@@ -173,7 +172,6 @@ class SettingsUiConfigurationFragment : SettingsBaseFragment() {
 
 
     private fun updateRecycleBinButtons() {
-        binding.settingsShowRecycleBinLastHolder.beVisibleIf(requireContext().config.useRecycleBin && requireContext().config.showRecycleBinAtFolders)
         binding.settingsShowRecycleBinHolder.beVisibleIf(requireContext().config.useRecycleBin)
     }
 }
