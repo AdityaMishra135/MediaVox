@@ -41,9 +41,12 @@ import android.os.storage.StorageVolume
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -109,6 +112,12 @@ class ToolsFragment : Fragment() {
             }
             requireContext().startActivity(intent)
         }
+        binding.favMenu.setOnClickListener {
+            showPopupFav(it)
+        }
+        binding.recycleMenu.setOnClickListener {
+            showPopupRecycle(it)
+        }
     }
 
     companion object {
@@ -131,6 +140,54 @@ class ToolsFragment : Fragment() {
         ).forEach {
             it.beVisible()
         }
+    }
+
+    private fun showPopupFav(view: View) {
+        val popup = PopupMenu(requireContext(), view)
+
+        // Add menu items programmatically
+        popup.menu.add(0, 1, 0, "Lock Favorite")
+        popup.menu.add(0, 2, 1, "Create Shortcut")
+
+        popup.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                1 -> {
+                    Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                2 -> {
+                    Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popup.show()
+    }
+
+    private fun showPopupRecycle(view: View) {
+        val popup = PopupMenu(requireContext(), view)
+
+        // Add menu items programmatically
+        popup.menu.add(0, 1, 0, "Lock Recycle")
+        popup.menu.add(0, 2, 1, "Create Shortcut")
+
+        popup.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                1 -> {
+                    Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                2 -> {
+                    Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popup.show()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

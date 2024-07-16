@@ -26,68 +26,104 @@
         android:layout_margin="10dp"
         android:gravity="center">
 
-        <LinearLayout
-            android:id="@+id/favorite_tools"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/ic_fav"/>
-            <TextView
+                android:id="@+id/fav_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/favorites"
-                android:padding="5dp"
-                android:textStyle="bold"/>
-        </LinearLayout>
+                android:src="@drawable/ic_three_dots_vector"
+                android:clickable="true"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:padding="2dp"/>
 
-        <LinearLayout
-            android:id="@+id/recycle_bin_tools"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true">
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/ic_trash"/>
-            <TextView
+            <LinearLayout
+                android:id="@+id/favorite_tools"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/recycle_bin"
-                android:padding="5dp"
-                android:textStyle="bold"/>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/ic_fav"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/favorites"
+                    android:padding="5dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/history_tools"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true">
+            android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/ic_history"/>
-            <TextView
+                android:id="@+id/recycleMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/history"
-                android:padding="5dp"
-                android:textStyle="bold"/>
-        </LinearLayout>
+                android:src="@drawable/ic_three_dots_vector"
+                android:clickable="true"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:padding="2dp"/>
+            <LinearLayout
+                android:id="@+id/recycle_bin_tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/ic_trash"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recycle_bin"
+                    android:padding="5dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_three_dots_vector"
+                android:clickable="true"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:padding="2dp"/>
+            <LinearLayout
+                android:id="@+id/history_tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_history"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/history"
+                    android:padding="5dp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
     <RelativeLayout
