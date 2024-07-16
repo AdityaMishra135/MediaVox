@@ -48,6 +48,7 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -167,27 +168,16 @@ class ToolsFragment : Fragment() {
     }
 
     private fun showPopupRecycle(view: View) {
-        val popup = PopupMenu(requireContext(), view)
-
-        // Add menu items programmatically
-        popup.menu.add(0, 1, 0, "Lock Recycle")
-        popup.menu.add(0, 2, 1, "Create Shortcut")
-
-        popup.setOnMenuItemClickListener { item: MenuItem ->
-            when (item.itemId) {
-                1 -> {
-                    Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
-                    true
+            val options = arrayOf("Lock Recycle", "Create Shortcut")
+            AlertDialog.Builder(requireContext())
+                .setTitle("Select Option")
+                .setItems(options) { dialog, which ->
+                    when (which) {
+                        0 -> Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
+                        1 -> Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
+                    }
                 }
-                2 -> {
-                    Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> false
-            }
-        }
-
-        popup.show()
+                .show()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
