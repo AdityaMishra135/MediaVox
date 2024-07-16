@@ -39,7 +39,6 @@
                 android:padding="2dp"/>
 
             <LinearLayout
-                android:id="@+id/favorite_tools"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -48,6 +47,7 @@
                 android:clickable="true"
                 android:focusable="true">
                 <ImageView
+                    android:id="@+id/favorite_tools"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:src="@drawable/ic_fav"/>
@@ -72,7 +72,6 @@
                 android:background="?android:selectableItemBackgroundBorderless"
                 android:padding="2dp"/>
             <LinearLayout
-                android:id="@+id/recycle_bin_tools"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -81,6 +80,7 @@
                 android:clickable="true"
                 android:focusable="true">
                 <ImageView
+                    android:id="@+id/recycle_bin_tools"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:src="@drawable/ic_trash"/>
