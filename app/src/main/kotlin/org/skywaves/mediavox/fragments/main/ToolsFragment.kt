@@ -112,11 +112,11 @@ class ToolsFragment : Fragment() {
             }
             requireContext().startActivity(intent)
         }
-        binding.favMenu.setOnClickListener {
-            showPopupFav(it)
+        binding.favMenu.setOnClickListener {view ->
+            showPopupFav(view)
         }
-        binding.recycleMenu.setOnClickListener {
-            showPopupRecycle(it)
+        binding.recycleMenu.setOnClickListener {view ->
+            showPopupRecycle(view)
         }
     }
 
