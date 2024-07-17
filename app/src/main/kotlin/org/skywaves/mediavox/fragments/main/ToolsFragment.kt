@@ -168,16 +168,7 @@ class ToolsFragment : Fragment() {
     }
 
     private fun showPopupRecycle(view: View) {
-            val options = arrayOf("Lock Recycle", "Create Shortcut")
-            AlertDialog.Builder(requireActivity())
-                .setTitle("Select Option")
-                .setItems(options) { dialog, which ->
-                    when (which) {
-                        0 -> Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
-                        1 -> Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .show()
+            Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
