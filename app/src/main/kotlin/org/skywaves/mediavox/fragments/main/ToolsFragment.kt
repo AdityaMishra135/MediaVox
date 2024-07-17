@@ -144,7 +144,7 @@ class ToolsFragment : Fragment() {
     }
 
     private fun showPopupFav(view: View) {
-        val popup = PopupMenu(requireContext(), view)
+        val popup = PopupMenu(requireActivity(), view)
 
         // Add menu items programmatically
         popup.menu.add(0, 1, 0, "Lock Favorite")
@@ -169,7 +169,7 @@ class ToolsFragment : Fragment() {
 
     private fun showPopupRecycle(view: View) {
             val options = arrayOf("Lock Recycle", "Create Shortcut")
-            AlertDialog.Builder(requireContext())
+            AlertDialog.Builder(requireActivity())
                 .setTitle("Select Option")
                 .setItems(options) { dialog, which ->
                     when (which) {
