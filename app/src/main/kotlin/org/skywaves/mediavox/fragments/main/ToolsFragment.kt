@@ -113,11 +113,14 @@ class ToolsFragment : Fragment() {
             }
             requireContext().startActivity(intent)
         }
-        binding.favMenu.setOnClickListener {view ->
-            showPopupFav(view)
+        binding.favoriteTools.setOnLongClickListener {
+            showPopupFav(it)
+            true
         }
-        binding.recycleMenu.setOnClickListener {view ->
-            showPopupRecycle(view)
+        binding.recycleBinTools.setOnLongClickListener {
+            showPopupRecycle(it)
+    // Handle long click event here
+    true // Return true to indicate the event was consumed
         }
     }
 
