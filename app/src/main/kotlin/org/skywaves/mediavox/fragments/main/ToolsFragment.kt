@@ -34,6 +34,9 @@ import android.app.usage.StorageStatsManager
 import android.content.Context
 import android.content.Context.STORAGE_SERVICE
 import android.content.Intent
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import android.os.storage.StorageManager
@@ -55,7 +58,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.skywaves.mediavox.activities.MediaActivity
+import org.skywaves.mediavox.activities.SimpleActivity
+import org.skywaves.mediavox.core.activities.BaseSimpleActivity
+import org.skywaves.mediavox.core.dialogs.FolderLockingNoticeDialog
+import org.skywaves.mediavox.core.dialogs.SecurityDialog
+import org.skywaves.mediavox.core.extensions.convertToBitmap
+import org.skywaves.mediavox.core.extensions.handleLockedFolderOpening
 import org.skywaves.mediavox.core.helpers.FAVORITES
+import org.skywaves.mediavox.core.helpers.SHOW_ALL_TABS
+import org.skywaves.mediavox.extensions.config
+import org.skywaves.mediavox.extensions.getShortcutImage
 import org.skywaves.mediavox.extensions.openRecycleBin
 import org.skywaves.mediavox.helpers.DIRECTORY
 import org.skywaves.mediavox.helpers.RECYCLE_BIN
@@ -66,6 +78,8 @@ class ToolsFragment : Fragment() {
     private var _binding: FragmentToolsBinding? = null
     private val binding get() = _binding!!
     private val SIZE_DIVIDER = 100000
+    private var Path = ""
+    private var lockedFolderPaths = ArrayList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -152,15 +166,59 @@ class ToolsFragment : Fragment() {
         // Add menu items programmatically
         popup.menu.add(0, 1, 0, "Lock Favorite")
         popup.menu.add(0, 2, 1, "Create Shortcut")
+        popup.menu.add(0, 3, 2, "Unlock Favorite")
 
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 1 -> {
+                    Path = FAVORITES
+                    tryLockFolder()
                     Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
                     true
                 }
                 2 -> {
+                    Path = FAVORITES
+                    tryCreateShortcut()
                     Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                3 -> {
+                    Path = FAVORITES
+                    unlockFolder()
+                    Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
+    }
+
+    private fun showPopupRecycle(view: View) {
+        val popup = PopupMenu(requireActivity(), view)
+        // Add menu items programmatically
+        popup.menu.add(0, 1, 0, "Lock Trash")
+        popup.menu.add(0, 2, 1, "Create Shortcut")
+        popup.menu.add(0, 3, 2, "Unlock Trash")
+
+        popup.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                1 -> {
+                    Path = RECYCLE_BIN
+                    tryLockFolder()
+                    Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                2 -> {
+                    Path = RECYCLE_BIN
+                    tryCreateShortcut()
+                    Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                3 -> {
+                    Path = RECYCLE_BIN
+                    unlockFolder()
+                    Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
@@ -170,8 +228,80 @@ class ToolsFragment : Fragment() {
         popup.show()
     }
 
-    private fun showPopupRecycle(view: View) {
-            Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
+    private fun tryLockFolder() {
+        if (requireContext().config.wasFolderLockingNoticeShown) {
+            lockFolder()
+        } else {
+            FolderLockingNoticeDialog(requireActivity()) {
+                lockFolder()
+            }
+        }
+    }
+
+    private fun lockFolder() {
+        SecurityDialog(requireActivity(), "", SHOW_ALL_TABS) { hash, type, success ->
+            if (success) {
+                Path.filter { !requireContext().config.isFolderProtected(it.toString()) }.forEach {
+                    requireContext().config.addFolderProtection(it.toString(), hash, type)
+                    lockedFolderPaths.add(it.toString())
+                }
+              
+            }
+        }
+    }
+
+    private fun unlockFolder() {
+        val paths = Path
+        val firstPath = paths.first()
+        val tabToShow = requireContext().config.getFolderProtectionType(firstPath.toString())
+        val hashToCheck = requireContext().config.getFolderProtectionHash(firstPath.toString())
+        SecurityDialog(requireActivity(), hashToCheck, tabToShow) { hash, type, success ->
+            if (success) {
+                paths.filter { requireContext().config.isFolderProtected(Path) && requireContext().config.getFolderProtectionType(
+                    it.toString()
+                ) == tabToShow && requireContext().config.getFolderProtectionHash(it.toString()) == hashToCheck }
+                    .forEach {
+                        requireContext().config.removeFolderProtection(it.toString())
+                        lockedFolderPaths.remove(it.toString())
+                    }
+            }
+        }
+    }
+
+    private fun tryCreateShortcut() {
+        if (!isOreoPlus()) {
+            return
+        }
+
+        requireActivity().handleLockedFolderOpening(Path) { success ->
+            if (success) {
+                createShortcut()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createShortcut() {
+        val manager = requireActivity().getSystemService(ShortcutManager::class.java)
+        if (manager.isRequestPinShortcutSupported) {
+            val path = Path
+            val drawable = resources.getDrawable(R.drawable.shortcut_image).mutate()
+            val coverThumbnail = requireContext().config.parseAlbumCovers().firstOrNull { it.tmb == Path }?.tmb
+            requireActivity().getShortcutImage(coverThumbnail!!, drawable) {
+                val intent = Intent(requireActivity(), MediaActivity::class.java)
+                intent.action = Intent.ACTION_VIEW
+                intent.flags = intent.flags or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra(DIRECTORY, path)
+               val label = if(Path == "favorites"){ "Favorite"} else { "Recycle Bin"}
+                val shortcut = ShortcutInfo.Builder(requireActivity(), path)
+                    .setShortLabel(label)
+                    .setIcon(Icon.createWithBitmap(drawable.convertToBitmap()))
+                    .setIntent(intent)
+                    .build()
+
+                manager.requestPinShortcut(shortcut, null)
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
