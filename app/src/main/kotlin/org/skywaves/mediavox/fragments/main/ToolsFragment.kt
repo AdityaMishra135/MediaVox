@@ -71,6 +71,7 @@ import org.skywaves.mediavox.extensions.getShortcutImage
 import org.skywaves.mediavox.extensions.openRecycleBin
 import org.skywaves.mediavox.helpers.DIRECTORY
 import org.skywaves.mediavox.helpers.RECYCLE_BIN
+import org.skywaves.mediavox.helpers.SKIP_AUTHENTICATION
 import java.io.File
 import java.util.Locale
 
@@ -115,17 +116,26 @@ class ToolsFragment : Fragment() {
         binding.mainStorageUsageProgressbar.setBackgroundColor(requireContext().getProperPrimaryColor().adjustAlpha(.5f))
         binding.mainStorageExternalUsageProgressbar.setBackgroundColor(requireContext().getProperPrimaryColor().adjustAlpha(.5f))
         binding.favoriteTools.setOnClickListener {
-            val intent = Intent(requireContext(), MediaActivity::class.java).apply {
-                putExtra(DIRECTORY, FAVORITES)
+            requireActivity().handleLockedFolderOpening(FAVORITES) { success ->
+                if (success) {
+                    val intent = Intent(requireContext(), MediaActivity::class.java).apply {
+                        putExtra(DIRECTORY, FAVORITES)
+                    }
+                    requireContext().startActivity(intent)
+                }
             }
-            requireContext().startActivity(intent)
-
         }
+
         binding.recycleBinTools.setOnClickListener {
-            val intent = Intent(requireContext(), MediaActivity::class.java).apply {
-                putExtra(DIRECTORY, RECYCLE_BIN)
+            requireActivity().handleLockedFolderOpening(RECYCLE_BIN) { success ->
+                if (success) {
+                    val intent = Intent(requireContext(), MediaActivity::class.java).apply {
+                        putExtra(DIRECTORY, RECYCLE_BIN)
+                    }
+                    requireContext().startActivity(intent)
+                }
             }
-            requireContext().startActivity(intent)
+
         }
         binding.favoriteTools.setOnLongClickListener {
             showPopupFav(it)
@@ -272,7 +282,6 @@ class ToolsFragment : Fragment() {
         if (!isOreoPlus()) {
             return
         }
-
         requireActivity().handleLockedFolderOpening(Path) { success ->
             if (success) {
                 createShortcut()
