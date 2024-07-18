@@ -67,6 +67,7 @@ import org.skywaves.mediavox.core.extensions.handleLockedFolderOpening
 import org.skywaves.mediavox.core.helpers.FAVORITES
 import org.skywaves.mediavox.core.helpers.SHOW_ALL_TABS
 import org.skywaves.mediavox.extensions.config
+import org.skywaves.mediavox.extensions.directoryDB
 import org.skywaves.mediavox.extensions.getShortcutImage
 import org.skywaves.mediavox.extensions.openRecycleBin
 import org.skywaves.mediavox.helpers.DIRECTORY
@@ -115,14 +116,10 @@ class ToolsFragment : Fragment() {
         binding.mainStorageUsageProgressbar.setBackgroundColor(requireContext().getProperPrimaryColor().adjustAlpha(.5f))
         binding.mainStorageExternalUsageProgressbar.setBackgroundColor(requireContext().getProperPrimaryColor().adjustAlpha(.5f))
         binding.favoriteTools.setOnClickListener {
-            requireActivity().handleLockedFolderOpening(FAVORITES) { success ->
-                if (success) {
                     val intent = Intent(requireContext(), MediaActivity::class.java).apply {
                         putExtra(DIRECTORY, FAVORITES)
                     }
                     requireContext().startActivity(intent)
-                }
-            }
         }
 
         binding.recycleBinTools.setOnClickListener {
@@ -284,7 +281,7 @@ class ToolsFragment : Fragment() {
         if (manager.isRequestPinShortcutSupported) {
             val path = FAVORITES
             val drawable = resources.getDrawable(R.drawable.shortcut_image).mutate()
-            val coverThumbnail = requireContext().config.parseAlbumCovers().firstOrNull { it.tmb == path }
+            val coverThumbnail = requireContext().directoryDB.getDirectoryThumbnail(path)
             requireActivity().getShortcutImage(coverThumbnail.toString(), drawable) {
                 val intent = Intent(requireActivity(), MediaActivity::class.java)
                 intent.action = Intent.ACTION_VIEW
