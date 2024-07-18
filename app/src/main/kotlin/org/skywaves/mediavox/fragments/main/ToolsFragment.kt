@@ -79,7 +79,6 @@ class ToolsFragment : Fragment() {
     private var _binding: FragmentToolsBinding? = null
     private val binding get() = _binding!!
     private val SIZE_DIVIDER = 100000
-    private var Path = ""
     private var lockedFolderPaths = ArrayList<String>()
 
     override fun onCreateView(
@@ -181,20 +180,18 @@ class ToolsFragment : Fragment() {
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 1 -> {
-                    Path = FAVORITES
-                    tryLockFolder()
+                    tryLockFav()
                     Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
                     true
                 }
+
                 2 -> {
-                    Path = FAVORITES
-                    tryCreateShortcut()
+                    tryCreateFavShortcut()
                     Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
                     true
                 }
                 3 -> {
-                    Path = FAVORITES
-                    unlockFolder()
+                    unlockFav()
                     Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
                     true
                 }
@@ -214,20 +211,14 @@ class ToolsFragment : Fragment() {
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 1 -> {
-                    Path = RECYCLE_BIN
-                    tryLockFolder()
                     Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
                     true
                 }
                 2 -> {
-                    Path = RECYCLE_BIN
-                    tryCreateShortcut()
                     Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
                     true
                 }
                 3 -> {
-                    Path = RECYCLE_BIN
-                    unlockFolder()
                     Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
                     true
                 }
@@ -238,70 +229,68 @@ class ToolsFragment : Fragment() {
         popup.show()
     }
 
-    private fun tryLockFolder() {
+    private fun tryLockFav() {
         if (requireContext().config.wasFolderLockingNoticeShown) {
-            lockFolder()
+            lockFav()
         } else {
             FolderLockingNoticeDialog(requireActivity()) {
-                lockFolder()
+                lockFav()
             }
         }
     }
 
-    private fun lockFolder() {
+    private fun lockFav() {
         SecurityDialog(requireActivity(), "", SHOW_ALL_TABS) { hash, type, success ->
             if (success) {
-                Path.filter { !requireContext().config.isFolderProtected(it.toString()) }.forEach {
-                    requireContext().config.addFolderProtection(it.toString(), hash, type)
-                    lockedFolderPaths.add(it.toString())
+                FAVORITES.filter { !requireContext().config.isFolderProtected(FAVORITES) }.forEach {
+                    requireContext().config.addFolderProtection(FAVORITES, hash, type)
+                    lockedFolderPaths.add(FAVORITES)
                 }
               
             }
         }
     }
 
-    private fun unlockFolder() {
-        val paths = Path
-        val firstPath = paths.first()
-        val tabToShow = requireContext().config.getFolderProtectionType(firstPath.toString())
-        val hashToCheck = requireContext().config.getFolderProtectionHash(firstPath.toString())
+    private fun unlockFav() {
+        val paths = FAVORITES
+        val firstPath = paths
+        val tabToShow = requireContext().config.getFolderProtectionType(firstPath)
+        val hashToCheck = requireContext().config.getFolderProtectionHash(firstPath)
         SecurityDialog(requireActivity(), hashToCheck, tabToShow) { hash, type, success ->
             if (success) {
-                paths.filter { requireContext().config.isFolderProtected(Path) && requireContext().config.getFolderProtectionType(
-                    it.toString()
-                ) == tabToShow && requireContext().config.getFolderProtectionHash(it.toString()) == hashToCheck }
+                paths.filter { requireContext().config.isFolderProtected(paths) && requireContext().config.getFolderProtectionType(paths) == tabToShow && requireContext().config.getFolderProtectionHash(paths) == hashToCheck }
                     .forEach {
-                        requireContext().config.removeFolderProtection(it.toString())
-                        lockedFolderPaths.remove(it.toString())
+                        requireContext().config.removeFolderProtection(paths)
+                        lockedFolderPaths.remove(paths)
                     }
             }
         }
     }
 
-    private fun tryCreateShortcut() {
+    private fun tryCreateFavShortcut() {
         if (!isOreoPlus()) {
             return
         }
-        requireActivity().handleLockedFolderOpening(Path) { success ->
+        requireActivity().handleLockedFolderOpening(FAVORITES) { success ->
             if (success) {
-                createShortcut()
+                createShortcutFav()
             }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createShortcut() {
+    private fun createShortcutFav() {
         val manager = requireActivity().getSystemService(ShortcutManager::class.java)
         if (manager.isRequestPinShortcutSupported) {
-            val path = Path
+            val path = FAVORITES
             val drawable = resources.getDrawable(R.drawable.shortcut_image).mutate()
-            val coverThumbnail = requireContext().config.parseAlbumCovers().firstOrNull { it.tmb == Path }?.tmb
+            val coverThumbnail = requireContext().config.parseAlbumCovers().firstOrNull { it.tmb == path }?.tmb
             requireActivity().getShortcutImage(coverThumbnail!!, drawable) {
                 val intent = Intent(requireActivity(), MediaActivity::class.java)
                 intent.action = Intent.ACTION_VIEW
                 intent.flags = intent.flags or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.putExtra(DIRECTORY, path)
-               val label = if(Path == "favorites"){ "Favorite"} else { "Recycle Bin"}
+               val label =  "Favorite"
                 val shortcut = ShortcutInfo.Builder(requireActivity(), path)
                     .setShortLabel(label)
                     .setIcon(Icon.createWithBitmap(drawable.convertToBitmap()))
