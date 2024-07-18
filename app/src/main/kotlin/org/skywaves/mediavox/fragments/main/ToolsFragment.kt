@@ -123,15 +123,10 @@ class ToolsFragment : Fragment() {
         }
 
         binding.recycleBinTools.setOnClickListener {
-            requireActivity().handleLockedFolderOpening(RECYCLE_BIN) { success ->
-                if (success) {
                     val intent = Intent(requireContext(), MediaActivity::class.java).apply {
                         putExtra(DIRECTORY, RECYCLE_BIN)
                     }
                     requireContext().startActivity(intent)
-                }
-            }
-
         }
         binding.favoriteTools.setOnLongClickListener {
             showPopupFav(it)
@@ -178,7 +173,6 @@ class ToolsFragment : Fragment() {
             when (item.itemId) {
                 1 -> {
                     tryLockFav()
-                    Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
                     true
                 }
 
@@ -189,7 +183,6 @@ class ToolsFragment : Fragment() {
                 }
                 3 -> {
                     unlockFav()
-                    Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
@@ -208,7 +201,7 @@ class ToolsFragment : Fragment() {
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 1 -> {
-                    Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
+                    tryLockTrashBin()
                     true
                 }
                 2 -> {
@@ -216,7 +209,7 @@ class ToolsFragment : Fragment() {
                     true
                 }
                 3 -> {
-                    Toast.makeText(requireContext(), "Lock Favorite", Toast.LENGTH_SHORT).show()
+                    unlockTrashBin()
                     true
                 }
                 else -> false
@@ -236,6 +229,16 @@ class ToolsFragment : Fragment() {
         }
     }
 
+private fun tryLockTrashBin() {
+        if (requireContext().config.wasFolderLockingNoticeShown) {
+            lockTrashBin()
+        } else {
+            FolderLockingNoticeDialog(requireActivity()) {
+                lockTrashBin()
+            }
+        }
+    }
+    
     private fun lockFav() {
         SecurityDialog(requireActivity(), "", SHOW_ALL_TABS) { hash, type, success ->
             if (success) {
@@ -248,8 +251,37 @@ class ToolsFragment : Fragment() {
         }
     }
 
+    private fun lockTrashBin() {
+        SecurityDialog(requireActivity(), "", SHOW_ALL_TABS) { hash, type, success ->
+            if (success) {
+                RECYCLE_BIN.filter { !requireContext().config.isFolderProtected(RECYCLE_BIN) }.forEach {
+                    requireContext().config.addFolderProtection(RECYCLE_BIN, hash, type)
+                    lockedFolderPaths.add(RECYCLE_BIN)
+                }
+              
+            }
+        }
+    }
+
     private fun unlockFav() {
         val paths = FAVORITES
+        val firstPath = paths
+        val tabToShow = requireContext().config.getFolderProtectionType(firstPath)
+        val hashToCheck = requireContext().config.getFolderProtectionHash(firstPath)
+        SecurityDialog(requireActivity(), hashToCheck, tabToShow) { hash, type, success ->
+            if (success) {
+                paths.filter { requireContext().config.isFolderProtected(paths) && requireContext().config.getFolderProtectionType(paths) == tabToShow && requireContext().config.getFolderProtectionHash(paths) == hashToCheck }
+                    .forEach {
+                        requireContext().config.removeFolderProtection(paths)
+                        lockedFolderPaths.remove(paths)
+                    }
+            }
+        }
+    }
+
+    
+private fun unlockTrashBin() {
+        val paths = RECYCLE_BIN
         val firstPath = paths
         val tabToShow = requireContext().config.getFolderProtectionType(firstPath)
         val hashToCheck = requireContext().config.getFolderProtectionHash(firstPath)
