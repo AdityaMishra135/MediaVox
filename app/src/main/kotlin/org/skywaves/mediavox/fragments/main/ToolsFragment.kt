@@ -284,8 +284,8 @@ class ToolsFragment : Fragment() {
         if (manager.isRequestPinShortcutSupported) {
             val path = FAVORITES
             val drawable = resources.getDrawable(R.drawable.shortcut_image).mutate()
-            val coverThumbnail = requireContext().config.parseAlbumCovers().firstOrNull { it.tmb == path }?.tmb
-            requireActivity().getShortcutImage(coverThumbnail!!, drawable) {
+            val coverThumbnail = requireContext().config.parseAlbumCovers().firstOrNull { it.tmb == path }
+            requireActivity().getShortcutImage(coverThumbnail.toString(), drawable) {
                 val intent = Intent(requireActivity(), MediaActivity::class.java)
                 intent.action = Intent.ACTION_VIEW
                 intent.flags = intent.flags or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
