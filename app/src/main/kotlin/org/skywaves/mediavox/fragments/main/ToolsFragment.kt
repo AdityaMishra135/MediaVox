@@ -60,16 +60,26 @@ import kotlinx.coroutines.withContext
 import org.skywaves.mediavox.activities.MediaActivity
 import org.skywaves.mediavox.activities.SimpleActivity
 import org.skywaves.mediavox.core.activities.BaseSimpleActivity
+import org.skywaves.mediavox.core.dialogs.ConfirmationDialog
 import org.skywaves.mediavox.core.dialogs.FolderLockingNoticeDialog
 import org.skywaves.mediavox.core.dialogs.SecurityDialog
 import org.skywaves.mediavox.core.extensions.convertToBitmap
+import org.skywaves.mediavox.core.extensions.getFilenameFromPath
+import org.skywaves.mediavox.core.extensions.handleDeletePasswordProtection
 import org.skywaves.mediavox.core.extensions.handleLockedFolderOpening
 import org.skywaves.mediavox.core.helpers.FAVORITES
 import org.skywaves.mediavox.core.helpers.SHOW_ALL_TABS
+import org.skywaves.mediavox.core.helpers.ensureBackgroundThread
+import org.skywaves.mediavox.dialogs.ConfirmDeleteFolderDialog
 import org.skywaves.mediavox.extensions.config
 import org.skywaves.mediavox.extensions.directoryDB
+import org.skywaves.mediavox.extensions.emptyAndDisableTheRecycleBin
+import org.skywaves.mediavox.extensions.emptyTheRecycleBin
+import org.skywaves.mediavox.extensions.favoritesDB
 import org.skywaves.mediavox.extensions.getShortcutImage
+import org.skywaves.mediavox.extensions.mediaDB
 import org.skywaves.mediavox.extensions.openRecycleBin
+import org.skywaves.mediavox.extensions.showRecycleBinEmptyingDialog
 import org.skywaves.mediavox.helpers.DIRECTORY
 import org.skywaves.mediavox.helpers.RECYCLE_BIN
 import org.skywaves.mediavox.helpers.SKIP_AUTHENTICATION
@@ -176,8 +186,10 @@ class ToolsFragment : Fragment() {
 
         // Add menu items programmatically
         popup.menu.add(0, 1, 0, "Lock Favorite")
-        popup.menu.add(0, 2, 1, "Create Shortcut")
+        popup.menu.add(0, 2, 1, "Clear Favorite")
         popup.menu.add(0, 3, 2, "Unlock Favorite")
+        popup.menu.findItem(1).isVisible = FAVORITES.any { !requireContext().config.isFolderProtected(FAVORITES) }
+        popup.menu.findItem(3).isVisible = FAVORITES.any { requireContext().config.isFolderProtected(FAVORITES) }
 
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
@@ -187,8 +199,7 @@ class ToolsFragment : Fragment() {
                 }
 
                 2 -> {
-                    tryCreateFavShortcut()
-                    Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
+                    askConfirmDeleteFav()
                     true
                 }
                 3 -> {
@@ -205,8 +216,10 @@ class ToolsFragment : Fragment() {
         val popup = PopupMenu(requireActivity(), view)
         // Add menu items programmatically
         popup.menu.add(0, 1, 0, "Lock Trash")
-        popup.menu.add(0, 2, 1, "Create Shortcut")
+        popup.menu.add(0, 2, 1, "Clean Trash")
         popup.menu.add(0, 3, 2, "Unlock Trash")
+        popup.menu.findItem(1).isVisible = RECYCLE_BIN.any { !requireContext().config.isFolderProtected(RECYCLE_BIN) }
+        popup.menu.findItem(3).isVisible = RECYCLE_BIN.any { requireContext().config.isFolderProtected(RECYCLE_BIN) }
 
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
@@ -215,7 +228,7 @@ class ToolsFragment : Fragment() {
                     true
                 }
                 2 -> {
-                    Toast.makeText(requireContext(), "Create Shortcut", Toast.LENGTH_SHORT).show()
+                    askConfirmDelete()
                     true
                 }
                 3 -> {
@@ -504,4 +517,116 @@ private fun unlockTrashBin() {
         val freeSpace: Long,
         val usedSpace: Long
     )
+
+
+    private fun askConfirmDelete() {
+        when {
+            requireContext().config.isDeletePasswordProtectionOn -> requireActivity().handleDeletePasswordProtection {
+                deleteFolders()
+            }
+
+            requireContext().config.skipDeleteConfirmation -> deleteFolders()
+            else -> {
+                    ConfirmationDialog(
+                        requireActivity(),
+                        "",
+                        org.skywaves.mediavox.core.R.string.empty_recycle_bin_confirmation,
+                        org.skywaves.mediavox.core.R.string.yes,
+                        org.skywaves.mediavox.core.R.string.no
+                    ) {
+                        deleteFolders()
+                    }
+                    return
+                }
+        }
+    }
+
+    private fun deleteFolders() {
+        val SAFPath = RECYCLE_BIN
+        (requireActivity() as BaseSimpleActivity).handleSAFDialog(SAFPath) {
+            if (!it) {
+                return@handleSAFDialog
+            }
+
+            (requireActivity() as BaseSimpleActivity).handleSAFDialogSdk30(SAFPath) {
+                if (!it) {
+                    return@handleSAFDialogSdk30
+                }
+                tryEmptyRecycleBin(false)
+            }
+        }
+    }
+
+
+    private fun tryEmptyRecycleBin(askConfirmation: Boolean) {
+        if (askConfirmation) {
+            (requireActivity() as BaseSimpleActivity).showRecycleBinEmptyingDialog {
+                emptyRecycleBin()
+            }
+        } else {
+            emptyRecycleBin()
+        }
+    }
+
+    private fun emptyRecycleBin() {
+        requireActivity().handleLockedFolderOpening(RECYCLE_BIN) { success ->
+            if (success) {
+                (requireActivity() as BaseSimpleActivity).emptyTheRecycleBin {
+                }
+            }
+        }
+    }
+
+    private fun askConfirmDeleteFav() {
+        when {
+            requireContext().config.isDeletePasswordProtectionOn -> requireActivity().handleDeletePasswordProtection {
+                deleteFoldersFav()
+            }
+
+            requireContext().config.skipDeleteConfirmation -> deleteFolders()
+            else -> {
+
+                    ConfirmationDialog(
+                        requireActivity(),
+                        "",
+                        org.skywaves.mediavox.core.R.string.deletion_confirmation,
+                        org.skywaves.mediavox.core.R.string.yes,
+                        org.skywaves.mediavox.core.R.string.no
+                    ) {
+                        deleteFoldersFav()
+                    }
+                    return
+                }
+
+        }
+    }
+
+    private fun deleteFoldersFav() {
+
+        val SAFPath = FAVORITES
+        (requireActivity() as BaseSimpleActivity).handleSAFDialog(SAFPath) {
+            if (!it) {
+                return@handleSAFDialog
+            }
+
+            (requireActivity() as BaseSimpleActivity).handleSAFDialogSdk30(SAFPath) {
+                if (!it) {
+                    return@handleSAFDialogSdk30
+                }
+
+
+                requireActivity().handleLockedFolderOpening(FAVORITES) { success ->
+                    if (success) {
+                        ensureBackgroundThread {
+                            requireActivity().mediaDB.clearFavorites()
+                            requireActivity().favoritesDB.clearFavorites()
+                        }
+                    }
+                }
+
+            }
+
+        }
+    }
+
 }
