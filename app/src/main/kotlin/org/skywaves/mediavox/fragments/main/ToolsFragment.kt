@@ -190,6 +190,7 @@ class ToolsFragment : Fragment() {
         popup.menu.add(0, 3, 2, "Unlock Favorite")
         popup.menu.findItem(1).isVisible = FAVORITES.any { !requireContext().config.isFolderProtected(FAVORITES) }
         popup.menu.findItem(3).isVisible = FAVORITES.any { requireContext().config.isFolderProtected(FAVORITES) }
+        popup.menu.findItem(2).isVisible =  requireActivity().mediaDB.getFavoritesCount().toInt()  > 0
 
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
@@ -220,6 +221,7 @@ class ToolsFragment : Fragment() {
         popup.menu.add(0, 3, 2, "Unlock Trash")
         popup.menu.findItem(1).isVisible = RECYCLE_BIN.any { !requireContext().config.isFolderProtected(RECYCLE_BIN) }
         popup.menu.findItem(3).isVisible = RECYCLE_BIN.any { requireContext().config.isFolderProtected(RECYCLE_BIN) }
+        popup.menu.findItem(2).isVisible =  requireActivity().mediaDB.getFavoritesCount().toInt()  > 0
 
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
@@ -588,8 +590,7 @@ private fun unlockTrashBin() {
 
                     ConfirmationDialog(
                         requireActivity(),
-                        "",
-                        org.skywaves.mediavox.core.R.string.deletion_confirmation,
+                        "Are you sure you want to Clear Favorite?",
                         org.skywaves.mediavox.core.R.string.yes,
                         org.skywaves.mediavox.core.R.string.no
                     ) {
