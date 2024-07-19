@@ -116,17 +116,27 @@ class ToolsFragment : Fragment() {
         binding.mainStorageUsageProgressbar.setBackgroundColor(requireContext().getProperPrimaryColor().adjustAlpha(.5f))
         binding.mainStorageExternalUsageProgressbar.setBackgroundColor(requireContext().getProperPrimaryColor().adjustAlpha(.5f))
         binding.favoriteTools.setOnClickListener {
+            requireActivity().handleLockedFolderOpening(FAVORITES) { success ->
+                if (success) {
                     val intent = Intent(requireContext(), MediaActivity::class.java).apply {
+                        putExtra(SKIP_AUTHENTICATION, true)
                         putExtra(DIRECTORY, FAVORITES)
                     }
                     requireContext().startActivity(intent)
         }
+        }
+        }
 
         binding.recycleBinTools.setOnClickListener {
+            requireActivity().handleLockedFolderOpening(RECYCLE_BIN) { success ->
+                if (success) {
                     val intent = Intent(requireContext(), MediaActivity::class.java).apply {
+                        putExtra(SKIP_AUTHENTICATION, true)
                         putExtra(DIRECTORY, RECYCLE_BIN)
                     }
                     requireContext().startActivity(intent)
+        }
+            }
         }
         binding.favoriteTools.setOnLongClickListener {
             showPopupFav(it)
