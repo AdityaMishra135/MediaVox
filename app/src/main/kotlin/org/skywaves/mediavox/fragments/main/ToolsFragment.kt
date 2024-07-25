@@ -201,7 +201,13 @@ class ToolsFragment : Fragment() {
 
                 2 -> {
                     askConfirmDeleteFav()
-                    Toast.makeText(requireContext(),requireActivity().mediaDB.getFavoritesCount().toInt(),Toast.LENGTH_LONG)
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(
+                            requireContext(),
+                            "${requireActivity().mediaDB.getFavoritesCount().toInt()}",
+                            Toast.LENGTH_LONG
+                        )
+                    }
                     true
                 }
                 3 -> {
@@ -232,7 +238,9 @@ class ToolsFragment : Fragment() {
                 }
                 2 -> {
                     askConfirmDelete()
-                    Toast.makeText(requireContext(),requireActivity().mediaDB.getDeletedMediaCount().toInt(),Toast.LENGTH_LONG)
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(),"${requireActivity().mediaDB.getDeletedMediaCount().toInt()}",Toast.LENGTH_LONG)
+                    }
                     true
                 }
                 3 -> {
