@@ -201,6 +201,7 @@ class ToolsFragment : Fragment() {
 
                 2 -> {
                     askConfirmDeleteFav()
+                    Toast.makeText(requireContext(),requireActivity().mediaDB.getFavoritesCount().toInt(),Toast.LENGTH_LONG)
                     true
                 }
                 3 -> {
@@ -231,6 +232,7 @@ class ToolsFragment : Fragment() {
                 }
                 2 -> {
                     askConfirmDelete()
+                    Toast.makeText(requireContext(),requireActivity().mediaDB.getDeletedMediaCount().toInt(),Toast.LENGTH_LONG)
                     true
                 }
                 3 -> {
@@ -444,8 +446,6 @@ private fun unlockTrashBin() {
 
     private suspend fun getSizes(usedStorageSpace: Long?, volumeName: String) {
         if (!isOreoPlus()) return
-
-
 
         if (volumeName == PRIMARY_VOLUME_NAME) {
             binding.mainStorageUsageProgressbar.text = "Internal"
