@@ -190,7 +190,6 @@ class ToolsFragment : Fragment() {
         popup.menu.add(0, 3, 2, "Unlock Favorite")
         popup.menu.findItem(1).isVisible = FAVORITES.any { !requireContext().config.isFolderProtected(FAVORITES) }
         popup.menu.findItem(3).isVisible = FAVORITES.any { requireContext().config.isFolderProtected(FAVORITES) }
-        popup.menu.findItem(2).isVisible =  requireActivity().mediaDB.getFavoritesCount().toInt()  > 0
 
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
@@ -201,12 +200,9 @@ class ToolsFragment : Fragment() {
 
                 2 -> {
                     askConfirmDeleteFav()
-                    requireActivity().runOnUiThread {
-                        Toast.makeText(
-                            requireContext(),
-                            "${requireActivity().mediaDB.getFavoritesCount().toInt()}",
-                            Toast.LENGTH_LONG
-                        )
+                    lifecycleScope.launch {
+                        val favoritesCount = requireActivity().mediaDB.getFavoritesCount().toInt()
+                        Toast.makeText(requireContext(),favoritesCount,Toast.LENGTH_LONG).show()
                     }
                     true
                 }
@@ -228,7 +224,6 @@ class ToolsFragment : Fragment() {
         popup.menu.add(0, 3, 2, "Unlock Trash")
         popup.menu.findItem(1).isVisible = RECYCLE_BIN.any { !requireContext().config.isFolderProtected(RECYCLE_BIN) }
         popup.menu.findItem(3).isVisible = RECYCLE_BIN.any { requireContext().config.isFolderProtected(RECYCLE_BIN) }
-        popup.menu.findItem(2).isVisible =  requireActivity().mediaDB.getFavoritesCount().toInt()  > 0
 
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
@@ -238,9 +233,6 @@ class ToolsFragment : Fragment() {
                 }
                 2 -> {
                     askConfirmDelete()
-                    requireActivity().runOnUiThread {
-                        Toast.makeText(requireContext(),"${requireActivity().mediaDB.getDeletedMediaCount().toInt()}",Toast.LENGTH_LONG)
-                    }
                     true
                 }
                 3 -> {
