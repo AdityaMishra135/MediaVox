@@ -7,7 +7,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.skywaves.mediavox.R
 import org.skywaves.mediavox.activities.MainActivity
-import org.skywaves.mediavox.activities.SettingsActivity
 import org.skywaves.mediavox.core.extensions.adjustAlpha
 import org.skywaves.mediavox.core.extensions.beGone
 import org.skywaves.mediavox.core.extensions.beVisible
@@ -21,18 +20,13 @@ import org.skywaves.mediavox.core.extensions.queryCursor
 import org.skywaves.mediavox.core.helpers.isNougatPlus
 import org.skywaves.mediavox.core.helpers.isOreoPlus
 import org.skywaves.mediavox.core.views.CircleProgressBar
-import org.skywaves.mediavox.databinding.DialogStorageInfoBinding
-import org.skywaves.mediavox.databinding.FragmentSettingsGeneralBinding
 import org.skywaves.mediavox.databinding.FragmentToolsBinding
-import org.skywaves.mediavox.fragments.settings.base.SettingsBaseFragment
 import org.skywaves.mediavox.helpers.AUDIO
 import org.skywaves.mediavox.helpers.PRIMARY_VOLUME_NAME
 import org.skywaves.mediavox.helpers.VIDEOS
 import org.skywaves.mediavox.helpers.extraAudioMimeTypes
-import android.app.Activity
 import android.app.usage.StorageStatsManager
 import android.content.Context
-import android.content.Context.STORAGE_SERVICE
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
@@ -42,7 +36,6 @@ import android.os.Bundle
 import android.os.storage.StorageManager
 import android.os.storage.StorageVolume
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -51,34 +44,25 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.skywaves.mediavox.activities.MediaActivity
-import org.skywaves.mediavox.activities.SimpleActivity
 import org.skywaves.mediavox.core.activities.BaseSimpleActivity
 import org.skywaves.mediavox.core.dialogs.ConfirmationDialog
 import org.skywaves.mediavox.core.dialogs.FolderLockingNoticeDialog
 import org.skywaves.mediavox.core.dialogs.SecurityDialog
 import org.skywaves.mediavox.core.extensions.convertToBitmap
-import org.skywaves.mediavox.core.extensions.getFilenameFromPath
 import org.skywaves.mediavox.core.extensions.handleDeletePasswordProtection
 import org.skywaves.mediavox.core.extensions.handleLockedFolderOpening
 import org.skywaves.mediavox.core.helpers.FAVORITES
 import org.skywaves.mediavox.core.helpers.SHOW_ALL_TABS
 import org.skywaves.mediavox.core.helpers.ensureBackgroundThread
-import org.skywaves.mediavox.dialogs.ConfirmDeleteFolderDialog
 import org.skywaves.mediavox.extensions.config
 import org.skywaves.mediavox.extensions.directoryDB
-import org.skywaves.mediavox.extensions.emptyAndDisableTheRecycleBin
 import org.skywaves.mediavox.extensions.emptyTheRecycleBin
 import org.skywaves.mediavox.extensions.favoritesDB
 import org.skywaves.mediavox.extensions.getShortcutImage
 import org.skywaves.mediavox.extensions.mediaDB
-import org.skywaves.mediavox.extensions.openRecycleBin
 import org.skywaves.mediavox.extensions.showRecycleBinEmptyingDialog
 import org.skywaves.mediavox.helpers.DIRECTORY
 import org.skywaves.mediavox.helpers.RECYCLE_BIN
@@ -211,7 +195,14 @@ class ToolsFragment : Fragment() {
             }
         }
         popup.show()
+        updateFavMenu(popup)
     }
+
+   private fun updateFavMenu(popup: PopupMenu?){
+       if (popup != null) {
+           popup.menu.findItem(2).isVisible = requireContext().config.favCount > 0
+       }
+   }
 
     private fun showPopupRecycle(view: View) {
         val popup = PopupMenu(requireActivity(), view)
@@ -626,6 +617,16 @@ private fun unlockTrashBin() {
             }
 
         }
+    }
+
+    override fun onPause() {
+        updateFavMenu(null)
+        super.onPause()
+    }
+
+    override fun onResume() {
+        updateFavMenu(null)
+        super.onResume()
     }
 
 }

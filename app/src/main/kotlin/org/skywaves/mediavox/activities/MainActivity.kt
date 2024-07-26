@@ -191,11 +191,19 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 }
             }
         }
+        ensureBackgroundThread {
+            config.trashItemCount = mediaDB.getDeletedMediaCount()
+            config.favCount = mediaDB.getFavoritesCount()
+        }
     }
 
     override fun onStart() {
         super.onStart()
         mTempShowHiddenHandler.removeCallbacksAndMessages(null)
+        ensureBackgroundThread {
+            config.trashItemCount = mediaDB.getDeletedMediaCount()
+            config.favCount = mediaDB.getFavoritesCount()
+        }
     }
 
     override fun onResume() {
@@ -275,6 +283,10 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         } else {
             binding.mainMenu.updateHintText(getString(org.skywaves.mediavox.core.R.string.search_folders))
         }
+        ensureBackgroundThread {
+            config.trashItemCount = mediaDB.getDeletedMediaCount()
+            config.favCount = mediaDB.getFavoritesCount()
+        }
     }
 
     override fun onPause() {
@@ -284,6 +296,10 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         storeStateVariables()
         handleLogics(binding)
         mLastMediaHandler.removeCallbacksAndMessages(null)
+        ensureBackgroundThread {
+            config.trashItemCount = mediaDB.getDeletedMediaCount()
+            config.favCount = mediaDB.getFavoritesCount()
+        }
     }
 
     override fun onStop() {
@@ -298,6 +314,10 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             }, SHOW_TEMP_HIDDEN_DURATION)
         } else {
             mTempShowHiddenHandler.removeCallbacksAndMessages(null)
+        }
+        ensureBackgroundThread {
+            config.trashItemCount = mediaDB.getDeletedMediaCount()
+            config.favCount = mediaDB.getFavoritesCount()
         }
     }
 
@@ -316,6 +336,10 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
                 mLastMediaFetcher?.shouldStop = true
                 GalleryDatabase.destroyInstance()
             }
+        }
+        ensureBackgroundThread {
+            config.trashItemCount = mediaDB.getDeletedMediaCount()
+            config.favCount = mediaDB.getFavoritesCount()
         }
     }
 
@@ -1017,11 +1041,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         val dirPathsToRemove = ArrayList<String>()
         val lastModifieds = mLastMediaFetcher!!.getLastModifieds()
         val dateTakens = mLastMediaFetcher!!.getDateTakens()
-        try {
-            config.trashItemCount = mediaDB.getDeletedMediaCount()
-            config.favCount = mediaDB.getFavoritesCount()
-        } catch (ignored: Exception) {
-        }
+
 
         if (config.showRecycleBinAtFolders && !dirs.map { it.path }.contains(RECYCLE_BIN)) {
             try {
