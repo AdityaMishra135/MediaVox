@@ -190,6 +190,7 @@ class ToolsFragment : Fragment() {
         popup.menu.add(0, 3, 2, "Unlock Favorite")
         popup.menu.findItem(1).isVisible = FAVORITES.any { !requireContext().config.isFolderProtected(FAVORITES) }
         popup.menu.findItem(3).isVisible = FAVORITES.any { requireContext().config.isFolderProtected(FAVORITES) }
+        popup.menu.findItem(2).isVisible = requireContext().config.favCount > 0
 
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
@@ -197,13 +198,9 @@ class ToolsFragment : Fragment() {
                     tryLockFav()
                     true
                 }
-
                 2 -> {
                     askConfirmDeleteFav()
-                    lifecycleScope.launch {
-                        val favoritesCount = requireActivity().mediaDB.getFavoritesCount().toInt()
-                        Toast.makeText(requireContext(),favoritesCount,Toast.LENGTH_LONG).show()
-                    }
+                        Toast.makeText(requireContext(),requireContext().config.trashItemCount.toInt(),Toast.LENGTH_LONG).show()
                     true
                 }
                 3 -> {
@@ -224,6 +221,7 @@ class ToolsFragment : Fragment() {
         popup.menu.add(0, 3, 2, "Unlock Trash")
         popup.menu.findItem(1).isVisible = RECYCLE_BIN.any { !requireContext().config.isFolderProtected(RECYCLE_BIN) }
         popup.menu.findItem(3).isVisible = RECYCLE_BIN.any { requireContext().config.isFolderProtected(RECYCLE_BIN) }
+        popup.menu.findItem(2).isVisible = requireContext().config.trashItemCount > 0
 
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {

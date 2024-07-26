@@ -1020,6 +1020,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
 
         if (config.showRecycleBinAtFolders && !dirs.map { it.path }.contains(RECYCLE_BIN)) {
             try {
+                config.trashItemCount = mediaDB.getDeletedMediaCount()
                 if (mediaDB.getDeletedMediaCount() > 0) {
                     val recycleBin = Directory().apply {
                         path = RECYCLE_BIN
@@ -1034,6 +1035,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         }
 
         if (dirs.map { it.path }.contains(FAVORITES)) {
+            config.favCount = mediaDB.getFavoritesCount()
             if (mediaDB.getFavoritesCount() > 0) {
                 val favorites = Directory().apply {
                     path = FAVORITES

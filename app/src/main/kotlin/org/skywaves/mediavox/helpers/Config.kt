@@ -166,6 +166,14 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(MAX_BRIGHTNESS, false)
         set(maxBrightness) = prefs.edit().putBoolean(MAX_BRIGHTNESS, maxBrightness).apply()
 
+    var favCount: Long
+        get() = prefs.getLong("FAV_COUNT", 0)
+        set(favCount) = prefs.edit().putLong("FAV_COUNT", favCount).apply()
+
+    var trashItemCount: Long
+        get() = prefs.getLong("TRASH_ITEM_COUNT", 0)
+        set(trashItemCount) = prefs.edit().putLong("TRASH_ITEM_COUNT", trashItemCount).apply()
+
     var showThumbnailFileTypes: Boolean
         get() = prefs.getBoolean(SHOW_THUMBNAIL_FILE_TYPES, true)
         set(showThumbnailFileTypes) = prefs.edit().putBoolean(SHOW_THUMBNAIL_FILE_TYPES, showThumbnailFileTypes).apply()
