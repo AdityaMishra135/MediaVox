@@ -49,9 +49,7 @@ class SettingsUiConfigurationFragment : SettingsBaseFragment() {
         setupHideExtendedDetails()
         setupManageExtendedDetails()
         setupManageBottomActions()
-        setupShowRecycleBin()
         arrayOf(
-            binding.settingsShowRecycleBin,
             binding.settingsHideExtendedDetails,
             binding.settingsShowExtendedDetails,
             binding.settingsBottomActionsCheckbox,
@@ -158,20 +156,5 @@ class SettingsUiConfigurationFragment : SettingsBaseFragment() {
                 }
             }
         }
-    }
-
-    private fun setupShowRecycleBin() {
-        binding.settingsShowRecycleBin.isChecked = requireContext().config.showRecycleBinAtFolders
-        binding.settingsShowRecycleBinHolder.beVisibleIf(requireContext().config.useRecycleBin)
-        binding.settingsShowRecycleBinHolder.setOnClickListener {
-            binding.settingsShowRecycleBin.toggle()
-            requireContext().config.showRecycleBinAtFolders = binding.settingsShowRecycleBin.isChecked
-            updateRecycleBinButtons()
-        }
-    }
-
-
-    private fun updateRecycleBinButtons() {
-        binding.settingsShowRecycleBinHolder.beVisibleIf(requireContext().config.useRecycleBin)
     }
 }

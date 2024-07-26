@@ -184,7 +184,7 @@ class ToolsFragment : Fragment() {
                 }
                 2 -> {
                     askConfirmDeleteFav()
-                        Toast.makeText(requireContext(),"${requireContext().config.favCount}",Toast.LENGTH_LONG).show()
+                    updateFavMenu(popup)
                     true
                 }
                 3 -> {
@@ -576,7 +576,6 @@ private fun unlockTrashBin() {
 
             requireContext().config.skipDeleteConfirmation -> deleteFolders()
             else -> {
-
                     ConfirmationDialog(
                         requireActivity(),
                         "Are you sure you want to Clear Favorite?",

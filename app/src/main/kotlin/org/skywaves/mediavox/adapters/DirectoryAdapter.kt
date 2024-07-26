@@ -270,7 +270,6 @@ class DirectoryAdapter(
     private fun toggleFoldersVisibility(hide: Boolean) {
         val selectedPaths = getSelectedPaths()
         if (hide && selectedPaths.contains(RECYCLE_BIN)) {
-            config.showRecycleBinAtFolders = false
             if (selectedPaths.size == 1) {
                 listener?.refreshItems()
                 finishActMode()
@@ -402,7 +401,6 @@ class DirectoryAdapter(
         val selectedPaths = getSelectedPaths()
         val paths = selectedPaths.filter { it != PATH && it != RECYCLE_BIN && it != FAVORITES }.toSet()
         if (selectedPaths.contains(RECYCLE_BIN)) {
-            config.showRecycleBinAtFolders = false
             if (selectedPaths.size == 1) {
                 listener?.refreshItems()
                 finishActMode()

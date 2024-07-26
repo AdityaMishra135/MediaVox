@@ -673,9 +673,7 @@ fun Context.getCachedDirectories(
             ArrayList()
         }
 
-        if (!config.showRecycleBinAtFolders) {
-            directories.removeAll { it.isRecycleBin() }
-        }
+        directories.removeAll { it.isRecycleBin() || it.areFavorites() }
 
         val shouldShowHidden = config.shouldShowHidden || forceShowHidden
         val excludedPaths = if (config.temporarilyShowExcluded || forceShowExcluded) {

@@ -141,16 +141,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         mIsPasswordProtectionPending = config.isAppPasswordProtectionOn
         setupLatestMediaId()
 
-        if (!config.wereFavoritesPinned) {
-            config.addPinnedFolders(hashSetOf(FAVORITES))
-            config.wereFavoritesPinned = true
-        }
-
-        if (!config.wasRecycleBinPinned) {
-            config.addPinnedFolders(hashSetOf(RECYCLE_BIN))
-            config.wasRecycleBinPinned = true
-            config.saveFolderGrouping(SHOW_ALL, GROUP_BY_DATE_TAKEN_DAILY or GROUP_DESCENDING)
-        }
 
         if (!config.wasSortingByNumericValueAdded) {
             config.wasSortingByNumericValueAdded = true
@@ -439,7 +429,7 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
             binding.mainMenu.getToolbar().menu.apply {
                 findItem(R.id.column_count).isVisible = config.viewTypeFolders == VIEW_TYPE_GRID
                 findItem(R.id.set_as_default_folder).isVisible = !config.defaultFolder.isEmpty()
-                findItem(R.id.open_recycle_bin).isVisible = config.useRecycleBin && !config.showRecycleBinAtFolders
+                findItem(R.id.open_recycle_bin).isVisible = config.useRecycleBin
             }
         }
 
@@ -1042,35 +1032,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         val lastModifieds = mLastMediaFetcher!!.getLastModifieds()
         val dateTakens = mLastMediaFetcher!!.getDateTakens()
 
-
-        if (config.showRecycleBinAtFolders && !dirs.map { it.path }.contains(RECYCLE_BIN)) {
-            try {
-                config.trashItemCount = mediaDB.getDeletedMediaCount()
-                if (mediaDB.getDeletedMediaCount() > 0) {
-                    val recycleBin = Directory().apply {
-                        path = RECYCLE_BIN
-                        name = getString(org.skywaves.mediavox.core.R.string.recycle_bin)
-                        location = LOCATION_INTERNAL
-                    }
-
-                    dirs.add(0, recycleBin)
-                }
-            } catch (ignored: Exception) {
-            }
-        }
-
-        if (dirs.map { it.path }.contains(FAVORITES)) {
-            if (mediaDB.getFavoritesCount() > 0) {
-                val favorites = Directory().apply {
-                    path = FAVORITES
-                    name = getString(org.skywaves.mediavox.core.R.string.favorites)
-                    location = LOCATION_INTERNAL
-                }
-
-                dirs.add(0, favorites)
-            }
-        }
-
         // fetch files from MediaStore only, unless the app has the MANAGE_EXTERNAL_STORAGE permission on Android 11+
         val android11Files = mLastMediaFetcher?.getAndroid11FolderMedia(getVideosOnly, getAudiosOnly, favoritePaths, false, true, dateTakens)
         try {
@@ -1163,19 +1124,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         }
 
         val foldersToScan = mLastMediaFetcher!!.getFoldersToScan()
-        foldersToScan.remove(FAVORITES)
-        foldersToScan.add(0, FAVORITES)
-        if (config.showRecycleBinAtFolders) {
-            if (foldersToScan.contains(RECYCLE_BIN)) {
-                foldersToScan.remove(RECYCLE_BIN)
-                foldersToScan.add(0, RECYCLE_BIN)
-            } else {
-                foldersToScan.add(0, RECYCLE_BIN)
-            }
-        } else {
-            foldersToScan.remove(RECYCLE_BIN)
-        }
-
         dirs.filterNot { it.path == RECYCLE_BIN || it.path == FAVORITES }.forEach {
             foldersToScan.remove(it.path)
         }

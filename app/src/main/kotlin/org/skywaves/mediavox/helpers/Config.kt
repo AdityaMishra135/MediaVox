@@ -349,18 +349,6 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(TEMP_SKIP_RECYCLE_BIN, false)
         set(tempSkipRecycleBin) = prefs.edit().putBoolean(TEMP_SKIP_RECYCLE_BIN, tempSkipRecycleBin).apply()
 
-    var wereFavoritesPinned: Boolean
-        get() = prefs.getBoolean(WERE_FAVORITES_PINNED, false)
-        set(wereFavoritesPinned) = prefs.edit().putBoolean(WERE_FAVORITES_PINNED, wereFavoritesPinned).apply()
-
-    var wasRecycleBinPinned: Boolean
-        get() = prefs.getBoolean(WAS_RECYCLE_BIN_PINNED, false)
-        set(wasRecycleBinPinned) = prefs.edit().putBoolean(WAS_RECYCLE_BIN_PINNED, wasRecycleBinPinned).apply()
-
-    var wasSVGShowingHandled: Boolean
-        get() = prefs.getBoolean(WAS_SVG_SHOWING_HANDLED, false)
-        set(wasSVGShowingHandled) = prefs.edit().putBoolean(WAS_SVG_SHOWING_HANDLED, wasSVGShowingHandled).apply()
-
     var groupBy: Int
         get() = prefs.getInt(GROUP_BY, GROUP_BY_NONE)
         set(groupBy) = prefs.edit().putInt(GROUP_BY, groupBy).apply()
@@ -423,10 +411,6 @@ class Config(context: Context) : BaseConfig(context) {
         "$internalStoragePath/Android/media/com.whatsapp/WhatsApp/Media",
         "$internalStoragePath/Android/media/com.whatsapp/WhatsApp/Media/WhatsApp Video"
     )
-
-    var showRecycleBinAtFolders: Boolean
-        get() = prefs.getBoolean(SHOW_RECYCLE_BIN_AT_FOLDERS, true)
-        set(showRecycleBinAtFolders) = prefs.edit().putBoolean(SHOW_RECYCLE_BIN_AT_FOLDERS, showRecycleBinAtFolders).apply()
 
     var lastBinCheck: Long
         get() = prefs.getLong(LAST_BIN_CHECK, 0L)
