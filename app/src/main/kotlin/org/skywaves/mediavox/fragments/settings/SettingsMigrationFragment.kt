@@ -93,7 +93,6 @@ import org.skywaves.mediavox.helpers.SHOW_EXTENDED_DETAILS
 import org.skywaves.mediavox.helpers.SHOW_HIDDEN_MEDIA
 import org.skywaves.mediavox.helpers.SHOW_MEDIUM_FILE_SIZE
 import org.skywaves.mediavox.helpers.SHOW_NOTCH
-import org.skywaves.mediavox.helpers.SHOW_RECYCLE_BIN_AT_FOLDERS
 import org.skywaves.mediavox.helpers.SHOW_THUMBNAIL_FILE_DIR
 import org.skywaves.mediavox.helpers.SHOW_THUMBNAIL_FILE_TYPES
 import org.skywaves.mediavox.helpers.SHOW_WIDGET_FOLDER_NAME
