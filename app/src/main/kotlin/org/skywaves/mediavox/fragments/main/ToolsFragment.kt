@@ -200,7 +200,7 @@ class ToolsFragment : Fragment() {
                 }
                 2 -> {
                     askConfirmDeleteFav()
-                        Toast.makeText(requireContext(),requireContext().config.trashItemCount.toInt(),Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(),"${requireContext().config.trashItemCount}",Toast.LENGTH_LONG).show()
                     true
                 }
                 3 -> {

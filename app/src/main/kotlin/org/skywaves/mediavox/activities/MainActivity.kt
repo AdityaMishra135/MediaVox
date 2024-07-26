@@ -1017,6 +1017,11 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         val dirPathsToRemove = ArrayList<String>()
         val lastModifieds = mLastMediaFetcher!!.getLastModifieds()
         val dateTakens = mLastMediaFetcher!!.getDateTakens()
+        try {
+            config.trashItemCount = mediaDB.getDeletedMediaCount()
+            config.favCount = mediaDB.getFavoritesCount()
+        } catch (ignored: Exception) {
+        }
 
         if (config.showRecycleBinAtFolders && !dirs.map { it.path }.contains(RECYCLE_BIN)) {
             try {
@@ -1035,7 +1040,6 @@ class MainActivity : SimpleActivity(), DirectoryOperationsListener {
         }
 
         if (dirs.map { it.path }.contains(FAVORITES)) {
-            config.favCount = mediaDB.getFavoritesCount()
             if (mediaDB.getFavoritesCount() > 0) {
                 val favorites = Directory().apply {
                     path = FAVORITES
